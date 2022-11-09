@@ -1,2 +1,2 @@
-# bispectrump_component
+# Compute Bispectum Components
  
