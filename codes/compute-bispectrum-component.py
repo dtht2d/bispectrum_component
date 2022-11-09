@@ -8,7 +8,7 @@ from sympy import *
 from Bio.PDB.MMCIF2Dict import MMCIF2Dict
 from methods import *
 import itertools
-path = "/Users/DuongHoang/UMKC-Grad/UMKC_Research/bispectrump_component/data/avgBL-Model.cif"
+path = ".../data/avgBL-Model.cif"
 dico = MMCIF2Dict(path)
 df_cif = pd.DataFrame.from_dict(dico, orient='index')
 x = df_cif.iloc[-3]
