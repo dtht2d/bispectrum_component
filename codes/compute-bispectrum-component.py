@@ -20,7 +20,7 @@ y_array = np.array(y[0],dtype=float)
 z_array = np.array(z[0],dtype=float)
 atom_type_array = np.array(atom_type[0], dtype=str)
 df = pd.DataFrame({"atom_type":atom_type_array,"X" : x_array, "Y":y_array, "Z": z_array})
-#print(df)
+
 #Estimate list of potentially atoms in the center cell
 df_atoms = df[(df['X'].between(0.5,0.7,inclusive='both'))
                          & (df['Y'].between(0.5,0.7,inclusive='both'))
@@ -29,7 +29,7 @@ df_atoms = df[(df['X'].between(0.5,0.7,inclusive='both'))
 
 #Choose a center atom i, in this example we choose atom 'Name'=17 from df_atoms dataframe
 atom_i =df.iloc[17]
-#print (atom_i)
+
 # id
 x_i = df['X'].iloc[17]
 y_i = df['Y'].iloc[17]
@@ -43,9 +43,10 @@ Y_k_array = Y_array - y_i
 Z_k_array = Z_array - z_i
 r_ik= np.sqrt(np.square(X_k_array)+np.square(Y_k_array)+np.square(Z_k_array))
 df['X_k'],df['Y_k'], df['Z_k'],df['r_ik']= X_k_array, Y_k_array, Z_k_array, r_ik
-#print(df)
+
 #Check to see if chosen center atom coordinate sets to (0,0,0)
-#print(df.iloc[17])
+print(df.iloc[17])
+
 #INPUT values
 atomic_radius = 1.46            #silicon atomic radius, unit: angstrom
 cell_length = df.iloc[4]        #index row start from 0 _cell_length_a at row 5 index [4]
@@ -56,11 +57,11 @@ df_ik = df[(df['r_ik'] + r_mu)<= (R_cut)].copy(deep=true)
 print(df_ik[['X_k', 'Y_k', 'Z_k', 'r_ik']])
 print (df_ik[['X', 'Y', 'Z']])
 
+#ANGEL CONVERSION
 #theta_0
 r_ik_array = df_ik['r_ik'].to_numpy() #r_ik from selected neighbors
 r_0_array = np.full((r_ik_array.shape),R_cut)
 theta_0_array = np.pi*(np.divide(r_ik_array,r_0_array))
-#print (r_0_array)
 #theta
 Z_k_abs_array = np.abs(df_ik['Z_k'].to_numpy())
 theta_array = np.arccos(np.divide(Z_k_abs_array,r_ik_array))
@@ -73,17 +74,15 @@ phi_array_convert = np.mod(phi_array, 2*np.pi)
 for angle in phi_array_convert:
     if (angle >=2*np.pi) and (angle < 0):
         raise ValueError('phi angle in between 0 and 2pi')
-#print(phi_array_convert)
-#print(phi_array)
-#Replace NaN with 0: (code will have error for invalid value center atom values 0/0)_
+#replace NaN with 0: (code will have error for invalid value center atom values 0/0)_
+
 df_ik['theta_0'] = theta_0_array
 df_ik['theta_0'] = df_ik['theta_0'].replace(np.nan,0)
 df_ik['theta'] = theta_array
 df_ik['theta'] = df_ik['theta'].replace(np.nan,0)
 df_ik['phi'] = phi_array_convert
 df_ik['phi'] = df_ik['phi'].replace(np.nan,0)
-#print(df_ik.drop(['X', 'Y', 'Z', 'atom_type'], axis =1))
-index = df_ik.index
+
 #EXAMPLE
 j,m,mp = 3,2,3
 #array for weight coefficient w.r.t to atom type
@@ -93,7 +92,6 @@ delta = np.full((r_ik_array.shape),0)
 delta_arr = np.where(df_ik['atom_type']==df_ik['atom_type'].iloc[0],1,delta)
 u_jmmp= getDensityFunction_u(3,2,3,w_ik_arr,delta_arr,r_ik_array,0,R_cut,theta_0_array,theta_array,phi_array)
 print(u_jmmp)
-#print(df_ik[['r_ik','f_cut', 'U_jmmp','w_ik','delta_ik']])
 
 #create input set [j1,j2,j,m1,m2,m,m1p,m2p,mp]
 j = 3
