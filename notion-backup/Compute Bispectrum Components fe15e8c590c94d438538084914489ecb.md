@@ -67,50 +67,6 @@ Compute $\theta_0, \ \theta, \ \phi$
 
 ### References
 
-- **Current tasks**
-    
-    08/29-09/03 
-    
-    - [x]  Compute $C^{jm'}_{j_1m_1'j_2m_2'}$( reading Chapter 3: Theory of Angular Momentum by J.J. Sakurai)
-    - [x]  Python script to compute $C^{jm}_{j_1m_1j_2m_2}$
-    
-    09/13/2022-09/17/2022
-    
-    - [x]  09/15/2022: Session 2.3 Compute $U^J_{MM'}$
-    
-    09/19/2022-09/24/2022
-    
-    - [x]  Define U to sympy.matrices.immutble.ImmutableDenseMatrix
-    - [x]  Compute cut off function $f_c$
-    
-    10/08/2022
-    
-    - [x]  Compute wigner-D funtion
-    
-    10/10/2022-10/12/2022
-    
-    - [x]  Ask Dr.Rulis
-        - Does bispectrum component tell us how normalized/perfect the lattice structure is? (in term of angle: e.x cube 90 angle does that means value in range (-1,1)
-    - [x]  Compute second summation
-        
-        $\displaystyle\sum_{r_{ik}<R_{cut}^{\mu_i\mu_k}} \delta_{\mu\mu_k} f_c(r_{ik};R_{cut}^{\mu_i\mu_k})w_{{\mu}_k}U_{m,m'}^{j}(\theta_{0},\theta, \phi)$ 
-        
-    
-    10/12/2022-10/19/2022
-    
-    - [x]  Data prep:
-        - [x]  convert .cif file to .cvs
-        - [x]  compute rotational coordinates for atoms list based on (x,y,z) coordinate
-    
-    10/19/20/2022
-    
-    - [x]  calculate $r_{ik}$, neighbors atoms to center atom and $(x',y',z')$
-    → $(\theta_0,\theta, \phi)$
-    
-    10/26/2022-11/02/2022
-    
-    - [ ]  Compute $u^\mu_{j,m,m'}$
-
 # Motivation
 
 ---
