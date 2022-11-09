@@ -102,7 +102,7 @@ def getDensityFunction_u(j,m,mp,w_ik_arr, delta_arr,r_ik_array, r_min0, R_cut, t
                     of neighbor atoms in reference frame of center atom, dimension (1, k+1)
         phi_array: array for phi angel (third angle of rotation [0,2pi])
                     of neighbor atoms in reference frame of center atom, dimension (1, k+1)
-    Returns: expansion coefficients density function u_jm_mp
+    Returns: expansion coefficients density function u_jmmp
     '''
     R_cut_array = np.full((r_ik_array.shape), R_cut)
     f_cut_arr = (1 / 2) * (np.cos(np.pi * (np.divide(r_ik_array - r_min0, R_cut_array - r_min0))) + 1)
