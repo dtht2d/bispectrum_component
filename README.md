@@ -23,20 +23,12 @@ Compute $\theta_0, \ \theta, \ \phi$
 **2. Compute bispectrum component for input values $(j_1, j_2, j)$**
 
 1. Compute Clebsch- Gordan coefficient
-$$
-    C^{jm}_{{j_1}{m_1}{j_2}{m_2}}, C^{jm'}_{{j_1}{m'_1}{j_2}{m'_2}}
-$$
+$$C^{jm}_{{j_1}{m_1}{j_2}{m_2}}, C^{jm'}_{{j_1}{m'_1}{j_2}{m'_2}}$$
 
 2. Compute coupling coefficient
-
-    $$
-     H^{jmm'}_{{{j_1}{m_1}{m'_1}} ,{{j_2}{m_2}{m'_2}}}
-    $$
+$$H^{jmm'}_{{{j_1}{m_1}{m'_1}} ,{{j_2}{m_2}{m'_2}}}$$
 
 3. Compute  density coefficient
-
-    $$
-    u^j_{mm'}, \mu_{m_1m_1'}^{j_1}, \mu_{m_2,m_2'}^{j_2}
-    $$
+$$u^j_{mm'}, \mu_{m_1m_1'}^{j_1}, \mu_{m_2,m_2'}^{j_2}$$
 ---
  
