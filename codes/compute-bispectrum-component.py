@@ -8,7 +8,7 @@ from sympy import *
 from Bio.PDB.MMCIF2Dict import MMCIF2Dict
 from methods import *
 import itertools
-path = ".../data/avgBL-Model.cif"
+path = "/Users/DuongHoang/UMKC-Grad/UMKC_Research/bispectrump_component/data/avgBL-Model.cif"
 dico = MMCIF2Dict(path)
 df_cif = pd.DataFrame.from_dict(dico, orient='index')
 x = df_cif.iloc[-3]
@@ -103,21 +103,30 @@ m1 = np.linspace(-j1, j1, int(2 * j1 + 1)).tolist()
 m1p = np.linspace(-j1, j1, int(2 * j1 + 1)).tolist()
 m2 = np.linspace(-j2, j2, int(2 * j2 + 1)).tolist()
 m2p = np.linspace(-j2, j2, int(2 * j2 + 1)).tolist()
-B_sum = 0
-for i in itertools.product(m1,m2,m,m1p,m2p,mp):
-    m1, m2, m, m1p, m2p, mp = i
-    j,j1,j2=3,1,3
-    H = getCoeffH(j1,j2,j,m1,m2,m,m1p,m2p,mp)
-    if H==0:
-        pass
-    else:
-        u_jmmp = getDensityFunction_u(j, m, mp, w_ik_arr, delta_arr, r_ik_array, 0,
+from itertools import product
+list = product(m1,m2,m,m1p,m2p,mp)
+keep_list=[]
+for i in list:
+  m1, m2, m, m1p, m2p, mp = i
+  j1,j2,j=3,1,2 #chosen example set to test B
+  H = getCoeffH(j1,j2,j,m1,m2,m,m1p,m2p,mp)
+  if H==0:
+    pass
+  else:
+    keep_list.append(i)
+print(keep_list)
+B_total=0
+for i in keep_list:
+  m1, m2, m, m1p, m2p, mp = i
+  j,j1,j2=3,1,2
+  H = getCoeffH(j1,j2,j,m1,m2,m,m1p,m2p,mp)
+  u_jmmp = getDensityFunction_u(j, m, mp, w_ik_arr, delta_arr, r_ik_array, 0,
                                       R_cut, theta_0_array, theta_array,phi_array)
-        u1_j1m1m1p = getDensityFunction_u(j1, m1, m1p, w_ik_arr, delta_arr, r_ik_array, 0,
+  u1_j1m1m1p = getDensityFunction_u(j1, m1, m1p, w_ik_arr, delta_arr, r_ik_array, 0,
                                           R_cut, theta_0_array,theta_array, phi_array)
-        u2_j2m2m2p = getDensityFunction_u(j2, m2, m2p, w_ik_arr, delta_arr, r_ik_array, 0,
+  u2_j2m2m2p = getDensityFunction_u(j2, m2, m2p, w_ik_arr, delta_arr, r_ik_array, 0,
                                           R_cut, theta_0_array,theta_array, phi_array)
-        B_each = np.conj(u_jmmp) * H * (u1_j1m1m1p) * (u2_j2m2m2p)
-        B = N(B_each)
-        B_sum += B
-print (B_sum)
+  B_each = np.conj(u_jmmp)*H*(u1_j1m1m1p)*(u2_j2m2m2p)
+  B = N(B_each)
+  B_total +=B
+print (B_total)
