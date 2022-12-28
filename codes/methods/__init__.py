@@ -11,17 +11,17 @@ def getCoeffH(j1,j2,j,m1,m2,m,m1p,m2p,mp):
     the Clebsch-Gordan coefficient for cg(j1,m1,j2,m2,j,m)
     and cg_p(j1,m1p,j2,m2p,j,mp)
     Parameters:
-        j1: angular momentum 1
-        j2: angular momentum 2
-        j: total angular momentum (j1+j2)
-        m1: eigenvalue of angular momentum j1
-        m2: eigenvalue of angular momentum j2
-        m: eigenvalue of angular momentum j
-        m1p: eigenvalue of j1 along rotated axis
-        m2p: eigenvalue of j2 along rotated axis
-        mp: eigenvalue of j along rotated axis
+        j1 (scalar): angular momentum 1
+        j2 (scalar): angular momentum 2
+        j (scalar): total angular momentum (j1+j2)
+        m1 (scalar): eigenvalue of angular momentum j1
+        m2 (scalar): eigenvalue of angular momentum j2
+        m (scalar): eigenvalue of angular momentum j
+        m1p (scalar): eigenvalue of j1 along rotated axis
+        m2p (scalar): eigenvalue of j2 along rotated axis
+        mp (scalar): eigenvalue of j along rotated axis
     Returns:
-        Coupling coefficient H(j1,j2,j,m1,m2,m, m1p,m2p,mp)
+        Scalar, Coupling coefficient H(j1,j2,j,m1,m2,m, m1p,m2p,mp)
     ====================Reference=========================
     [1] Thompson, Swiler, Trott, Foiles, Tucker,
         Spectral neighbor analysis method for automated generation of quantum-accurate interatomic potentials (2015)
@@ -38,18 +38,18 @@ def getCoeffH(j1,j2,j,m1,m2,m,m1p,m2p,mp):
 def getRotationalMatrixU(j,m,mp,theta_0,theta,phi):
     '''
     Parameters:
-        j: integer/half integer number
+        j (scalar): integer/half integer number
            Total angular momentum
-        m: integer/half integer number
-           Eigenvalue of angular momentum along rotated axis
-        mp:
-        mpp:
-        theta_0: fist angle of rotation [0,pi]
-        theta: second angle of rotation [0,pi]
-        phi: third angle of rotation [0,2pi]
+        m (scalar): integer/half integer number
+           eigenvalue of angular momentum along rotated axis
+        mp (scalar): eigenvalue of j along rotated axis
+        mpp (scalar):
+        theta_0 (scalar): fist angle of rotation [0,pi]
+        theta (scalar): second angle of rotation [0,pi]
+        phi (scalar): third angle of rotation [0,2pi]
         rotational od a coordinate system through an angle theta_0
         about an axis n(theta,phi)
-    Returns: A single rotational matrix U function
+    Returns: A single rotational matrix U function (complex
     ==========================Reference==================================
     [5] Chapter 4  D.A. Varshalovich, A.N. Moskalev, V.K Khersonskii,
         Quantum Theory of Angular Momentum (1988)
@@ -68,11 +68,11 @@ def getRotationalMatrixU(j,m,mp,theta_0,theta,phi):
 def getCutoffFunction (r_ik,r_min0, R_cut):
     '''
     Parameter:
-        r_ik: 1D array dimension [k,], distance from center atom  to k neighbor atoms
-        r_min0: parameter in distance to angle conversion(distance unit)
-        R_cut: cut off radius
+        r_ik (ndarray): shape (k+1,), distance from center atom  to k neighbor atoms
+        r_min0 (scalar): parameter in distance to angle conversion(distance unit)
+        R_cut (scalar): cut off radius
     Returns:
-        array, dimension [k,]: cut of function f_cut(r_ik) where r_ik < R_cut
+        ndarray, dimension [k,]: cut of function f_cut(r_ik) where r_ik < R_cut
     ==========================References==================================
     [3] A. Bartok, M. C. Payne, K. Risi, G. Csanyi, Gaussian approximation
         potentials: the accuracy of quantum mechanics, without the electrons (2010)
@@ -85,23 +85,24 @@ def getCutoffFunction (r_ik,r_min0, R_cut):
 def getDensityFunction_u(j,m,mp,w_ik_arr, delta_arr,r_ik_array, r_min0, R_cut, theta_0_array, theta_array, phi_array):
     '''
     Args:
-        j: angular momentum
-        m: eigenvalue of angular momentum
-        mp: eigenvalue of j along rotated axis
-        w_ik_array: array for the coefficients that are dimensionless weights that are chosen to distinguish atoms
-                    of different types, while the central atom is arbitrarily assigned a unit weight, dimensin (1,k)
-        delta_array: array for the Dirac delta function, indicates only neighbor atom of element the same as center atom
-                    contribute to partial density,  dimension (1,k)
-        r_ik_array: array for distance from center atom to neighbor atom, dimension (1,k+1), k is number of neighbor atoms
-                    in cutoff radius, array include center atom as well
-        r_min0: number, parameter in distance to angle conversion (distance units), choose
-        R_cut: number, cutoff radius
-        theta_0_array: array for theta_0 angel (fist angle of rotation [0,pi])
-                    of neighbor atoms in reference frame of center atom, dimension (1, k+1)
-        theta_array: array for theta angel ( second angle of rotation [0,pi])
-                    of neighbor atoms in reference frame of center atom, dimension (1, k+1)
-        phi_array: array for phi angel (third angle of rotation [0,2pi])
-                    of neighbor atoms in reference frame of center atom, dimension (1, k+1)
+        j (scalar): angular momentum
+        m (scalar): eigenvalue of angular momentum
+        mp (scalar): eigenvalue of j along rotated axis
+        w_ik_arr (ndarray): shape(k+1,) the coefficients that are dimensionless weights that are chosen
+                            to distinguish atoms of different types, while the central atom is arbitrarily
+                            assigned a unit weight
+        delta_arr (ndarray): shape(k+1,) the Dirac delta function, indicates only neighbor atom of element
+                             the same as center atom contribute to partial density
+        r_ik_array (ndarray): shape(k+1) distance from center atom to neighbor atom, k is number of neighbor atoms
+                              in cutoff radius, array include center atom as well
+        r_min0 (scalar): parameter in distance to angle conversion (distance units), choose
+        R_cut (scalar): cutoff radius
+        theta_0_array (ndarray): shape(k+1,) theta_0 angel (fist angle of rotation [0,pi])
+                                 of neighbor atoms in reference frame of center atom
+        theta_array (ndarray): shape (k+1,) theta angel ( second angle of rotation [0,pi])
+                               of neighbor atoms in reference frame of center atom
+        phi_array (ndarray): shape(k+1,) phi angel (third angle of rotation [0,2pi])
+                             of neighbor atoms in reference frame of center atom
     Returns: expansion coefficients density function u_jmmp
     '''
     R_cut_array = np.full((r_ik_array.shape), R_cut)

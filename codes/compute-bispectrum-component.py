@@ -62,6 +62,7 @@ print (df_ik[['X', 'Y', 'Z']])
 r_ik_array = df_ik['r_ik'].to_numpy() #r_ik from selected neighbors
 r_0_array = np.full((r_ik_array.shape),R_cut)
 theta_0_array = np.pi*(np.divide(r_ik_array,r_0_array))
+
 #theta
 Z_k_abs_array = np.abs(df_ik['Z_k'].to_numpy())
 theta_array = np.arccos(np.divide(Z_k_abs_array,r_ik_array))
