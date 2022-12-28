@@ -123,3 +123,4 @@ def getDensityFunction_u(j,m,mp,w_ik_arr, delta_arr,r_ik_array, r_min0, R_cut, t
     U_jmmp_arr = np.where(np.isnan(U_jmmp_array), 0, U_jmmp_array)
     u_jmmp = np.dot((f_cut_arr * U_jmmp_arr), (w_ik_arr * delta_arr))
     return u_jmmp
+
