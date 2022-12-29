@@ -49,7 +49,7 @@ def getRotationalMatrixU(j,m,mp,theta_0,theta,phi):
         phi (scalar): third angle of rotation [0,2pi]
         rotational od a coordinate system through an angle theta_0
         about an axis n(theta,phi)
-    Returns: A single rotational matrix U function (complex
+    Returns: complec number, a single rotational matrix U function
     ==========================Reference==================================
     [5] Chapter 4  D.A. Varshalovich, A.N. Moskalev, V.K Khersonskii,
         Quantum Theory of Angular Momentum (1988)
@@ -62,7 +62,6 @@ def getRotationalMatrixU(j,m,mp,theta_0,theta,phi):
         Dj_m_mpp = rot1.doit()
         Dj_mpp_mp = rot2.doit()
         Um_mp = Dj_m_mpp * (exp(-I * mpp * theta_0)) * Dj_mpp_mp
-        Um_mp = nsimplify(Um_mp)
         U += N(Um_mp) #N() evaluated U expression
     return U
 def getCutoffFunction (r_ik,r_min0, R_cut):
@@ -79,9 +78,9 @@ def getCutoffFunction (r_ik,r_min0, R_cut):
     [7] LAMMPS, Compute sna/atom command,
         https://docs.lammps.org/compute_sna_atom.html
     '''
-    R_cut_array = np.full((r_ik_array.shape), R_cut)
-    f_cut = (1 / 2) * (np.cos(np.pi * (np.divide(r_ik_array - r_min0, R_cut_array - r_min0))) + 1)
-    return f_cut
+    R_cut_array = np.full((r_ik_array.shape), R_cut) #R_cut_array shape (k,)
+    f_cut_arr = (1 / 2) * (np.cos(np.pi * (np.divide(r_ik_array - r_min0, R_cut_array - r_min0))) + 1)
+    return f_cut_arr
 def getDensityFunction_u(j,m,mp,w_ik_arr, delta_arr,r_ik_array, r_min0, R_cut, theta_0_array, theta_array, phi_array):
     '''
     Args:
@@ -103,22 +102,13 @@ def getDensityFunction_u(j,m,mp,w_ik_arr, delta_arr,r_ik_array, r_min0, R_cut, t
                                of neighbor atoms in reference frame of center atom
         phi_array (ndarray): shape(k+1,) phi angel (third angle of rotation [0,2pi])
                              of neighbor atoms in reference frame of center atom
-    Returns: expansion coefficients density function u_jmmp
+    Returns: complex number, expansion coefficients density function u_jmmp
     '''
     R_cut_array = np.full((r_ik_array.shape), R_cut)
     f_cut_arr = (1 / 2) * (np.cos(np.pi * (np.divide(r_ik_array - r_min0, R_cut_array - r_min0))) + 1)
     U_jmmp = []
     for theta_0, theta, phi in zip(theta_0_array, theta_array, phi_array):
-        mpp_list = np.linspace(-j, j, int(2 * j + 1))
-        U = 0
-        for mpp in mpp_list:
-            rot1 = Rotation.D(j, m, mpp, phi, theta, - phi)
-            rot2 = Rotation.D(j, mpp, mp, phi, -theta, -phi)
-            Dj_m_mpp = rot1.doit()
-            Dj_mpp_mp = rot2.doit()
-            Um_mp = Dj_m_mpp * (exp(-I * mpp * theta_0)) * Dj_mpp_mp
-            Um_mp = nsimplify(Um_mp)
-            U += N(Um_mp)
+        U = getRotationalMatrixU(j,m,mp,theta_0,theta,phi) #U is a complex number
         U_jmmp.append(U)
     U_jmmp_array = np.array(U_jmmp, dtype='complex')
     U_jmmp_arr = np.where(np.isnan(U_jmmp_array), 0, U_jmmp_array)

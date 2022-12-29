@@ -127,7 +127,7 @@ for i in keep_list:
                                           R_cut, theta_0_array,theta_array, phi_array)
   u2_j2m2m2p = getDensityFunction_u(j2, m2, m2p, w_ik_arr, delta_arr, r_ik_array, 0,
                                           R_cut, theta_0_array,theta_array, phi_array)
-  B_each = u_jmmp*H*u1_j1m1m1p*u2_j2m2m2p
+  B_each = np.conj(u_jmmp) * (H * u1_j1m1m1p * u2_j2m2m2p)
   B = N(B_each)
   B_total +=B
 print (B_total)
