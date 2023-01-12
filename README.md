@@ -12,8 +12,8 @@
 **b. Define position of neighbor atoms $k$ relative to a central atom $i$  is a point within the 3D ball of radius**
 
 - Estimate list of potentially atoms in the center cell
-- Choose a center atom $i$  from the list and get its coordinate $x_i,y_i,z_i$
-- Re-calculate coordinate for all atoms in the cell w.r.t new reference of frame  (origin at $ x_i, y_i, z_i$
+- Choose a center atom $i$  from the list and get its coordinate  ( $x_i,y_i,z_i$ )
+- Re-calculate coordinate for all atoms in the cell w.r.t new reference of frame  (origin at ( $x_i, y_i, z_i$ ) )
 - Compute neighbors list in a chosen cutoff radius $R_{cut}$ with respect to new reference frame where its origin is at center atom $i$  location
 
 **c. Map possible neighbor atoms on to the set of points $(\theta_0, \theta,\phi)$**
