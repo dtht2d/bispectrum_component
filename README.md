@@ -1,5 +1,8 @@
 # **Compute Bispectrum Components**
 ---
+## Objective
+The aim of this research is to employ Python scripts to compute bispectrum components, which will then be utilized as descriptors for training a machine learning model to predict material force fields. This study aims to further our comprehension of the relationship between atomic structure and force fields, and to apply this knowledge towards the development of predictive models for material behavior at the molecular and nanoscale level. Material force fields are mathematical models that simulate the interactions between atoms and molecules in a material and provide valuable information on its structure, thermodynamics, and mechanical properties. This information is critical for various applications, including the design and optimization of new materials, the prediction of material behavior in varying environments, and the advancement of manufacturing processes. Through the study of material force fields, scientists and engineers can gain deeper insight into the underlying physical principles governing material behavior, leading to the improvement of existing materials and the creation of new materials with superior properties for diverse applications.
+---
 ## Outline
 **Computational steps**
 
