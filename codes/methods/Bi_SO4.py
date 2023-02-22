@@ -3,7 +3,8 @@ import cmath
 
 def fact(n):
     """
-    This function is used to calculate factorial of a number by using an iterative approach instead of recursive approach
+    This function is used to calculate factorial of a number by using
+    an iterative approach instead of recursive approach
     """
     result = 1
     for i in range(1, n + 1):
@@ -44,13 +45,13 @@ class Wigner_D:
         kmax = max(0, self.m - self.mp)
         kmin = min(self.j + self.m, self.j - self.mp)
         term1 = np.sqrt(fact(self.j + self.m) * fact(self.j - self.m) * fact(self.j + self.mp) * fact(self.j - self.mp))
-        s = 0
+        sum = 0
         for k in range(kmax, kmin + 1):
             numerator = (-1) ** k * (cmath.cos(self.theta / 2)) ** (2 * self.j - 2 * k + self.m - self.mp) * \
                         (cmath.sin(self.theta / 2)) ** (2 * k - self.m + self.mp)
             denominator = fact(k) * fact(self.j + self.m - k) * fact(self.j - self.mp - k) * fact(self.mp - self.m + k)
-            s += numerator / denominator
-        return s
+            sum += numerator / denominator
+        return sum*term1
 
     def wigner_D(self):
         term1 = np.exp(-1j * self.m * self.theta_0)
