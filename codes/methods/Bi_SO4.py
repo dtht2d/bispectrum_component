@@ -39,7 +39,7 @@ class Wigner_D:
         """
         This method is used to calculate the Wigner d small- real function involving trigonometric functions
         ==========================Reference==================================
-        [5] Chapter 4.3.1-(p.76,eq.3)  D.A. Varshalovich, A.N. Moskalev, V.K Khersonskii,
+        [5] Chapter 4.3.1-(p.76,eq.4)  D.A. Varshalovich, A.N. Moskalev, V.K Khersonskii,
         Returns: Wigner d - real function
         """
         kmax = max(0, self.m - self.mp)

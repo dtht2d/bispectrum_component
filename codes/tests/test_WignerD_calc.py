@@ -1,5 +1,5 @@
 """
-Compare the Wigner D matrix calculation my own vs SymPy
+Compare the Wigner D matrix calculation from my function vs SymPy
 """
 import numpy as np
 from methods.Bi_SO4 import Wigner_D
@@ -24,3 +24,5 @@ wignerD_sympy = rot1.doit()
 print(N(wignerD_sympy))
 t3=timeit.default_timer()
 print("Execution time for Wigner_D function from Sympy:", t2 - t3, "seconds")
+print("Execution time for Wigner_D calculation from our function is", round((t2 - t3)/(t0-t1)),
+      "times faster than Sympy function")
