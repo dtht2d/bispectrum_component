@@ -1,9 +1,16 @@
 # **Compute Bispectrum Components**
 ---
-## Objective
+## Motivation
 
-The aim of this research is to employ Python scripts to compute bispectrum components, which will then be utilized as descriptors for training a machine learning model to predict material force fields. This study aims to further our comprehension of the relationship between atomic structure and force fields, and to apply this knowledge towards the development of predictive models for material behavior at the molecular and nanoscale level. Material force fields are mathematical models that simulate the interactions between atoms and molecules in a material and provide valuable information on its structure, thermodynamics, and mechanical properties. This information is critical for various applications, including the design and optimization of new materials, the prediction of material behavior in varying environments, and the advancement of manufacturing processes. Through the study of material force fields, scientists and engineers can gain deeper insight into the underlying physical principles governing material behavior, leading to the improvement of existing materials and the creation of new materials with superior properties for diverse applications.
+This research aims to leverage Python scripts to compute bispectrum components, which will then be used as descriptors to train a machine learning model that is capable of predicting the electronic structure of materials. A comprehensive grasp of the electronic structure of materials is fundamental for gaining insight into their behavior at the molecular and nanoscale level. The arrangement of electrons in atoms or molecules is what determines their physical and chemical properties, and the development of predictive models for the electronic structure of materials can facilitate the optimization of their properties.
 
+This study aims to further understand the correlation between atomic structure and its local environment, and to develop models that can explore the electronic properties of novel materials and enhance the characteristics of existing materials. Electronic structure is a critical factor in several properties of materials such as how atoms bond to form molecules, how they interact with light, and the material's electrical conductivity, thermal conductivity, and mechanical properties. A comprehensive comprehension of electronic structure is necessary for the creation of new materials with superior properties and the optimization of the performance of existing materials.
+
+Ultimately, the development of precise electronic structure prediction models can facilitate the design and engineering of advanced materials for various applications, including electronics, energy storage, catalysis, and drug discovery. Thus, the progress of our knowledge of electronic structure is essential for the development of materials science and the invention of new technologies that can benefit society.
+---
+Objective
+---
+**Stage 1** : Generate bispectrum components from given $j_1, j_2, j$
 ---
 ## Outline
 **Computational steps**
