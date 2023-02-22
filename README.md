@@ -10,7 +10,7 @@ Ultimately, the development of precise electronic structure prediction models ca
 ---
 Objective
 ---
-**Stage 1** : Generate bispectrum components from given $j_1, j_2, j$
+### **Stage 1** : Generate bispectrum components from given $j_1, j_2, j$
 ---
 ## Outline
 **Computational steps**
