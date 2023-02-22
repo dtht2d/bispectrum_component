@@ -1,0 +1,132 @@
+Index: tests/test_WignerD_calc.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>\"\"\"\nCompare the Wigner D matrix calculation with the one from Sympy, PyXtal_FF and my own\n\"\"\"\nfrom sympy import *
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/tests/test_WignerD_calc.py b/tests/test_WignerD_calc.py
+--- a/tests/test_WignerD_calc.py	
++++ b/tests/test_WignerD_calc.py	
+@@ -1,4 +1,17 @@
+ """
+ Compare the Wigner D matrix calculation with the one from Sympy, PyXtal_FF and my own
+ """
+-from sympy import *
+\ No newline at end of file
++import time
++import numpy as np
++
++j, m, mp, theta_0, theta,phi= 1, 1, 0, np.pi, np.pi/2, 0
++from methods.Wigner_D import *
++w_d= wigner_D(j,m,mp,theta_0,theta,phi)
++print(w_d)
++from sympy import *
++from sympy.physics.wigner import wigner_d
++from sympy.physics.quantum.spin import Rotation
++rot1 = Rotation.D(j, m, mp, theta_0, theta,phi)
++Dj_m_mpp = rot1.doit()
++print(N(Dj_m_mpp))
++
+Index: methods/Bi_SO4.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>\nclass Wigner_D (j,m,mp,theta_0,theta,phi):\n    '''\n    Args:\n        j (scalar): angular momentum\n        m (scalar): eigenvalue of angular momentum\n        mp (scalar): eigenvalue of j along rotated axis\n        theta_0 (scalar): fist angle of rotation [0,pi]\n        theta (scalar): second angle of rotation [0,pi]\n        phi (scalar): third angle of rotation [0,2pi]\n    Returns: complex number, wigner D function\n    ==========================Reference==================================\n    [5] Chapter 4-(p.76,eq.1&3)  D.A. Varshalovich, A.N. Moskalev, V.K Khersonskii,\n        Quantum Theory of Angular Momentum (1988)\n    '''\n    def __init__(self,j,m,mp,theta_0,theta,phi):\n        self.j = j\n        self.m = m\n        self.mp = mp\n        self.theta_0 = theta_0\n        self.theta = theta\n        self.phi = phi\n    def fact(seln):\n        if n == 0:\n            return 1\n        else:\n            return n * self.factorial(n-1)
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/methods/Bi_SO4.py b/methods/Bi_SO4.py
+--- a/methods/Bi_SO4.py	
++++ b/methods/Bi_SO4.py	
+@@ -1,27 +1,0 @@
+-
+-class Wigner_D (j,m,mp,theta_0,theta,phi):
+-    '''
+-    Args:
+-        j (scalar): angular momentum
+-        m (scalar): eigenvalue of angular momentum
+-        mp (scalar): eigenvalue of j along rotated axis
+-        theta_0 (scalar): fist angle of rotation [0,pi]
+-        theta (scalar): second angle of rotation [0,pi]
+-        phi (scalar): third angle of rotation [0,2pi]
+-    Returns: complex number, wigner D function
+-    ==========================Reference==================================
+-    [5] Chapter 4-(p.76,eq.1&3)  D.A. Varshalovich, A.N. Moskalev, V.K Khersonskii,
+-        Quantum Theory of Angular Momentum (1988)
+-    '''
+-    def __init__(self,j,m,mp,theta_0,theta,phi):
+-        self.j = j
+-        self.m = m
+-        self.mp = mp
+-        self.theta_0 = theta_0
+-        self.theta = theta
+-        self.phi = phi
+-    def fact(seln):
+-        if n == 0:
+-            return 1
+-        else:
+-            return n * self.factorial(n-1)
+\ No newline at end of file
+Index: methods/Wigner_D.py
+===================================================================
+diff --git a/methods/Wigner_D.py b/methods/Wigner_D.py
+new file mode 100644
+--- /dev/null	
++++ b/methods/Wigner_D.py	
+@@ -0,0 +1,55 @@
++import numpy as np
++import cmath
++
++
++def fact(n):
++    """
++    This function is used to calculate factorial of a number by using an interative approach instead of recursive approach
++    """
++    result = 1
++    for i in range(1, n + 1):
++        result *= i
++    return result
++
++
++def wigner_D(j, m, mp, theta_0, theta, phi):
++    """
++    This function calculates the Wigner D function for a given set of input parameters.
++
++    Args:
++        j (scalar): angular momentum
++        m (scalar): eigenvalue of angular momentum
++        mp (scalar): eigenvalue of j along rotated axis
++        theta_0 (scalar): fist angle of rotation [0,pi]
++        theta (scalar): second angle of rotation [0,pi]
++        phi (scalar): third angle of rotation [0,2pi]
++
++    Returns:
++        wigner D function - complex number
++
++    ==========================Reference==================================
++    [5] Chapter 4.3-(p.76,eq.1)  D.A. Varshalovich, A.N. Moskalev, V.K Khersonskii,
++    """
++
++    def compute_dsmall():
++        """
++        This nested function is used to calculate the Wigner d small- real function involving trigonometric functions
++        ==========================Reference==================================
++        [5] Chapter 4.3.1-(p.76,eq.3)  D.A. Varshalovich, A.N. Moskalev, V.K Khersonskii,
++        Returns: wigner d - real function
++        """
++        kmax = max(0, m - mp)
++        kmin = min(j + m, j - mp)
++        term1 = np.sqrt(fact(j + m) * fact(j - m) * fact(j + mp) * fact(j - mp))
++        sum = 0
++        for k in range(kmin, kmax+1):
++            numerator = (-1) ** k * (cmath.cos(theta / 2)) ** (2 * j - 2 * k + m - mp) *\
++                        (cmath.sin(theta / 2)) ** (2 * k - m + mp)
++            denominator = fact(k) * fact(j + m - k) * fact(j - mp - k) * fact(mp - m + k)
++            sum += numerator / denominator
++        return term1 * sum
++
++    term1 = np.exp(-1j * m * theta_0)
++    term2 = compute_dsmall()
++    term3 = np.exp(-1j * mp * phi)
++    return term1 * term2 * term3
+\ No newline at end of file
