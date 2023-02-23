@@ -7,7 +7,7 @@ from sympy import *
 from sympy.physics.wigner import wigner_d
 from sympy.physics.quantum.spin import Rotation
 import timeit
-j, m, mp, theta_0, theta,phi= 1, 1, 0, np.pi, np.pi/2, 0
+j, m, mp, theta_0, theta,phi= 3, 1, 0, np.pi, np.pi/2, 0
 
 t0=timeit.default_timer()
 #Wigner_D function from Bi_SO4
