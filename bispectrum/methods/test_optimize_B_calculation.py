@@ -8,7 +8,7 @@ from sympy import *
 from Bio.PDB.MMCIF2Dict import MMCIF2Dict
 from methods import *
 import itertools
-path = "/Users/DuongHoang/UMKC-Grad/UMKC_Research/bispectrump_component/data/avgBL-Model.cif"
+path = "/Users/duonghoang/Documents/GitHub/bispectrum_component/data/avgBL-Model.cif"
 dico = MMCIF2Dict(path)
 df_cif = pd.DataFrame.from_dict(dico, orient='index')
 x = df_cif.iloc[-3]
@@ -62,7 +62,6 @@ print (df_ik[['X', 'Y', 'Z']])
 r_ik_array = df_ik['r_ik'].to_numpy() #r_ik from selected neighbors
 r_0_array = np.full((r_ik_array.shape),R_cut)
 theta_0_array = np.pi*(np.divide(r_ik_array,r_0_array))
-
 #theta
 Z_k_abs_array = np.abs(df_ik['Z_k'].to_numpy())
 theta_array = np.arccos(np.divide(Z_k_abs_array,r_ik_array))
@@ -105,7 +104,7 @@ m1p = np.linspace(-j1, j1, int(2 * j1 + 1)).tolist()
 m2 = np.linspace(-j2, j2, int(2 * j2 + 1)).tolist()
 m2p = np.linspace(-j2, j2, int(2 * j2 + 1)).tolist()
 from itertools import product
-list = product(m1,m2,m,m1p,m2p,mp)
+list = product(m1,m2,m,m1p,m2p,mp) #create all possible combination of m1,m2,m,m1p,m2p,mp
 keep_list=[]
 for i in list:
   m1, m2, m, m1p, m2p, mp = i
@@ -114,8 +113,9 @@ for i in list:
   if H==0:
     pass
   else:
-    keep_list.append(i)
+    keep_list.append(i) #keep_list is the list of input set that has non-zero H value
 print(keep_list)
+
 B_total=0
 for i in keep_list:
   m1, m2, m, m1p, m2p, mp = i
@@ -127,7 +127,9 @@ for i in keep_list:
                                           R_cut, theta_0_array,theta_array, phi_array)
   u2_j2m2m2p = getDensityFunction_u(j2, m2, m2p, w_ik_arr, delta_arr, r_ik_array, 0,
                                           R_cut, theta_0_array,theta_array, phi_array)
-  B_each = np.conj(u_jmmp) * (H * u1_j1m1m1p * u2_j2m2m2p)
+  B_each= np.conj(u_jmmp) * (H * u1_j1m1m1p * u2_j2m2m2p)
   B = N(B_each)
   B_total +=B
 print (B_total)
+
+

@@ -26,15 +26,19 @@ class Wigner_D:
     [5] Chapter 4.3-(p.76,eq.1)  D.A. Varshalovich, A.N. Moskalev, V.K Khersonskii,
         Quantum Theory of Angular Momentum (1988)
     """
-
     def __init__(self, j, m, mp, theta_0, theta, phi):
+        if j < 0 or not np.isclose(j, int(j)) or (j % 1 == 0.5 and (m % 1 != 0 or mp % 1 != 0)):
+            raise ValueError("Invalid input parameters: j must be a non-negative integer or half-integer, "
+                             "m and mp must be between -j and j.")
+        if theta_0 < 0 or theta_0 > np.pi or theta < 0 or theta > np.pi or phi < 0 or phi > 2 * np.pi:
+            raise ValueError(
+                "Invalid input parameters: theta_0, theta, and phi must be within [0, pi] and [0, 2pi], respectively.")
         self.j = j
         self.m = m
         self.mp = mp
         self.theta_0 = theta_0
         self.theta = theta
         self.phi = phi
-
     def compute_dsmall(self):
         """
         This method is used to calculate the Wigner d small- real function involving trigonometric functions
@@ -57,4 +61,6 @@ class Wigner_D:
         term1 = np.exp(-1j * self.m * self.theta_0)
         term2 = self.compute_dsmall()
         term3 = np.exp(-1j * self.mp * self.phi)
-        return term1 * term2 * term3
+        result = term1 * term2 * term3
+        return result
+
