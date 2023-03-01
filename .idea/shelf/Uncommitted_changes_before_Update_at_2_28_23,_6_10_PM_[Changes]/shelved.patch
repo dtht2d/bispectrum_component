@@ -1,0 +1,459 @@
+Index: bispectrum/methods/test_WignerD_calc.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>\"\"\"\nCompare the Wigner D matrix calculation from class function, numba vs SymPy\n\"\"\"\n\nimport numpy as np\nfrom bispectrum.methods.calc.WignerD import Wigner_D\nfrom sympy import *\nfrom sympy.physics.quantum.spin import Rotation\nimport timeit\nj, m, mp, theta_0, theta,phi= 2, 1, 0, np.pi, np.pi/2, 0\n\nt0=timeit.default_timer()\n#Wigner_D function from calc.WignerD\nWD = Wigner_D(j, m, mp, theta_0, theta,phi)\nwd = WD.wigner_D()\nprint(wd)\nt1=timeit.default_timer()\nprint(\"Execution time for Wigner_D function from calc.WignerD:\", t0 - t1, \"seconds\")\n\nt2=timeit.default_timer()\n#Calculate the Wigner D matrix with Sympy\nrot1 = Rotation.D(j, m, mp, theta_0, theta,phi)\nwignerD_sympy = rot1.doit()\nprint(N(wignerD_sympy))\nt3=timeit.default_timer()\n\nprint(\"Execution time for Wigner_D function from Sympy:\", t2 - t3, \"seconds\")\nprint(\"Execution time for Wigner_D calculation using class method is\", round((t2 - t3)/(t0-t1)),\n      \"times faster than Sympy function\")\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/bispectrum/methods/test_WignerD_calc.py b/bispectrum/methods/test_WignerD_calc.py
+--- a/bispectrum/methods/test_WignerD_calc.py	(revision e5f9c736ce529a0b24b0ff2de86ae3a164e28ca4)
++++ b/bispectrum/methods/test_WignerD_calc.py	(date 1677548245670)
+@@ -7,6 +7,7 @@
+ from sympy import *
+ from sympy.physics.quantum.spin import Rotation
+ import timeit
++
+ j, m, mp, theta_0, theta,phi= 2, 1, 0, np.pi, np.pi/2, 0
+ 
+ t0=timeit.default_timer()
+Index: bispectrum/methods/__init__.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import numpy as np\nimport sympy as sp\nfrom sympy.physics.quantum.cg import CG\nfrom sympy.physics.wigner import wigner_d\nfrom sympy.physics.quantum.spin import Rotation\nfrom sympy import *\n\ndef getCoeffH(j1,j2,j,m1,m2,m,m1p,m2p,mp):\n    '''\n    This function calculate coupling coefficient H via computing\n    the Clebsch-Gordan coefficient for cg(j1,m1,j2,m2,j,m)\n    and cg_p(j1,m1p,j2,m2p,j,mp)\n    Parameters:\n        j1 (scalar): angular momentum 1\n        j2 (scalar): angular momentum 2\n        j (scalar): total angular momentum (j1+j2)\n        m1 (scalar): eigenvalue of angular momentum j1\n        m2 (scalar): eigenvalue of angular momentum j2\n        m (scalar): eigenvalue of angular momentum j\n        m1p (scalar): eigenvalue of j1 along rotated axis\n        m2p (scalar): eigenvalue of j2 along rotated axis\n        mp (scalar): eigenvalue of j along rotated axis\n    Returns:\n        Scalar, Coupling coefficient H(j1,j2,j,m1,m2,m, m1p,m2p,mp)\n    ====================Reference=========================\n    [1] Thompson, Swiler, Trott, Foiles, Tucker,\n        Spectral neighbor analysis method for automated generation of quantum-accurate interatomic potentials (2015)\n    [5] Chapter 8  D.A. Varshalovich, A.N. Moskalev, V.K Khersonskii,\n        Quantum Theory of Angular Momentum (1988)\n    '''\n    cg = CG(j1,m1,j2,m2,j,m)\n    cg = cg.doit()\n    cg_p = CG(j1,m1p,j2,m2p,j,mp)\n    cg_p = cg_p.doit()\n    H_coeff = (cg)*(cg_p)\n    H = N(H_coeff)\n    return H\ndef getRotationalMatrixU(j,m,mp,theta_0,theta,phi):\n    '''\n    Parameters:\n        j (scalar): integer/half integer number\n           Total angular momentum\n        m (scalar): integer/half integer number\n           eigenvalue of angular momentum along rotated axis\n        mp (scalar): eigenvalue of j along rotated axis\n        mpp (scalar):\n        theta_0 (scalar): fist angle of rotation [0,pi]\n        theta (scalar): second angle of rotation [0,pi]\n        phi (scalar): third angle of rotation [0,2pi]\n        rotational od a coordinate system through an angle theta_0\n        about an axis n(theta,phi)\n    Returns: complec number, a single rotational matrix U function\n    ==========================Reference==================================\n    [5] Chapter 4  D.A. Varshalovich, A.N. Moskalev, V.K Khersonskii,\n        Quantum Theory of Angular Momentum (1988)\n    '''\n    mpp_list = np.linspace(-j, j, int(2 * j + 1))\n    U = 0\n    for mpp in mpp_list:\n        rot1 = Rotation.D(j, m, mpp, phi, theta, - phi)\n        rot2 = Rotation.D(j, mpp, mp, phi, -theta, -phi)\n        Dj_m_mpp = rot1.doit()\n        Dj_mpp_mp = rot2.doit()\n        Um_mp = Dj_m_mpp * (exp(-I * mpp * theta_0)) * Dj_mpp_mp\n        U += N(Um_mp) #N() evaluated U expression\n    return U\ndef getCutoffFunction (r_ik,r_min0, R_cut):\n    '''\n    Parameter:\n        r_ik (ndarray): shape (k+1,), distance from center atom  to k neighbor atoms\n        r_min0 (scalar): parameter in distance to angle conversion(distance unit)\n        R_cut (scalar): cut off radius\n    Returns:\n        ndarray, dimension [k,]: cut of function f_cut(r_ik) where r_ik < R_cut\n    ==========================References==================================\n    [3] A. Bartok, M. C. Payne, K. Risi, G. Csanyi, Gaussian approximation\n        potentials: the accuracy of quantum mechanics, without the electrons (2010)\n    [7] LAMMPS, Compute sna/atom command,\n        https://docs.lammps.org/compute_sna_atom.html\n    '''\n    R_cut_array = np.full((r_ik_array.shape), R_cut) #R_cut_array shape (k,)\n    f_cut_arr = (1 / 2) * (np.cos(np.pi * (np.divide(r_ik_array - r_min0, R_cut_array - r_min0))) + 1)\n    return f_cut_arr\ndef getDensityFunction_u(j,m,mp,w_ik_arr, delta_arr,r_ik_array, r_min0, R_cut, theta_0_array, theta_array, phi_array):\n    '''\n    Args:\n        j (scalar): angular momentum\n        m (scalar): eigenvalue of angular momentum\n        mp (scalar): eigenvalue of j along rotated axis\n        w_ik_arr (ndarray): shape(k+1,) the coefficients that are dimensionless weights that are chosen\n                            to distinguish atoms of different types, while the central atom is arbitrarily\n                            assigned a unit weight\n        delta_arr (ndarray): shape(k+1,) the Dirac delta function, indicates only neighbor atom of element\n                             the same as center atom contribute to partial density\n        r_ik_array (ndarray): shape(k+1) distance from center atom to neighbor atom, k is number of neighbor atoms\n                              in cutoff radius, array include center atom as well\n        r_min0 (scalar): parameter in distance to angle conversion (distance units), choose\n        R_cut (scalar): cutoff radius\n        theta_0_array (ndarray): shape(k+1,) theta_0 angel (fist angle of rotation [0,pi])\n                                 of neighbor atoms in reference frame of center atom\n        theta_array (ndarray): shape (k+1,) theta angel ( second angle of rotation [0,pi])\n                               of neighbor atoms in reference frame of center atom\n        phi_array (ndarray): shape(k+1,) phi angel (third angle of rotation [0,2pi])\n                             of neighbor atoms in reference frame of center atom\n    Returns: complex number, expansion coefficients density function u_jmmp\n    '''\n    R_cut_array = np.full((r_ik_array.shape), R_cut)\n    f_cut_arr = (1 / 2) * (np.cos(np.pi * (np.divide(r_ik_array - r_min0, R_cut_array - r_min0))) + 1)\n    U_jmmp = []\n    for theta_0, theta, phi in zip(theta_0_array, theta_array, phi_array):\n        U = getRotationalMatrixU(j,m,mp,theta_0,theta,phi) #U is a complex number\n        U_jmmp.append(U)\n    U_jmmp_array = np.array(U_jmmp, dtype='complex')\n    U_jmmp_arr = np.where(np.isnan(U_jmmp_array), 0, U_jmmp_array)\n    u_jmmp = np.dot((f_cut_arr * U_jmmp_arr), (w_ik_arr * delta_arr))\n    return u_jmmp\n\n\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/bispectrum/methods/__init__.py b/bispectrum/methods/__init__.py
+--- a/bispectrum/methods/__init__.py	(revision e5f9c736ce529a0b24b0ff2de86ae3a164e28ca4)
++++ b/bispectrum/methods/__init__.py	(date 1677606307617)
+@@ -4,6 +4,9 @@
+ from sympy.physics.wigner import wigner_d
+ from sympy.physics.quantum.spin import Rotation
+ from sympy import *
++#NEW
++from bispectrum.methods.calc.ClebschGordan import Clebsch_Gordan
++from bispectrum.methods.calc.WignerD import Wigner_D
+ 
+ def getCoeffH(j1,j2,j,m1,m2,m,m1p,m2p,mp):
+     '''
+Index: bispectrum/methods/test_Clebsch_Gordan_calc.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/bispectrum/methods/test_Clebsch_Gordan_calc.py b/bispectrum/methods/test_Clebsch_Gordan_calc.py
+new file mode 100644
+--- /dev/null	(date 1677629371870)
++++ b/bispectrum/methods/test_Clebsch_Gordan_calc.py	(date 1677629371870)
+@@ -0,0 +1,26 @@
++"""
++Compare the Coupling Coeff H + Clebsh Gordan calculation from our class function vs SymPy
++"""
++
++from sympy.physics.quantum.cg import CG
++from bispectrum.methods.calc.ClebschGordan import Clebsch_Gordan
++import timeit
++j1,j2,j,m1,m2,m= 5/2, 1/2, 3, 1/2, 1/2, 1
++#Sympy
++t0=timeit.default_timer()
++print (j1,m1,j2,m2,j,m)
++cg = CG(j1,m1,j2,m2,j,m)
++cg = cg.doit()
++t1=timeit.default_timer()
++print (cg)
++print("Execution time for Clebsch-Gordan coeff function from calc:", t0 - t1, "second")
++
++#Our class function
++t2=timeit.default_timer()
++CG = Clebsch_Gordan(j1, j2, j, m1, m2, m)
++cg_calc = CG.cb()
++print (cg_calc)
++t3=timeit.default_timer()
++print("Execution time for Clebsch-Gordan coeff function from calc:", t2 - t3, "second")
++
++
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"AnalysisUIOptions\">\n    <option name=\"FILE_MASK\" value=\"*.py\" />\n  </component>\n  <component name=\"AutoImportSettings\">\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\n  </component>\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"bd025cd4-a48e-4c77-ad8a-b238b1464541\" name=\"Changes\" comment=\"\">\n      <change afterPath=\"$PROJECT_DIR$/bispectrum/.idea/codes.iml\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/bispectrum/.idea/inspectionProfiles/Project_Default.xml\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/bispectrum/.idea/inspectionProfiles/profiles_settings.xml\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/bispectrum/.idea/misc.xml\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/bispectrum/.idea/modules.xml\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/bispectrum/.idea/shelf/Uncommitted_changes_before_Update_at_2_22_23,_12_23_PM_[Changes]/shelved.patch\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/bispectrum/.idea/shelf/Uncommitted_changes_before_Update_at_2_22_23,_12_23_PM_[Changes]1/shelved.patch\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/bispectrum/.idea/shelf/Uncommitted_changes_before_Update_at_2_22_23__12_23_PM__Changes_.xml\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/bispectrum/.idea/shelf/Uncommitted_changes_before_Update_at_2_22_23__12_23_PM__Changes_1.xml\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/bispectrum/.idea/vcs.xml\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/bispectrum/.idea/workspace.xml\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/bispectrum/example/Si_bispectrum_component.ipynb\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/bispectrum/example/compute-bispectrum-Si.py\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/bispectrum/methods/.idea/.gitignore\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/bispectrum/methods/.idea/encodings.xml\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/bispectrum/methods/.idea/inspectionProfiles/Project_Default.xml\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/bispectrum/methods/.idea/inspectionProfiles/profiles_settings.xml\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/bispectrum/methods/.idea/methods.iml\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/bispectrum/methods/.idea/misc.xml\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/bispectrum/methods/.idea/modules.xml\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/bispectrum/methods/.idea/vcs.xml\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/bispectrum/methods/__init__.py\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/bispectrum/methods/bispectrum/SO4.py\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/bispectrum/methods/quantum_angular_momentum/WD.py\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/bispectrum/methods/test_WignerD_calc.py\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/bispectrum/methods/test_optimize_B_calculation.py\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/bispectrum/optimization/Wigner_D.ipynb\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/bispectrum/pyenv\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/bispectrum/requirements.txt\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/codes/.idea/codes.iml\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/codes/.idea/inspectionProfiles/Project_Default.xml\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/codes/.idea/inspectionProfiles/profiles_settings.xml\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/codes/.idea/misc.xml\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/codes/.idea/modules.xml\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/codes/.idea/shelf/Uncommitted_changes_before_Update_at_2_22_23,_12_23_PM_[Changes]/shelved.patch\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/codes/.idea/shelf/Uncommitted_changes_before_Update_at_2_22_23,_12_23_PM_[Changes]1/shelved.patch\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/codes/.idea/shelf/Uncommitted_changes_before_Update_at_2_22_23__12_23_PM__Changes_.xml\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/codes/.idea/shelf/Uncommitted_changes_before_Update_at_2_22_23__12_23_PM__Changes_1.xml\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/codes/.idea/vcs.xml\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/codes/.idea/workspace.xml\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/codes/methods/.idea/.gitignore\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/codes/methods/.idea/encodings.xml\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/codes/methods/.idea/inspectionProfiles/Project_Default.xml\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/codes/methods/.idea/inspectionProfiles/profiles_settings.xml\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/codes/methods/.idea/methods.iml\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/codes/methods/.idea/misc.xml\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/codes/methods/.idea/modules.xml\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/codes/methods/.idea/vcs.xml\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/codes/methods/Bi_SO4.py\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/codes/methods/__init__.py\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/codes/optimization/Wigner_D.ipynb\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/codes/pyenv\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/codes/tests/Si_bispectrum_component.ipynb\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/codes/tests/compute-bispectrum-Si.py\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/codes/tests/test_WignerD_calc.py\" beforeDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/codes/tests/test_optimize_B_calculation.py\" beforeDir=\"false\" />\n    </list>\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n  <component name=\"FileTemplateManagerImpl\">\n    <option name=\"RECENT_TEMPLATES\">\n      <list>\n        <option value=\"Julia File\" />\n        <option value=\"Setup Script\" />\n        <option value=\"Python Script\" />\n      </list>\n    </option>\n  </component>\n  <component name=\"FlaskConsoleOptions\" custom-start-script=\"import sys&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo&#10;locals().update(ScriptInfo(create_app=None).load_app().make_shell_context())&#10;print(&quot;Python %s on %s\\nApp: %s [%s]\\nInstance: %s&quot; % (sys.version, sys.platform, app.import_name, app.env, app.instance_path))\">\n    <envs>\n      <env key=\"FLASK_APP\" value=\"app\" />\n    </envs>\n    <option name=\"myCustomStartScript\" value=\"import sys&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo&#10;locals().update(ScriptInfo(create_app=None).load_app().make_shell_context())&#10;print(&quot;Python %s on %s\\nApp: %s [%s]\\nInstance: %s&quot; % (sys.version, sys.platform, app.import_name, app.env, app.instance_path))\" />\n    <option name=\"myEnvs\">\n      <map>\n        <entry key=\"FLASK_APP\" value=\"app\" />\n      </map>\n    </option>\n  </component>\n  <component name=\"Git.Settings\">\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\n  </component>\n  <component name=\"MarkdownSettingsMigration\">\n    <option name=\"stateVersion\" value=\"1\" />\n  </component>\n  <component name=\"ProblemsViewState\">\n    <option name=\"selectedTabId\" value=\"ProjectErrors\" />\n  </component>\n  <component name=\"ProjectId\" id=\"2JTUWRZlNjTiHoc1Nqg8PIYE6dQ\" />\n  <component name=\"ProjectLevelVcsManager\">\n    <ConfirmationsSetting value=\"2\" id=\"Add\" />\n  </component>\n  <component name=\"ProjectViewState\">\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\n    <option name=\"showLibraryContents\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\"><![CDATA[{\n  \"keyToString\": {\n    \"ASKED_ADD_EXTERNAL_FILES\": \"true\",\n    \"RunOnceActivity.OpenProjectViewOnStart\": \"true\",\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\",\n    \"WebServerToolWindowFactoryState\": \"false\",\n    \"last_opened_file_path\": \"/Users/duonghoang/Documents/GitHub/bispectrum_component\",\n    \"node.js.detected.package.eslint\": \"true\",\n    \"node.js.detected.package.tslint\": \"true\",\n    \"node.js.selected.package.eslint\": \"(autodetect)\",\n    \"node.js.selected.package.tslint\": \"(autodetect)\",\n    \"nodejs_package_manager_path\": \"npm\",\n    \"run.code.analysis.last.selected.profile\": \"pProject Default\",\n    \"settings.editor.selected.configurable\": \"com.jetbrains.python.configuration.PythonContentEntriesConfigurable\",\n    \"vue.rearranger.settings.migration\": \"true\"\n  }\n}]]></component>\n  <component name=\"RecentsManager\">\n    <key name=\"MoveFile.RECENT_KEYS\">\n      <recent name=\"$PROJECT_DIR$/codes/methods\" />\n    </key>\n  </component>\n  <component name=\"RunManager\" selected=\"Python.test_WignerD_calc (3)\">\n    <configuration name=\"test_WignerD_calc (1)\" type=\"PythonConfigurationType\" factoryName=\"Python\" temporary=\"true\" nameIsGenerated=\"true\">\n      <module name=\"bispectrum_component\" />\n      <option name=\"INTERPRETER_OPTIONS\" value=\"\" />\n      <option name=\"PARENT_ENVS\" value=\"true\" />\n      <envs>\n        <env name=\"PYTHONUNBUFFERED\" value=\"1\" />\n      </envs>\n      <option name=\"SDK_HOME\" value=\"\" />\n      <option name=\"WORKING_DIRECTORY\" value=\"$PROJECT_DIR$/codes/methods/tests\" />\n      <option name=\"IS_MODULE_SDK\" value=\"true\" />\n      <option name=\"ADD_CONTENT_ROOTS\" value=\"true\" />\n      <option name=\"ADD_SOURCE_ROOTS\" value=\"true\" />\n      <EXTENSION ID=\"PythonCoverageRunConfigurationExtension\" runner=\"coverage.py\" />\n      <option name=\"SCRIPT_NAME\" value=\"$PROJECT_DIR$/codes/methods/tests/test_WignerD_calc.py\" />\n      <option name=\"PARAMETERS\" value=\"\" />\n      <option name=\"SHOW_COMMAND_LINE\" value=\"false\" />\n      <option name=\"EMULATE_TERMINAL\" value=\"false\" />\n      <option name=\"MODULE_MODE\" value=\"false\" />\n      <option name=\"REDIRECT_INPUT\" value=\"false\" />\n      <option name=\"INPUT_FILE\" value=\"\" />\n      <method v=\"2\" />\n    </configuration>\n    <configuration name=\"test_WignerD_calc (2)\" type=\"PythonConfigurationType\" factoryName=\"Python\" temporary=\"true\" nameIsGenerated=\"true\">\n      <module name=\"bispectrum_component\" />\n      <option name=\"INTERPRETER_OPTIONS\" value=\"\" />\n      <option name=\"PARENT_ENVS\" value=\"true\" />\n      <envs>\n        <env name=\"PYTHONUNBUFFERED\" value=\"1\" />\n      </envs>\n      <option name=\"SDK_HOME\" value=\"\" />\n      <option name=\"WORKING_DIRECTORY\" value=\"$PROJECT_DIR$/codes/methods\" />\n      <option name=\"IS_MODULE_SDK\" value=\"true\" />\n      <option name=\"ADD_CONTENT_ROOTS\" value=\"true\" />\n      <option name=\"ADD_SOURCE_ROOTS\" value=\"true\" />\n      <EXTENSION ID=\"PythonCoverageRunConfigurationExtension\" runner=\"coverage.py\" />\n      <option name=\"SCRIPT_NAME\" value=\"$PROJECT_DIR$/codes/methods/test_WignerD_calc.py\" />\n      <option name=\"PARAMETERS\" value=\"\" />\n      <option name=\"SHOW_COMMAND_LINE\" value=\"false\" />\n      <option name=\"EMULATE_TERMINAL\" value=\"false\" />\n      <option name=\"MODULE_MODE\" value=\"false\" />\n      <option name=\"REDIRECT_INPUT\" value=\"false\" />\n      <option name=\"INPUT_FILE\" value=\"\" />\n      <method v=\"2\" />\n    </configuration>\n    <configuration name=\"test_WignerD_calc (3)\" type=\"PythonConfigurationType\" factoryName=\"Python\" temporary=\"true\" nameIsGenerated=\"true\">\n      <module name=\"bispectrum_component\" />\n      <option name=\"INTERPRETER_OPTIONS\" value=\"\" />\n      <option name=\"PARENT_ENVS\" value=\"true\" />\n      <envs>\n        <env name=\"PYTHONUNBUFFERED\" value=\"1\" />\n      </envs>\n      <option name=\"SDK_HOME\" value=\"\" />\n      <option name=\"WORKING_DIRECTORY\" value=\"$PROJECT_DIR$/bispectrum/methods\" />\n      <option name=\"IS_MODULE_SDK\" value=\"true\" />\n      <option name=\"ADD_CONTENT_ROOTS\" value=\"true\" />\n      <option name=\"ADD_SOURCE_ROOTS\" value=\"true\" />\n      <EXTENSION ID=\"PythonCoverageRunConfigurationExtension\" runner=\"coverage.py\" />\n      <option name=\"SCRIPT_NAME\" value=\"$PROJECT_DIR$/bispectrum/methods/test_WignerD_calc.py\" />\n      <option name=\"PARAMETERS\" value=\"\" />\n      <option name=\"SHOW_COMMAND_LINE\" value=\"false\" />\n      <option name=\"EMULATE_TERMINAL\" value=\"false\" />\n      <option name=\"MODULE_MODE\" value=\"false\" />\n      <option name=\"REDIRECT_INPUT\" value=\"false\" />\n      <option name=\"INPUT_FILE\" value=\"\" />\n      <method v=\"2\" />\n    </configuration>\n    <configuration name=\"test_WignerD_calc\" type=\"PythonConfigurationType\" factoryName=\"Python\" temporary=\"true\" nameIsGenerated=\"true\">\n      <module name=\"bispectrum_component\" />\n      <option name=\"INTERPRETER_OPTIONS\" value=\"\" />\n      <option name=\"PARENT_ENVS\" value=\"true\" />\n      <envs>\n        <env name=\"PYTHONUNBUFFERED\" value=\"1\" />\n      </envs>\n      <option name=\"SDK_HOME\" value=\"\" />\n      <option name=\"WORKING_DIRECTORY\" value=\"$PROJECT_DIR$/codes/tests\" />\n      <option name=\"IS_MODULE_SDK\" value=\"true\" />\n      <option name=\"ADD_CONTENT_ROOTS\" value=\"true\" />\n      <option name=\"ADD_SOURCE_ROOTS\" value=\"true\" />\n      <EXTENSION ID=\"PythonCoverageRunConfigurationExtension\" runner=\"coverage.py\" />\n      <option name=\"SCRIPT_NAME\" value=\"$PROJECT_DIR$/codes/tests/test_WignerD_calc.py\" />\n      <option name=\"PARAMETERS\" value=\"\" />\n      <option name=\"SHOW_COMMAND_LINE\" value=\"false\" />\n      <option name=\"EMULATE_TERMINAL\" value=\"false\" />\n      <option name=\"MODULE_MODE\" value=\"false\" />\n      <option name=\"REDIRECT_INPUT\" value=\"false\" />\n      <option name=\"INPUT_FILE\" value=\"\" />\n      <method v=\"2\" />\n    </configuration>\n    <configuration name=\"test_optimize_B_calculation (1)\" type=\"PythonConfigurationType\" factoryName=\"Python\" temporary=\"true\" nameIsGenerated=\"true\">\n      <module name=\"bispectrum_component\" />\n      <option name=\"INTERPRETER_OPTIONS\" value=\"\" />\n      <option name=\"PARENT_ENVS\" value=\"true\" />\n      <envs>\n        <env name=\"PYTHONUNBUFFERED\" value=\"1\" />\n      </envs>\n      <option name=\"SDK_HOME\" value=\"\" />\n      <option name=\"WORKING_DIRECTORY\" value=\"$PROJECT_DIR$/tests\" />\n      <option name=\"IS_MODULE_SDK\" value=\"true\" />\n      <option name=\"ADD_CONTENT_ROOTS\" value=\"true\" />\n      <option name=\"ADD_SOURCE_ROOTS\" value=\"true\" />\n      <EXTENSION ID=\"PythonCoverageRunConfigurationExtension\" runner=\"coverage.py\" />\n      <option name=\"SCRIPT_NAME\" value=\"$PROJECT_DIR$/tests/test_optimize_B_calculation.py\" />\n      <option name=\"PARAMETERS\" value=\"\" />\n      <option name=\"SHOW_COMMAND_LINE\" value=\"false\" />\n      <option name=\"EMULATE_TERMINAL\" value=\"false\" />\n      <option name=\"MODULE_MODE\" value=\"false\" />\n      <option name=\"REDIRECT_INPUT\" value=\"false\" />\n      <option name=\"INPUT_FILE\" value=\"\" />\n      <method v=\"2\" />\n    </configuration>\n    <recent_temporary>\n      <list>\n        <item itemvalue=\"Python.test_WignerD_calc (3)\" />\n        <item itemvalue=\"Python.test_WignerD_calc (2)\" />\n        <item itemvalue=\"Python.test_WignerD_calc\" />\n        <item itemvalue=\"Python.test_WignerD_calc (1)\" />\n        <item itemvalue=\"Python.test_optimize_B_calculation (1)\" />\n      </list>\n    </recent_temporary>\n  </component>\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\n  <component name=\"TaskManager\">\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\n      <changelist id=\"bd025cd4-a48e-4c77-ad8a-b238b1464541\" name=\"Changes\" comment=\"\" />\n      <created>1672101601112</created>\n      <option name=\"number\" value=\"Default\" />\n      <option name=\"presentableId\" value=\"Default\" />\n      <updated>1672101601112</updated>\n      <workItem from=\"1672101610101\" duration=\"3211000\" />\n      <workItem from=\"1672204572904\" duration=\"149000\" />\n      <workItem from=\"1672204786267\" duration=\"8950000\" />\n      <workItem from=\"1673347335610\" duration=\"1015000\" />\n      <workItem from=\"1676405774623\" duration=\"304000\" />\n      <workItem from=\"1676406160670\" duration=\"199000\" />\n      <workItem from=\"1676406433605\" duration=\"364000\" />\n      <workItem from=\"1676484361894\" duration=\"1793000\" />\n      <workItem from=\"1677218691459\" duration=\"2612000\" />\n      <workItem from=\"1677221411634\" duration=\"2000\" />\n      <workItem from=\"1677265686978\" duration=\"1142000\" />\n      <workItem from=\"1677282776176\" duration=\"649000\" />\n      <workItem from=\"1677382257521\" duration=\"3113000\" />\n      <workItem from=\"1677385552111\" duration=\"336000\" />\n      <workItem from=\"1677385890699\" duration=\"1686000\" />\n    </task>\n    <task id=\"LOCAL-00001\" summary=\"Update B calculation\">\n      <created>1672102626687</created>\n      <option name=\"number\" value=\"00001\" />\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1672102626687</updated>\n    </task>\n    <task id=\"LOCAL-00002\" summary=\"Update B calculation\">\n      <created>1672208827103</created>\n      <option name=\"number\" value=\"00002\" />\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1672208827103</updated>\n    </task>\n    <task id=\"LOCAL-00003\" summary=\"Update B calculation\">\n      <created>1672208886269</created>\n      <option name=\"number\" value=\"00003\" />\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1672208886269</updated>\n    </task>\n    <task id=\"LOCAL-00004\" summary=\"parameters description\">\n      <created>1672209872312</created>\n      <option name=\"number\" value=\"00004\" />\n      <option name=\"presentableId\" value=\"LOCAL-00004\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1672209872312</updated>\n    </task>\n    <task id=\"LOCAL-00005\" summary=\"parameters description\">\n      <created>1672330283941</created>\n      <option name=\"number\" value=\"00005\" />\n      <option name=\"presentableId\" value=\"LOCAL-00005\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1672330283941</updated>\n    </task>\n    <option name=\"localTasksCounter\" value=\"6\" />\n    <servers />\n  </component>\n  <component name=\"TypeScriptGeneratedFilesManager\">\n    <option name=\"version\" value=\"3\" />\n  </component>\n  <component name=\"Vcs.Log.Tabs.Properties\">\n    <option name=\"TAB_STATES\">\n      <map>\n        <entry key=\"MAIN\">\n          <value>\n            <State>\n              <option name=\"FILTERS\">\n                <map>\n                  <entry key=\"branch\">\n                    <value>\n                      <list>\n                        <option value=\"origin/codes\" />\n                      </list>\n                    </value>\n                  </entry>\n                </map>\n              </option>\n            </State>\n          </value>\n        </entry>\n      </map>\n    </option>\n  </component>\n  <component name=\"VcsManagerConfiguration\">\n    <option name=\"ADD_EXTERNAL_FILES_SILENTLY\" value=\"true\" />\n    <MESSAGE value=\"Update B calculation\" />\n    <MESSAGE value=\"parameters description\" />\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"parameters description\" />\n  </component>\n  <component name=\"com.intellij.coverage.CoverageDataManagerImpl\">\n    <SUITE FILE_PATH=\"coverage/bispectrump_component$test_optimize_B_calculation.coverage\" NAME=\"test_optimize_B_calculation Coverage Results\" MODIFIED=\"1672270862582\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"true\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"$PROJECT_DIR$/codes\" />\n    <SUITE FILE_PATH=\"coverage/bispectrum_component$test_WignerD_calc__2_.coverage\" NAME=\"test_WignerD_calc (2) Coverage Results\" MODIFIED=\"1677386890368\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"true\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"$PROJECT_DIR$/codes/methods\" />\n    <SUITE FILE_PATH=\"coverage/bispectrum_component$Wigner_D.coverage\" NAME=\"Wigner_D Coverage Results\" MODIFIED=\"1677220781727\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"true\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"$PROJECT_DIR$/codes/methods\" />\n    <SUITE FILE_PATH=\"coverage/bispectrum_component$test_WignerD_calc.coverage\" NAME=\"test_WignerD_calc Coverage Results\" MODIFIED=\"1677386294563\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"true\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"$PROJECT_DIR$/codes/methods\" />\n    <SUITE FILE_PATH=\"coverage/bispectrum_component$test_WignerD_calc__3_.coverage\" NAME=\"test_WignerD_calc (3) Coverage Results\" MODIFIED=\"1677387423675\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"true\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"$PROJECT_DIR$/bispectrum/methods\" />\n    <SUITE FILE_PATH=\"coverage/bispectrum_component$Bi_SO4.coverage\" NAME=\"Bi_SO4 Coverage Results\" MODIFIED=\"1677220541141\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"true\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"$PROJECT_DIR$/codes/methods\" />\n    <SUITE FILE_PATH=\"coverage/bispectrum_component$test_WignerD_calc__1_.coverage\" NAME=\"test_WignerD_calc (1) Coverage Results\" MODIFIED=\"1677384471664\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"true\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"$PROJECT_DIR$/codes/methods/tests\" />\n    <SUITE FILE_PATH=\"coverage/bispectrump_component$compute_bispectrum_component.coverage\" NAME=\"compute-bispectrum-component Coverage Results\" MODIFIED=\"1672210327757\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"true\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"$PROJECT_DIR$/codes\" />\n    <SUITE FILE_PATH=\"coverage/profile_py$test_optimize_B_calculation__1_.coverage\" NAME=\"test_optimize_B_calculation (1) Coverage Results\" MODIFIED=\"1676485776905\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"true\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"$PROJECT_DIR$/tests\" />\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision e5f9c736ce529a0b24b0ff2de86ae3a164e28ca4)
++++ b/.idea/workspace.xml	(date 1677549831545)
+@@ -8,63 +8,11 @@
+   </component>
+   <component name="ChangeListManager">
+     <list default="true" id="bd025cd4-a48e-4c77-ad8a-b238b1464541" name="Changes" comment="">
+-      <change afterPath="$PROJECT_DIR$/bispectrum/.idea/codes.iml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/bispectrum/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/bispectrum/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/bispectrum/.idea/misc.xml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/bispectrum/.idea/modules.xml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/bispectrum/.idea/shelf/Uncommitted_changes_before_Update_at_2_22_23,_12_23_PM_[Changes]/shelved.patch" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/bispectrum/.idea/shelf/Uncommitted_changes_before_Update_at_2_22_23,_12_23_PM_[Changes]1/shelved.patch" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/bispectrum/.idea/shelf/Uncommitted_changes_before_Update_at_2_22_23__12_23_PM__Changes_.xml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/bispectrum/.idea/shelf/Uncommitted_changes_before_Update_at_2_22_23__12_23_PM__Changes_1.xml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/bispectrum/.idea/vcs.xml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/bispectrum/.idea/workspace.xml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/bispectrum/example/Si_bispectrum_component.ipynb" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/bispectrum/example/compute-bispectrum-Si.py" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/bispectrum/methods/.idea/.gitignore" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/bispectrum/methods/.idea/encodings.xml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/bispectrum/methods/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/bispectrum/methods/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/bispectrum/methods/.idea/methods.iml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/bispectrum/methods/.idea/misc.xml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/bispectrum/methods/.idea/modules.xml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/bispectrum/methods/.idea/vcs.xml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/bispectrum/methods/__init__.py" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/bispectrum/methods/bispectrum/SO4.py" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/bispectrum/methods/quantum_angular_momentum/WD.py" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/bispectrum/methods/test_WignerD_calc.py" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/bispectrum/methods/test_optimize_B_calculation.py" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/bispectrum/optimization/Wigner_D.ipynb" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/bispectrum/pyenv" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/bispectrum/requirements.txt" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/bispectrum/methods/calc/ClesbchGordan.py" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/bispectrum/methods/test_Clebsh_Gordan_calc.py" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/docs/[12]Encyclopedia-of-mathematics-and-its-applications-v.-8._-Encyclopedia-of-mathematics-and-its-applications.-Section-Mathematics-of-physics-L-C-Biedenharn_-James-D-Louck-Angular-momentum-in-quant.pdf" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/codes/.idea/codes.iml" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/codes/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/codes/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/codes/.idea/misc.xml" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/codes/.idea/modules.xml" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/codes/.idea/shelf/Uncommitted_changes_before_Update_at_2_22_23,_12_23_PM_[Changes]/shelved.patch" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/codes/.idea/shelf/Uncommitted_changes_before_Update_at_2_22_23,_12_23_PM_[Changes]1/shelved.patch" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/codes/.idea/shelf/Uncommitted_changes_before_Update_at_2_22_23__12_23_PM__Changes_.xml" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/codes/.idea/shelf/Uncommitted_changes_before_Update_at_2_22_23__12_23_PM__Changes_1.xml" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/codes/.idea/vcs.xml" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/codes/.idea/workspace.xml" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/codes/methods/.idea/.gitignore" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/codes/methods/.idea/encodings.xml" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/codes/methods/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/codes/methods/.idea/inspectionProfiles/profiles_settings.xml" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/codes/methods/.idea/methods.iml" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/codes/methods/.idea/misc.xml" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/codes/methods/.idea/modules.xml" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/codes/methods/.idea/vcs.xml" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/codes/methods/Bi_SO4.py" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/codes/methods/__init__.py" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/codes/optimization/Wigner_D.ipynb" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/codes/pyenv" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/codes/tests/Si_bispectrum_component.ipynb" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/codes/tests/compute-bispectrum-Si.py" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/codes/tests/test_WignerD_calc.py" beforeDir="false" />
+-      <change beforePath="$PROJECT_DIR$/codes/tests/test_optimize_B_calculation.py" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/bispectrum/methods/test_WignerD_calc.py" beforeDir="false" afterPath="$PROJECT_DIR$/bispectrum/methods/test_WignerD_calc.py" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -108,30 +56,30 @@
+     <option name="hideEmptyMiddlePackages" value="true" />
+     <option name="showLibraryContents" value="true" />
+   </component>
+-  <component name="PropertiesComponent"><![CDATA[{
+-  "keyToString": {
+-    "ASKED_ADD_EXTERNAL_FILES": "true",
+-    "RunOnceActivity.OpenProjectViewOnStart": "true",
+-    "RunOnceActivity.ShowReadmeOnStart": "true",
+-    "WebServerToolWindowFactoryState": "false",
+-    "last_opened_file_path": "/Users/duonghoang/Documents/GitHub/bispectrum_component",
+-    "node.js.detected.package.eslint": "true",
+-    "node.js.detected.package.tslint": "true",
+-    "node.js.selected.package.eslint": "(autodetect)",
+-    "node.js.selected.package.tslint": "(autodetect)",
+-    "nodejs_package_manager_path": "npm",
+-    "run.code.analysis.last.selected.profile": "pProject Default",
+-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PythonContentEntriesConfigurable",
+-    "vue.rearranger.settings.migration": "true"
++  <component name="PropertiesComponent">{
++  &quot;keyToString&quot;: {
++    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
++    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
++    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
++    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
++    &quot;last_opened_file_path&quot;: &quot;/Users/duonghoang/Documents/GitHub/bispectrum_component&quot;,
++    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
++    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
++    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
++    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
++    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
++    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
++    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PythonContentEntriesConfigurable&quot;,
++    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+   }
+-}]]></component>
++}</component>
+   <component name="RecentsManager">
+     <key name="MoveFile.RECENT_KEYS">
+       <recent name="$PROJECT_DIR$/codes/methods" />
+     </key>
+   </component>
+-  <component name="RunManager" selected="Python.test_WignerD_calc (3)">
+-    <configuration name="test_WignerD_calc (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
++  <component name="RunManager" selected="Python.ClesbchGordan">
++    <configuration name="ClesbchGordan" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+       <module name="bispectrum_component" />
+       <option name="INTERPRETER_OPTIONS" value="" />
+       <option name="PARENT_ENVS" value="true" />
+@@ -139,12 +87,12 @@
+         <env name="PYTHONUNBUFFERED" value="1" />
+       </envs>
+       <option name="SDK_HOME" value="" />
+-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/codes/methods/tests" />
++      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/bispectrum/methods/calc" />
+       <option name="IS_MODULE_SDK" value="true" />
+       <option name="ADD_CONTENT_ROOTS" value="true" />
+       <option name="ADD_SOURCE_ROOTS" value="true" />
+       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/codes/methods/tests/test_WignerD_calc.py" />
++      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/bispectrum/methods/calc/ClesbchGordan.py" />
+       <option name="PARAMETERS" value="" />
+       <option name="SHOW_COMMAND_LINE" value="false" />
+       <option name="EMULATE_TERMINAL" value="false" />
+@@ -153,7 +101,7 @@
+       <option name="INPUT_FILE" value="" />
+       <method v="2" />
+     </configuration>
+-    <configuration name="test_WignerD_calc (2)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
++    <configuration name="test_WignerD_calc (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+       <module name="bispectrum_component" />
+       <option name="INTERPRETER_OPTIONS" value="" />
+       <option name="PARENT_ENVS" value="true" />
+@@ -161,12 +109,12 @@
+         <env name="PYTHONUNBUFFERED" value="1" />
+       </envs>
+       <option name="SDK_HOME" value="" />
+-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/codes/methods" />
++      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/codes/methods/tests" />
+       <option name="IS_MODULE_SDK" value="true" />
+       <option name="ADD_CONTENT_ROOTS" value="true" />
+       <option name="ADD_SOURCE_ROOTS" value="true" />
+       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/codes/methods/test_WignerD_calc.py" />
++      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/codes/methods/tests/test_WignerD_calc.py" />
+       <option name="PARAMETERS" value="" />
+       <option name="SHOW_COMMAND_LINE" value="false" />
+       <option name="EMULATE_TERMINAL" value="false" />
+@@ -175,7 +123,7 @@
+       <option name="INPUT_FILE" value="" />
+       <method v="2" />
+     </configuration>
+-    <configuration name="test_WignerD_calc (3)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
++    <configuration name="test_WignerD_calc (2)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+       <module name="bispectrum_component" />
+       <option name="INTERPRETER_OPTIONS" value="" />
+       <option name="PARENT_ENVS" value="true" />
+@@ -183,12 +131,12 @@
+         <env name="PYTHONUNBUFFERED" value="1" />
+       </envs>
+       <option name="SDK_HOME" value="" />
+-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/bispectrum/methods" />
++      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/codes/methods" />
+       <option name="IS_MODULE_SDK" value="true" />
+       <option name="ADD_CONTENT_ROOTS" value="true" />
+       <option name="ADD_SOURCE_ROOTS" value="true" />
+       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/bispectrum/methods/test_WignerD_calc.py" />
++      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/codes/methods/test_WignerD_calc.py" />
+       <option name="PARAMETERS" value="" />
+       <option name="SHOW_COMMAND_LINE" value="false" />
+       <option name="EMULATE_TERMINAL" value="false" />
+@@ -197,7 +145,7 @@
+       <option name="INPUT_FILE" value="" />
+       <method v="2" />
+     </configuration>
+-    <configuration name="test_WignerD_calc" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
++    <configuration name="test_WignerD_calc (3)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+       <module name="bispectrum_component" />
+       <option name="INTERPRETER_OPTIONS" value="" />
+       <option name="PARENT_ENVS" value="true" />
+@@ -205,12 +153,12 @@
+         <env name="PYTHONUNBUFFERED" value="1" />
+       </envs>
+       <option name="SDK_HOME" value="" />
+-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/codes/tests" />
++      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/bispectrum/methods" />
+       <option name="IS_MODULE_SDK" value="true" />
+       <option name="ADD_CONTENT_ROOTS" value="true" />
+       <option name="ADD_SOURCE_ROOTS" value="true" />
+       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/codes/tests/test_WignerD_calc.py" />
++      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/bispectrum/methods/test_WignerD_calc.py" />
+       <option name="PARAMETERS" value="" />
+       <option name="SHOW_COMMAND_LINE" value="false" />
+       <option name="EMULATE_TERMINAL" value="false" />
+@@ -219,7 +167,7 @@
+       <option name="INPUT_FILE" value="" />
+       <method v="2" />
+     </configuration>
+-    <configuration name="test_optimize_B_calculation (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
++    <configuration name="test_WignerD_calc" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+       <module name="bispectrum_component" />
+       <option name="INTERPRETER_OPTIONS" value="" />
+       <option name="PARENT_ENVS" value="true" />
+@@ -227,12 +175,12 @@
+         <env name="PYTHONUNBUFFERED" value="1" />
+       </envs>
+       <option name="SDK_HOME" value="" />
+-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
++      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/codes/tests" />
+       <option name="IS_MODULE_SDK" value="true" />
+       <option name="ADD_CONTENT_ROOTS" value="true" />
+       <option name="ADD_SOURCE_ROOTS" value="true" />
+       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tests/test_optimize_B_calculation.py" />
++      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/codes/tests/test_WignerD_calc.py" />
+       <option name="PARAMETERS" value="" />
+       <option name="SHOW_COMMAND_LINE" value="false" />
+       <option name="EMULATE_TERMINAL" value="false" />
+@@ -243,11 +191,11 @@
+     </configuration>
+     <recent_temporary>
+       <list>
++        <item itemvalue="Python.ClesbchGordan" />
+         <item itemvalue="Python.test_WignerD_calc (3)" />
+         <item itemvalue="Python.test_WignerD_calc (2)" />
+         <item itemvalue="Python.test_WignerD_calc" />
+         <item itemvalue="Python.test_WignerD_calc (1)" />
+-        <item itemvalue="Python.test_optimize_B_calculation (1)" />
+       </list>
+     </recent_temporary>
+   </component>
+@@ -274,6 +222,7 @@
+       <workItem from="1677382257521" duration="3113000" />
+       <workItem from="1677385552111" duration="336000" />
+       <workItem from="1677385890699" duration="1686000" />
++      <workItem from="1677525144059" duration="11731000" />
+     </task>
+     <task id="LOCAL-00001" summary="Update B calculation">
+       <created>1672102626687</created>
+@@ -345,15 +294,27 @@
+     <MESSAGE value="parameters description" />
+     <option name="LAST_COMMIT_MESSAGE" value="parameters description" />
+   </component>
++  <component name="XDebuggerManager">
++    <breakpoint-manager>
++      <breakpoints>
++        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
++          <url>file://$PROJECT_DIR$/bispectrum/methods/test_Clebsh_Gordan_calc.py</url>
++          <line>6</line>
++          <option name="timeStamp" value="3" />
++        </line-breakpoint>
++      </breakpoints>
++    </breakpoint-manager>
++  </component>
+   <component name="com.intellij.coverage.CoverageDataManagerImpl">
+     <SUITE FILE_PATH="coverage/bispectrump_component$test_optimize_B_calculation.coverage" NAME="test_optimize_B_calculation Coverage Results" MODIFIED="1672270862582" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/codes" />
+     <SUITE FILE_PATH="coverage/bispectrum_component$test_WignerD_calc__2_.coverage" NAME="test_WignerD_calc (2) Coverage Results" MODIFIED="1677386890368" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/codes/methods" />
+     <SUITE FILE_PATH="coverage/bispectrum_component$Wigner_D.coverage" NAME="Wigner_D Coverage Results" MODIFIED="1677220781727" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/codes/methods" />
+     <SUITE FILE_PATH="coverage/bispectrum_component$test_WignerD_calc.coverage" NAME="test_WignerD_calc Coverage Results" MODIFIED="1677386294563" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/codes/methods" />
+-    <SUITE FILE_PATH="coverage/bispectrum_component$test_WignerD_calc__3_.coverage" NAME="test_WignerD_calc (3) Coverage Results" MODIFIED="1677387423675" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/bispectrum/methods" />
++    <SUITE FILE_PATH="coverage/bispectrum_component$test_WignerD_calc__3_.coverage" NAME="test_WignerD_calc (3) Coverage Results" MODIFIED="1677547118921" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/bispectrum/methods" />
+     <SUITE FILE_PATH="coverage/bispectrum_component$Bi_SO4.coverage" NAME="Bi_SO4 Coverage Results" MODIFIED="1677220541141" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/codes/methods" />
+     <SUITE FILE_PATH="coverage/bispectrum_component$test_WignerD_calc__1_.coverage" NAME="test_WignerD_calc (1) Coverage Results" MODIFIED="1677384471664" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/codes/methods/tests" />
+     <SUITE FILE_PATH="coverage/bispectrump_component$compute_bispectrum_component.coverage" NAME="compute-bispectrum-component Coverage Results" MODIFIED="1672210327757" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/codes" />
+     <SUITE FILE_PATH="coverage/profile_py$test_optimize_B_calculation__1_.coverage" NAME="test_optimize_B_calculation (1) Coverage Results" MODIFIED="1676485776905" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
++    <SUITE FILE_PATH="coverage/bispectrum_component$ClesbchGordan.coverage" NAME="ClesbchGordan Coverage Results" MODIFIED="1677547972037" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/bispectrum/methods/calc" />
+   </component>
+ </project>
+\ No newline at end of file
+Index: bispectrum/methods/calc/ClebschGordan.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/bispectrum/methods/calc/ClebschGordan.py b/bispectrum/methods/calc/ClebschGordan.py
+new file mode 100644
+--- /dev/null	(date 1677609754160)
++++ b/bispectrum/methods/calc/ClebschGordan.py	(date 1677609754160)
+@@ -0,0 +1,86 @@
++import numpy as np
++import cmath
++def fact(n):
++    """
++    This function is used to calculate factorial of a number by using
++    an iterative approach instead of recursive approach
++    """
++    return np.prod(np.arange(1, n + 1))
++class Clebsch_Gordan:
++    """
++    Definition:
++    A Clebsch-Gordan coefficients are vector addition coefficients. They play an important role in decomposition of
++    reducible representations of rotation. Let j1 and j2 with projections on m1 and m2 on the quantization axis.
++    The coefficients represent the probability amplitude that j1 and j2 are coupled into a resultant angular momentum
++    j with projection m.
++    Args:
++        j1 (scalar): angular momentum
++        j2 (scalar): angular momentum
++        j (scalar): angular momentum
++        m1 (scalar): eigenvalue of angular momentum
++        m2 (scalar): eigenvalue of angular momentum
++        m (scalar): eigenvalue of angular momentum
++    Returns: complex number, Clebsh Gordan function
++    ==========================Reference==================================
++    [5] Chapter 8 D.A. Varshalovich, A.N. Moskalev, V.K Khersonskii,
++        Quantum Theory of Angular Momentum (1988)
++    [12] Chapter 3 Biedenharn, L., & Louck, J.D. ,
++        Encyclopedia of Mathematics and its Applications (1981)
++    """
++    def __init__(self, j1, j2, j, m1, m2, m):
++        self.j1 = j1
++        self.j2 = j2
++        self.j = j
++        self.m1 = m1
++        self.m2 = m2
++        self.m = m
++        self.J = j1 + j2 + j
++        #Condition 1 & 2
++        if j1 + j2 < j or np.abs(j1 - j2) > j or m1 + m2 != m or j1+j2!=j:
++            raise ValueError("Invalid input parameters: j1, j2, j, m1, m2, and m must satisfy the triangle inequality.")
++        # Condition 3
++        if abs(m1) > j1 or abs(m2) > j2 or abs(m) > j:
++            raise ValueError("Invalid input parameters: |m1| <= j1, |m_2| <= j2, |m| <= j")
++        # Condition 4
++        J =(j1+j2+j)
++        if J < (int(j1+j2+j)) and J <0:
++            raise ValueError("Invalid input parameters: j1, j2, j must not exceed a positive integer J")
++        # Condition 5
++        if j1 + j2 - j % 1 == 0.5:
++            raise ValueError("Invalid input parameters: j1+j2-j must not be a half-integer")
++        # Condition 6
++        if not all(isinstance(x, (int, float, np.integer, np.floating)) and (x % 0.5 == 0 or x % 1 == 0) for x in
++                   [m1, m2, m]):
++            raise ValueError(
++                "Invalid input parameters: m1, m2, m must be integer or half-integer (positive or negative) numbers")
++        # Condition 7
++        if not all(
++                isinstance(x, (int, float, np.integer, np.floating)) and x >= 0 and (x % 0.5 == 0 or x % 1 == 0) for x
++                in [j1, j2, j]):
++            raise ValueError(
++                "Invalid input parameters: j1, j2, j must be integer or half-integer non-negative numbers")
++        # Condition 8
++        if not all(isinstance(x, (int, float, np.integer, np.floating)) and x >= 0 and x % 1 == 0 for x in
++                   [j1 + m1, j2 + m2, j + m, j1 + j2 + j]):
++            raise ValueError("Invalid input parameters: j1+m1,j2+m2,j+m,j1+j2+j must be integer non-negative numbers")
++
++
++    def cb(self):
++        if self.m1 + self.m2 != self.m:
++            return 0.0  # delta function fails
++        prefactor = cmath.sqrt((2 * self.j + 1) * fact(self.j + self.j1 - self.j2) * fact(self.j-self.j1 + self.j2) \
++                               * fact(self.j1 + self.j2 - self.j) / fact(self.j + self.j1 + self.j2 + 1))
++        coefficient = cmath.sqrt(fact(self.j + self.m) * fact(self.j - self.m) / (fact(self.j1 + self.m1) \
++                               * fact(self.j1 - self.m1) * fact(self.j2 + self.m2) * fact(self.j2 - self.m2)))
++        smax = min(int(self.j1 + self.j2 + self.m1), int(self.j - self.j1+self.j2), int(self.j + self.m))
++        smin = max(0, int(self.m1 - self.j1),int(-self.j1 + self.j2 + self.m))
++        sum = 0.0
++        for s in range(smin, smax+1):
++            den = fact(s) * fact(self.j - self.j1 + self.j2 - s) * fact(self.j + self.m - s) \
++                  * fact(self.j1 - self.j2 - self.m + s)
++            num = ((-1) ** (self.j2 + self.m2 + s))* fact(self.j2 + self.j + self.m1 - s) * fact(self.j1 - self.m1 + s)
++            sum += num / den
++        cb = prefactor * coefficient * sum
++        return cb
++        
++
