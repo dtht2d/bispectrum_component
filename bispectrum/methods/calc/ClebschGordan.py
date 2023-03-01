@@ -42,7 +42,7 @@ class Clebsch_Gordan:
         #Condition 3 & 6
         if not all(abs(x) <= y and (x % 0.5 == 0 or x % 1 == 0) for x, y in zip([m1, m2, m], [j1, j2, j])):
             raise ValueError("Invalid input parameters: |m1| <= j1, |m_2| <= j2, |m| <= j\ "
-                             "m1, m2, m must be integer or half-integer (positive or negative) numbers"
+                             "m1, m2, m must be integer or half-integer (positive or negative) numbers")
         # Condition 4
         J =(j1+j2+j)
         if J < (int(j1+j2+j)) and J <0:
