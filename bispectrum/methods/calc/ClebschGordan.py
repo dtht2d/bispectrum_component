@@ -35,24 +35,18 @@ class Clebsch_Gordan:
         self.m2 = m2
         self.m = m
         self.J = j1 + j2 + j
-        #Condition 1 & 2
-        if j1 + j2 < j or np.abs(j1 - j2) > j or m1 + m2 != m or j1+j2!=j:
-            raise ValueError("Invalid input parameters: j1, j2, j, m1, m2, and m must satisfy the triangle inequality.")
-        # Condition 3
-        if abs(m1) > j1 or abs(m2) > j2 or abs(m) > j:
-            raise ValueError("Invalid input parameters: |m1| <= j1, |m_2| <= j2, |m| <= j")
+        #Condition 1 & 2 & 5
+        if not (abs(j1 - j2) <= j <= j1 + j2 and m1 + m2 == m and j1 + j2 - j % 1 != 0.5):
+            raise ValueError("Invalid input parameters: j1, j2, j, m1, m2, and m must satisfy the triangle inequality.\ "
+                             "j1+j2-j must not be a half-integer")
+        #Condition 3 & 6
+        if not all(abs(x) <= y and (x % 0.5 == 0 or x % 1 == 0) for x, y in zip([m1, m2, m], [j1, j2, j])):
+            raise ValueError("Invalid input parameters: |m1| <= j1, |m_2| <= j2, |m| <= j\ "
+                             "m1, m2, m must be integer or half-integer (positive or negative) numbers"
         # Condition 4
         J =(j1+j2+j)
         if J < (int(j1+j2+j)) and J <0:
             raise ValueError("Invalid input parameters: j1, j2, j must not exceed a positive integer J")
-        # Condition 5
-        if j1 + j2 - j % 1 == 0.5:
-            raise ValueError("Invalid input parameters: j1+j2-j must not be a half-integer")
-        # Condition 6
-        if not all(isinstance(x, (int, float, np.integer, np.floating)) and (x % 0.5 == 0 or x % 1 == 0) for x in
-                   [m1, m2, m]):
-            raise ValueError(
-                "Invalid input parameters: m1, m2, m must be integer or half-integer (positive or negative) numbers")
         # Condition 7
         if not all(
                 isinstance(x, (int, float, np.integer, np.floating)) and x >= 0 and (x % 0.5 == 0 or x % 1 == 0) for x
@@ -63,8 +57,6 @@ class Clebsch_Gordan:
         if not all(isinstance(x, (int, float, np.integer, np.floating)) and x >= 0 and x % 1 == 0 for x in
                    [j1 + m1, j2 + m2, j + m, j1 + j2 + j]):
             raise ValueError("Invalid input parameters: j1+m1,j2+m2,j+m,j1+j2+j must be integer non-negative numbers")
-
-
     def cb(self):
         if self.m1 + self.m2 != self.m:
             return 0.0  # delta function fails
@@ -73,11 +65,13 @@ class Clebsch_Gordan:
         coefficient = cmath.sqrt(fact(self.j + self.m) * fact(self.j - self.m) / (fact(self.j1 + self.m1) \
                                * fact(self.j1 - self.m1) * fact(self.j2 + self.m2) * fact(self.j2 - self.m2)))
         sum = 0.0
-        s_min= max(0, int(self.m1-self.j1,int(self.j2-self.j1+self.m))
-        s_max= min(int(self.j1+self.j+self.m1),int(self.j-self.j1+self.j2),int(j+m))
-        for s in range(s_min, s_max + 1):
+        smin= max(0, int(self.m1-self.j1),int(self.j2-self.j1+self.m))
+        smax= min(int(self.j2+self.j+self.m1),int(self.j-self.j1+self.j2),\
+                   int(self.j+self.m))
+
+        for s in range(smin,smax+1):
             den = fact(s) * fact(self.j - self.j1 + self.j2 - s) * fact(self.j + self.m - s) \
-                  * fact(self.j1 + self.j2 - self.j - self.m + self.s)
+                  * fact(self.j1 - self.j2 - self.m + s)
             num = ((-1) ** (self.j2 + self.m2 + s))* fact(self.j2 + self.j + self.m1 - s) * fact(self.j1 - self.m1 + s)
             sum += num / den
         cb = prefactor * coefficient * sum
