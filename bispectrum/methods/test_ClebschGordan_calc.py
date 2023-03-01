@@ -1,3 +1,6 @@
+"""
+Compare the Clebsch Gordan Coefficient calculation from class function vs SymPy
+"""
 from sympy.physics.quantum.cg import CG
 from sympy import *
 from bispectrum.methods.calc.ClebschGordan import Clebsch_Gordan
