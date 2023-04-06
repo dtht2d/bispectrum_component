@@ -1,7 +1,6 @@
 # **Compute Bispectrum Components**
-## Introduction
 ---
-
+## Introduction
 In the field of materials science, machine learning and computational physics have revolutionized the process of discovering and developing new materials. Accurately predicting electronic structure is crucial in designing materials with desired properties. Although Density Functional Theory (DFT) is a popular computational model, it faces challenges when dealing with transition metals, rare earth elements, and strong correlation effects. Therefore, current research aims to improve DFT's accuracy and applicability by developing new functionals and techniques.
 
 Objective: This research aims to develop a new machine learning framework and additional descriptors such as bispectrum components, Coulomb matrix eigenvalues (CMEs), and Atom-centered Symmetry Functions (ACSFs) to enhance the accuracy and applicability of predicting electronic structure. The focus of this repository is to optimize the code for computing bispectrum components using Python and use them as input features for a machine learning model.
@@ -50,12 +49,12 @@ $$u^j_{mm'}, \mu_{m_1m_1'}^{j_1}, \mu_{m_2,m_2'}^{j_2}$$
 **3. Code Optimization**
 
 ## Future work:
-Propose new Machine Learning framework:
+**Propose new Machine Learning framework:**
 
   - What type of Neural Networks would work?
   - And why?
   
-Compute other descriptors for input training: 
+**Compute other descriptors for input training:**
 
   - Atom-centered Symmetry Functions (ACSFs): descriptor of the local environment of each atom, these models can capture the complex relationships between the atomic positions and the electronic structure of the molecule, leading to accurate predictions of electronic properties.
   - Coulomb matrix eigenvalues (CMEs) 
