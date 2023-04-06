@@ -45,9 +45,9 @@ $$H^{jmm'}_{{{j_1}{m_1}{m'_1}} ,{{j_2}{m_2}{m'_2}}}$$
 
 3. Compute  density coefficient
 $$u^j_{mm'}, \mu_{m_1m_1'}^{j_1}, \mu_{m_2,m_2'}^{j_2}$$
----
 **3. Code Optimization**
 
+---
 ## Future work:
 **Propose new Machine Learning framework:**
 
