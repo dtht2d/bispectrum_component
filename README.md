@@ -10,7 +10,6 @@ Significance: Predicting electronic structure enhances our understanding of the 
 
 Measure of Success: The success of this project will be the development of Python scripts that can automatically generate bispectrum coefficients from crystal structure datasets. The accuracy of the calculations will be tested by comparing predicted electronic structure results to experimental or theoretical results. This research has the potential to contribute to the field of materials science by providing more accurate and efficient methods for predicting electronic structure and designing new materials. Additionally, I am interested in utilizing their research to develop new mediums and techniques for creative expression.
 
----
 Objective
 ---
 
@@ -52,9 +51,12 @@ $$u^j_{mm'}, \mu_{m_1m_1'}^{j_1}, \mu_{m_2,m_2'}^{j_2}$$
 
 ## Future work:
 Propose new Machine Learning framework:
+
   - What type of Neural Networks would work?
   - And why?
+  
 Compute other descriptors for input training: 
+
   - Atom-centered Symmetry Functions (ACSFs): descriptor of the local environment of each atom, these models can capture the complex relationships between the atomic positions and the electronic structure of the molecule, leading to accurate predictions of electronic properties.
   - Coulomb matrix eigenvalues (CMEs) 
   - Bag of bond 
