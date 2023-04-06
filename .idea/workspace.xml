@@ -7,10 +7,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bd025cd4-a48e-4c77-ad8a-b238b1464541" name="Changes" comment="References added">
-      <change afterPath="$PROJECT_DIR$/bispectrum/methods/calc/SO4.py" afterDir="false" />
+    <list default="true" id="bd025cd4-a48e-4c77-ad8a-b238b1464541" name="Changes" comment="Bispectrum function">
+      <change afterPath="$PROJECT_DIR$/bispectrum/methods/calc/m_value.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bispectrum/methods/calc/neighbor_pram.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bispectrum/methods/test_neighbor_pram.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/CPG-Poster-DuongHoang-Bispectrum.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/[14]s41524-020-0310-0.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/[15]KB22.pdf" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bispectrum/methods/calc/H.py" beforeDir="false" afterPath="$PROJECT_DIR$/bispectrum/methods/calc/H.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bispectrum/example/Si_bispectrum_component.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/bispectrum/example/Si_bispectrum_component.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bispectrum/methods/calc/ClebschGordan.py" beforeDir="false" afterPath="$PROJECT_DIR$/bispectrum/methods/calc/ClebschGordan.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bispectrum/methods/calc/H.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bispectrum/methods/calc/SO4.py" beforeDir="false" afterPath="$PROJECT_DIR$/bispectrum/methods/calc/SO4.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bispectrum/methods/calc/WignerD.py" beforeDir="false" afterPath="$PROJECT_DIR$/bispectrum/methods/calc/WignerD.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bispectrum/methods/test_ClebschGordan_calc.py" beforeDir="false" afterPath="$PROJECT_DIR$/bispectrum/methods/test_ClebschGordan_calc.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bispectrum/methods/test_optimize_B_calculation.py" beforeDir="false" afterPath="$PROJECT_DIR$/bispectrum/methods/test_optimize_B_calculation.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bispectrum/optimization/test_functions_calc.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/bispectrum/optimization/test_functions_calc.ipynb" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -56,23 +67,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "/Users/duonghoang/Documents/GitHub/bispectrum_component",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "project.propVCSSupport.CommitDialog",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/duonghoang/Documents/GitHub/bispectrum_component&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;project.propVCSSupport.CommitDialog&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/codes/methods" />
@@ -115,28 +126,6 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/bispectrum/methods/calc/ClesbchGordan.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="WignerD" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="bispectrum_component" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/bispectrum/methods/calc" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/bispectrum/methods/calc/WignerD.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -189,13 +178,35 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="test_neighbor_list" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="bispectrum_component" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/bispectrum/methods" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/bispectrum/methods/test_neighbor_list.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Python.test_ClebschGordan_calc" />
         <item itemvalue="Python.ClebschGordan" />
-        <item itemvalue="Python.ClesbchGordan" />
+        <item itemvalue="Python.test_neighbor_list" />
         <item itemvalue="Python.test_WignerD_calc (3)" />
-        <item itemvalue="Python.WignerD" />
+        <item itemvalue="Python.ClesbchGordan" />
       </list>
     </recent_temporary>
   </component>
@@ -224,7 +235,14 @@
       <workItem from="1677385890699" duration="1686000" />
       <workItem from="1677525144059" duration="11731000" />
       <workItem from="1677629293369" duration="3007000" />
-      <workItem from="1677702492628" duration="4085000" />
+      <workItem from="1677702492628" duration="5318000" />
+      <workItem from="1678907006030" duration="893000" />
+      <workItem from="1678936336044" duration="11000" />
+      <workItem from="1679273120192" duration="87000" />
+      <workItem from="1679273411837" duration="1177000" />
+      <workItem from="1679332474357" duration="621000" />
+      <workItem from="1679440233281" duration="214000" />
+      <workItem from="1680660539842" duration="10418000" />
     </task>
     <task id="LOCAL-00001" summary="Update B calculation">
       <created>1672102626687</created>
@@ -303,7 +321,21 @@
       <option name="project" value="LOCAL" />
       <updated>1677705939780</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="H function">
+      <created>1677707731957</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1677707731957</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Bispectrum function">
+      <created>1677707792096</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1677707792096</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -338,7 +370,9 @@
     <MESSAGE value="parameters description" />
     <MESSAGE value="Clebsch_Gordan function" />
     <MESSAGE value="References added" />
-    <option name="LAST_COMMIT_MESSAGE" value="References added" />
+    <MESSAGE value="H function" />
+    <MESSAGE value="Bispectrum function" />
+    <option name="LAST_COMMIT_MESSAGE" value="Bispectrum function" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -362,11 +396,12 @@
     <SUITE FILE_PATH="coverage/bispectrum_component$Wigner_D.coverage" NAME="Wigner_D Coverage Results" MODIFIED="1677220781727" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/codes/methods" />
     <SUITE FILE_PATH="coverage/bispectrum_component$WignerD.coverage" NAME="WignerD Coverage Results" MODIFIED="1677630513881" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/bispectrum/methods/calc" />
     <SUITE FILE_PATH="coverage/bispectrum_component$test_WignerD_calc.coverage" NAME="test_WignerD_calc Coverage Results" MODIFIED="1677386294563" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/codes/methods" />
-    <SUITE FILE_PATH="coverage/bispectrum_component$test_WignerD_calc__3_.coverage" NAME="test_WignerD_calc (3) Coverage Results" MODIFIED="1677631208162" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/bispectrum/methods" />
+    <SUITE FILE_PATH="coverage/bispectrum_component$test_WignerD_calc__3_.coverage" NAME="test_WignerD_calc (3) Coverage Results" MODIFIED="1680662560036" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/bispectrum/methods" />
     <SUITE FILE_PATH="coverage/bispectrum_component$test_Clebsch_Gordan_calc.coverage" NAME="test_Clebsch_Gordan_calc Coverage Results" MODIFIED="1677630509950" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/bispectrum/methods" />
-    <SUITE FILE_PATH="coverage/bispectrum_component$test_ClebschGordan_calc.coverage" NAME="test_ClebschGordan_calc Coverage Results" MODIFIED="1677704011411" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/bispectrum/methods" />
+    <SUITE FILE_PATH="coverage/bispectrum_component$test_ClebschGordan_calc.coverage" NAME="test_ClebschGordan_calc Coverage Results" MODIFIED="1680722157697" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/bispectrum/methods" />
     <SUITE FILE_PATH="coverage/bispectrum_component$Bi_SO4.coverage" NAME="Bi_SO4 Coverage Results" MODIFIED="1677220541141" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/codes/methods" />
-    <SUITE FILE_PATH="coverage/bispectrum_component$ClebschGordan.coverage" NAME="ClebschGordan Coverage Results" MODIFIED="1677702609257" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/bispectrum/methods/calc" />
+    <SUITE FILE_PATH="coverage/bispectrum_component$test_neighbor_list.coverage" NAME="test_neighbor_list Coverage Results" MODIFIED="1680670722203" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/bispectrum/methods" />
+    <SUITE FILE_PATH="coverage/bispectrum_component$ClebschGordan.coverage" NAME="ClebschGordan Coverage Results" MODIFIED="1680722154418" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/bispectrum/methods/calc" />
     <SUITE FILE_PATH="coverage/profile_py$test_optimize_B_calculation__1_.coverage" NAME="test_optimize_B_calculation (1) Coverage Results" MODIFIED="1676485776905" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/bispectrum_component$ClesbchGordan.coverage" NAME="ClesbchGordan Coverage Results" MODIFIED="1677702599529" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/bispectrum/methods/calc" />
     <SUITE FILE_PATH="coverage/bispectrum_component$test_WignerD_calc__1_.coverage" NAME="test_WignerD_calc (1) Coverage Results" MODIFIED="1677384471664" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/codes/methods/tests" />

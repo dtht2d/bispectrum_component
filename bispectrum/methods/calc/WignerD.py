@@ -30,7 +30,7 @@ class Wigner_D:
         if j < 0 or not np.isclose(j, int(j)) or (j % 1 == 0.5 and (m % 1 != 0 or mp % 1 != 0)):
             raise ValueError("Invalid input parameters: j must be a non-negative integer or half-integer, "
                              "m and mp must be between -j and j.")
-        if theta_0 < 0 or theta_0 > np.pi or theta < 0 or theta > np.pi or phi < 0 or phi > 2 * np.pi:
+        if theta_0 < 0 or theta_0 > 2*np.pi or theta < 0 or theta > np.pi or phi < 0 or phi > 2 * np.pi:
             raise ValueError(
                 "Invalid input parameters: theta_0, theta, and phi must be within [0, pi] and [0, 2pi], respectively.")
         self.j = j

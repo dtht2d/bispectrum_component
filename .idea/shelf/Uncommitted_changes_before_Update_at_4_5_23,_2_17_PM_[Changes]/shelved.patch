@@ -1,0 +1,2161 @@
+Index: bispectrum/methods/calc/ClebschGordan.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import numpy as np\nimport cmath\ndef fact(n):\n    \"\"\"\n    This function is used to calculate factorial of a number by using\n    an iterative approach instead of recursive approach\n    \"\"\"\n    return np.prod(np.arange(1, n + 1))\nclass Clebsch_Gordan:\n    \"\"\"\n    Definition:\n    A Clebsch-Gordan coefficients are vector addition coefficients. They play an important role in decomposition of\n    reducible representations of rotation. Let j1 and j2 with projections on m1 and m2 on the quantization axis.\n    The coefficients represent the probability amplitude that j1 and j2 are coupled into a resultant angular momentum\n    j with projection m.\n    Args:\n        j1 (scalar): angular momentum\n        j2 (scalar): angular momentum\n        j (scalar): angular momentum\n        m1 (scalar): eigenvalue of angular momentum\n        m2 (scalar): eigenvalue of angular momentum\n        m (scalar): eigenvalue of angular momentum\n    Returns: complex number, Clebsh Gordan function\n    ==========================Reference==================================\n    [5] Chapter 8 D.A. Varshalovich, A.N. Moskalev, V.K Khersonskii,\n        Quantum Theory of Angular Momentum (1988)\n    [12] Chapter 3 Biedenharn, L., & Louck, J.D. ,\n        Encyclopedia of Mathematics and its Applications (1981)\n    \"\"\"\n    def __init__(self, j1, j2, j, m1, m2, m):\n        self.j1 = j1\n        self.j2 = j2\n        self.j = j\n        self.m1 = m1\n        self.m2 = m2\n        self.m = m\n        self.J = j1 + j2 + j\n        #Condition 1 & 2 & 5\n        if not (abs(j1 - j2) <= j <= j1 + j2 and m1 + m2 == m and j1 + j2 - j % 1 != 0.5):\n            raise ValueError(\"Invalid input parameters: j1, j2, j, m1, m2, and m must satisfy the triangle inequality.\\ \"\n                             \"j1+j2-j must not be a half-integer\")\n        #Condition 3 & 6\n        if not all(abs(x) <= y and (x % 0.5 == 0 or x % 1 == 0) for x, y in zip([m1, m2, m], [j1, j2, j])):\n            raise ValueError(\"Invalid input parameters: |m1| <= j1, |m_2| <= j2, |m| <= j\\ \"\n                             \"m1, m2, m must be integer or half-integer (positive or negative) numbers\")\n        # Condition 4\n        J =(j1+j2+j)\n        if J < (int(j1+j2+j)) and J <0:\n            raise ValueError(\"Invalid input parameters: j1, j2, j must not exceed a positive integer J\")\n        # Condition 7\n        if not all(\n                isinstance(x, (int, float, np.integer, np.floating)) and x >= 0 and (x % 0.5 == 0 or x % 1 == 0) for x\n                in [j1, j2, j]):\n            raise ValueError(\n                \"Invalid input parameters: j1, j2, j must be integer or half-integer non-negative numbers\")\n        # Condition 8\n        if not all(isinstance(x, (int, float, np.integer, np.floating)) and x >= 0 and x % 1 == 0 for x in\n                   [j1 + m1, j2 + m2, j + m, j1 + j2 + j]):\n            raise ValueError(\"Invalid input parameters: j1+m1,j2+m2,j+m,j1+j2+j must be integer non-negative numbers\")\n    def cb(self):\n        if self.m1 + self.m2 != self.m:\n            return 0.0  # delta function fails\n        prefactor = cmath.sqrt((2 * self.j + 1) * fact(self.j + self.j1 - self.j2) * fact(self.j-self.j1 + self.j2) \\\n                               * fact(self.j1 + self.j2 - self.j) / fact(self.j + self.j1 + self.j2 + 1))\n        coefficient = cmath.sqrt(fact(self.j + self.m) * fact(self.j - self.m) / (fact(self.j1 + self.m1) \\\n                               * fact(self.j1 - self.m1) * fact(self.j2 + self.m2) * fact(self.j2 - self.m2)))\n        sum = 0.0\n        smin= max(0, int(self.m1-self.j1),int(self.j2-self.j1+self.m))\n        smax= min(int(self.j2+self.j+self.m1),int(self.j-self.j1+self.j2),\\\n                   int(self.j+self.m))\n\n        for s in range(smin,smax+1):\n            den = fact(s) * fact(self.j - self.j1 + self.j2 - s) * fact(self.j + self.m - s) \\\n                  * fact(self.j1 - self.j2 - self.m + s)\n            num = ((-1) ** (self.j2 + self.m2 + s))* fact(self.j2 + self.j + self.m1 - s) * fact(self.j1 - self.m1 + s)\n            sum += num / den\n        cb = prefactor * coefficient * sum\n        return cb
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/bispectrum/methods/calc/ClebschGordan.py b/bispectrum/methods/calc/ClebschGordan.py
+--- a/bispectrum/methods/calc/ClebschGordan.py	(revision d8dbf69227c6431100f1f95e9166b8647af4f3fe)
++++ b/bispectrum/methods/calc/ClebschGordan.py	(date 1680722154410)
+@@ -57,7 +57,7 @@
+         if not all(isinstance(x, (int, float, np.integer, np.floating)) and x >= 0 and x % 1 == 0 for x in
+                    [j1 + m1, j2 + m2, j + m, j1 + j2 + j]):
+             raise ValueError("Invalid input parameters: j1+m1,j2+m2,j+m,j1+j2+j must be integer non-negative numbers")
+-    def cb(self):
++    def cg(self):
+         if self.m1 + self.m2 != self.m:
+             return 0.0  # delta function fails
+         prefactor = cmath.sqrt((2 * self.j + 1) * fact(self.j + self.j1 - self.j2) * fact(self.j-self.j1 + self.j2) \
+@@ -74,5 +74,34 @@
+                   * fact(self.j1 - self.j2 - self.m + s)
+             num = ((-1) ** (self.j2 + self.m2 + s))* fact(self.j2 + self.j + self.m1 - s) * fact(self.j1 - self.m1 + s)
+             sum += num / den
+-        cb = prefactor * coefficient * sum
+-        return cb
+\ No newline at end of file
++        cg = prefactor * coefficient * sum
++        return cg
++
++def H_coeff(j1,j2,j,m1,m2,m,m1p,m2p,mp):
++    '''
++    This function calculate coupling coefficient H via computing
++    the Clebsch-Gordan coefficient for cg(j1,m1,j2,m2,j,m)
++    and cg(j1,m1p,j2,m2p,j,mp)
++    Parameters:
++        j1: angular momentum 1
++        j2: angular momentum 2
++        j: total angular momentum (j1+j2)
++        m1: eigenvalue of angular momentum j1
++        m2: eigenvalue of angular momentum j2
++        m: eigenvalue of angular momentum j
++        m1p: eigenvalue of j1 along rotated axis
++        m2p: eigenvalue of j2 along rotated axis
++        mp: eigenvalue of j along rotated axis
++    Returns: Coupling coefficient H(j1,j2,j,m1,m2,m.m1p,m2p,mp)
++    ======================Reference=========================
++    [1] Thompson, Swiler, Trott, Foiles, Tucker,
++        Spectral neighbor analysis method for automated generation of quantum-accurate interatomic potentials (2015)
++    [5] Chapter 8  D.A. Varshalovich, A.N. Moskalev, V.K Khersonskii,
++        Quantum Theory of Angular Momentum (1988)
++    '''
++    CG = Clebsch_Gordan(j1,j2,j,m1,m2,m)
++    cg = CG.cg()
++    CGp = Clebsch_Gordan(j1,j2,j,m1p,m2p,mp)
++    cg_p = CGp.cg()
++    H = (cg)*(cg_p)
++    return H, cg, cg_p
+\ No newline at end of file
+Index: bispectrum/methods/test_optimize_B_calculation.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import numpy as np\nimport pandas as pd\nimport sympy as sp\nfrom sympy.physics.quantum.cg import CG\nfrom sympy.physics.wigner import wigner_d\nfrom sympy.physics.quantum.spin import Rotation\nfrom sympy import *\nfrom Bio.PDB.MMCIF2Dict import MMCIF2Dict\nfrom methods import *\nimport itertools\npath = \"/Users/duonghoang/Documents/GitHub/bispectrum_component/data/avgBL-Model.cif\"\ndico = MMCIF2Dict(path)\ndf_cif = pd.DataFrame.from_dict(dico, orient='index')\nx = df_cif.iloc[-3]\ny = df_cif.iloc[-2]\nz = df_cif.iloc[-1]\natom_type = df_cif.iloc[-4]\nx_array = np.array(x[0],dtype=float)\ny_array = np.array(y[0],dtype=float)\nz_array = np.array(z[0],dtype=float)\natom_type_array = np.array(atom_type[0], dtype=str)\ndf = pd.DataFrame({\"atom_type\":atom_type_array,\"X\" : x_array, \"Y\":y_array, \"Z\": z_array})\n\n#Estimate list of potentially atoms in the center cell\ndf_atoms = df[(df['X'].between(0.5,0.7,inclusive='both'))\n                         & (df['Y'].between(0.5,0.7,inclusive='both'))\n                         & (df['Z'].between(0.5,0.7, inclusive='both'))]\n#print (df_atoms)\n\n#Choose a center atom i, in this example we choose atom 'Name'=17 from df_atoms dataframe\natom_i =df.iloc[17]\n\n# id\nx_i = df['X'].iloc[17]\ny_i = df['Y'].iloc[17]\nz_i = df['Z'].iloc[17]\n#print(x_i,y_i,z_i)\nX_array = df['X'].to_numpy()\nY_array = df['Y'].to_numpy()\nZ_array = df['Z'].to_numpy()\nX_k_array = X_array - x_i\nY_k_array = Y_array - y_i\nZ_k_array = Z_array - z_i\nr_ik= np.sqrt(np.square(X_k_array)+np.square(Y_k_array)+np.square(Z_k_array))\ndf['X_k'],df['Y_k'], df['Z_k'],df['r_ik']= X_k_array, Y_k_array, Z_k_array, r_ik\n\n#Check to see if chosen center atom coordinate sets to (0,0,0)\nprint(df.iloc[17])\n\n#INPUT values\natomic_radius = 1.46            #silicon atomic radius, unit: angstrom\ncell_length = df.iloc[4]        #index row start from 0 _cell_length_a at row 5 index [4]\n\nr_mu = 0.0779                   #scale atomic radius w.r.t cell length\nR_cut = 0.25                    #scaled value w.r.t cell length (for Si-Si case)\ndf_ik = df[(df['r_ik'] + r_mu)<= (R_cut)].copy(deep=true)\nprint(df_ik[['X_k', 'Y_k', 'Z_k', 'r_ik']])\nprint (df_ik[['X', 'Y', 'Z']])\n\n#ANGEL CONVERSION\n#theta_0\nr_ik_array = df_ik['r_ik'].to_numpy() #r_ik from selected neighbors\nr_0_array = np.full((r_ik_array.shape),R_cut)\ntheta_0_array = np.pi*(np.divide(r_ik_array,r_0_array))\n#theta\nZ_k_abs_array = np.abs(df_ik['Z_k'].to_numpy())\ntheta_array = np.arccos(np.divide(Z_k_abs_array,r_ik_array))\n#phi\nX_k_array = df_ik['X_k'].to_numpy()\nY_k_array = df_ik['Y_k'].to_numpy()\nphi_array = np.arctan(np.divide(Y_k_array, X_k_array))\n#convert angle to positive value between [0,2pi]\nphi_array_convert = np.mod(phi_array, 2*np.pi)\nfor angle in phi_array_convert:\n    if (angle >=2*np.pi) and (angle < 0):\n        raise ValueError('phi angle in between 0 and 2pi')\n#replace NaN with 0: (code will have error for invalid value center atom values 0/0)_\n\ndf_ik['theta_0'] = theta_0_array\ndf_ik['theta_0'] = df_ik['theta_0'].replace(np.nan,0)\ndf_ik['theta'] = theta_array\ndf_ik['theta'] = df_ik['theta'].replace(np.nan,0)\ndf_ik['phi'] = phi_array_convert\ndf_ik['phi'] = df_ik['phi'].replace(np.nan,0)\n\n#EXAMPLE\nj,m,mp = 3,2,3\n#array for weight coefficient w.r.t to atom type\nw_ik_arr = np.full((r_ik_array.shape),1)\n#delta function delta=1 if i and k has the same element type, if not delta =0\ndelta = np.full((r_ik_array.shape),0)\ndelta_arr = np.where(df_ik['atom_type']==df_ik['atom_type'].iloc[0],1,delta)\nu_jmmp= getDensityFunction_u(3,2,3,w_ik_arr,delta_arr,r_ik_array,0,R_cut,theta_0_array,theta_array,phi_array)\nprint(u_jmmp)\n\n#create input set [j1,j2,j,m1,m2,m,m1p,m2p,mp]\nj = 3\nj1 = 1\nj2 = 2\nm = np.linspace(-j, j, int(2 * j + 1)).tolist()\nmp = np.linspace(-j, j, int(2 * j + 1)).tolist()\nm1 = np.linspace(-j1, j1, int(2 * j1 + 1)).tolist()\nm1p = np.linspace(-j1, j1, int(2 * j1 + 1)).tolist()\nm2 = np.linspace(-j2, j2, int(2 * j2 + 1)).tolist()\nm2p = np.linspace(-j2, j2, int(2 * j2 + 1)).tolist()\nfrom itertools import product\nlist = product(m1,m2,m,m1p,m2p,mp) #create all possible combination of m1,m2,m,m1p,m2p,mp\nkeep_list=[]\nfor i in list:\n  m1, m2, m, m1p, m2p, mp = i\n  j1,j2,j=3,1,2 #chosen example set to test B\n  H = getCoeffH(j1,j2,j,m1,m2,m,m1p,m2p,mp)\n  if H==0:\n    pass\n  else:\n    keep_list.append(i) #keep_list is the list of input set that has non-zero H value\nprint(keep_list)\n\nB_total=0\nfor i in keep_list:\n  m1, m2, m, m1p, m2p, mp = i\n  j,j1,j2=3,1,2\n  H = getCoeffH(j1,j2,j,m1,m2,m,m1p,m2p,mp)\n  u_jmmp = getDensityFunction_u(j, m, mp, w_ik_arr, delta_arr, r_ik_array, 0,\n                                      R_cut, theta_0_array, theta_array,phi_array)\n  u1_j1m1m1p = getDensityFunction_u(j1, m1, m1p, w_ik_arr, delta_arr, r_ik_array, 0,\n                                          R_cut, theta_0_array,theta_array, phi_array)\n  u2_j2m2m2p = getDensityFunction_u(j2, m2, m2p, w_ik_arr, delta_arr, r_ik_array, 0,\n                                          R_cut, theta_0_array,theta_array, phi_array)\n  B_each= np.conj(u_jmmp) * (H * u1_j1m1m1p * u2_j2m2m2p)\n  B = N(B_each)\n  B_total +=B\nprint (B_total)\n\n\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/bispectrum/methods/test_optimize_B_calculation.py b/bispectrum/methods/test_optimize_B_calculation.py
+--- a/bispectrum/methods/test_optimize_B_calculation.py	(revision d8dbf69227c6431100f1f95e9166b8647af4f3fe)
++++ b/bispectrum/methods/test_optimize_B_calculation.py	(date 1680663971133)
+@@ -27,8 +27,6 @@
+                          & (df['Z'].between(0.5,0.7, inclusive='both'))]
+ #print (df_atoms)
+ 
+-#Choose a center atom i, in this example we choose atom 'Name'=17 from df_atoms dataframe
+-atom_i =df.iloc[17]
+ 
+ # id
+ x_i = df['X'].iloc[17]
+Index: bispectrum/methods/calc/SO4.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>\"\"\"\nInprogress\n\"\"\"\nimport numpy as np\nimport cmath\n\nclass Bispectrum:\n    \"\"\"\n    Calculate bispectrum components\n    \"\"\"\n    def __init__(self, j1, j2, j,Rcut,neighbour_list):\n        neighbour_list = theta_0\n        self.j = j\n        self.m = m\n        self.mp = mp\n        self.theta_0 = theta_0\n        self.theta = theta\n        self.phi = phi\n    def _param_generate_(self):\n        \"\"\"\n        Generate parameters for bispectrum calculation\n        \"\"\"\n        m = np.linspace(-j, j, int(2 * j + 1)).tolist()\n        mp = np.linspace(-j, j, int(2 * j + 1)).tolist()\n        m1 = np.linspace(-j1, j1, int(2 * j1 + 1)).tolist()\n        m1p = np.linspace(-j1, j1, int(2 * j1 + 1)).tolist()\n        m2 = np.linspace(-j2, j2, int(2 * j2 + 1)).tolist()\n        m2p = np.linspace(-j2, j2, int(2 * j2 + 1)).tolist()\n    def __input_check(self):\n        \"\"\"\n        Check the validity of input parameters\n        \"\"\"\n        if j < 0 or not np.isclose(j, int(j)) or (j % 1 == 0.5 and (m % 1 != 0 or mp % 1 != 0)):\n            raise ValueError(\"Invalid input parameters: j must be a non-negative integer or half-integer, \"\n                             \"m and mp must be between -j and j.\")\n        if theta_0 < 0 or theta_0 > np.pi or theta < 0 or theta > np.pi or phi < 0 or phi > 2 * np.pi:\n            raise ValueError(\n                \"Invalid input parameters: theta_0, theta, and phi must be within [0, pi] and [0, 2pi], respectively.\")
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/bispectrum/methods/calc/SO4.py b/bispectrum/methods/calc/SO4.py
+--- a/bispectrum/methods/calc/SO4.py	(revision d8dbf69227c6431100f1f95e9166b8647af4f3fe)
++++ b/bispectrum/methods/calc/SO4.py	(date 1680665949196)
+@@ -3,36 +3,40 @@
+ """
+ import numpy as np
+ import cmath
++from Bio.PDB.MMCIF2Dict import MMCIF2Dict
++import pandas as pd
+ 
+ class Bispectrum:
+     """
+     Calculate bispectrum components
+     """
+-    def __init__(self, j1, j2, j,Rcut,neighbour_list):
+-        neighbour_list = theta_0
++    def __init__(self, j1, j2, j,rcut,input_file):
+         self.j = j
+         self.m = m
+         self.mp = mp
+-        self.theta_0 = theta_0
+-        self.theta = theta
+-        self.phi = phi
+-    def _param_generate_(self):
+-        """
+-        Generate parameters for bispectrum calculation
++
++    def neighbor_ID(input_file,center_atom_id, rcut):
+         """
+-        m = np.linspace(-j, j, int(2 * j + 1)).tolist()
+-        mp = np.linspace(-j, j, int(2 * j + 1)).tolist()
+-        m1 = np.linspace(-j1, j1, int(2 * j1 + 1)).tolist()
+-        m1p = np.linspace(-j1, j1, int(2 * j1 + 1)).tolist()
+-        m2 = np.linspace(-j2, j2, int(2 * j2 + 1)).tolist()
+-        m2p = np.linspace(-j2, j2, int(2 * j2 + 1)).tolist()
+-    def __input_check(self):
++        This function is to create a neighbor_list for a chosen center atoms
++        Parameters:
++            input_file (string) directory of the input file
++            center_atom_id (integer): center atom ID
++            rcut (float): cutoff radius depends on the size of the unit cell and atom type
++                    note:choosen rcut needs to divide by the true cell length
++                        since atom coordinate (x,y,z)are fraction with cell dimension (1,1,1),
++        Returns: neighbor atoms data frame with atom ID and distance from center
++                    atom, theta_0, theta, phi
+         """
+-        Check the validity of input parameters
+-        """
+-        if j < 0 or not np.isclose(j, int(j)) or (j % 1 == 0.5 and (m % 1 != 0 or mp % 1 != 0)):
+-            raise ValueError("Invalid input parameters: j must be a non-negative integer or half-integer, "
+-                             "m and mp must be between -j and j.")
+-        if theta_0 < 0 or theta_0 > np.pi or theta < 0 or theta > np.pi or phi < 0 or phi > 2 * np.pi:
+-            raise ValueError(
+-                "Invalid input parameters: theta_0, theta, and phi must be within [0, pi] and [0, 2pi], respectively.")
+\ No newline at end of file
++        path = input_file
++        dico = MMCIF2Dict(path)
++        df_cif = pd.DataFrame.from_dict(dico, orient='index')
++        x = df_cif.iloc[-3]
++        y = df_cif.iloc[-2]
++        z = df_cif.iloc[-1]
++
++
++
++
++
++
++
+Index: bispectrum/methods/test_ClebschGordan_calc.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>\"\"\"\nCompare the Clebsch Gordan Coefficient calculation from class function vs SymPy\n\"\"\"\nfrom sympy.physics.quantum.cg import CG\nfrom sympy import *\nfrom bispectrum.methods.calc.ClebschGordan import Clebsch_Gordan\nimport timeit\n\nj1,m1,j2,m2,j,m=1,1,3/2,1/2,5/2,3/2\nt0=timeit.default_timer()\ncg = CG(j1,m1,j2,m2,j,m)\ncg = cg.doit()\nt1=timeit.default_timer()\nprint(N(cg))\nprint(\"Execution time for CG function from Sympy:\", t1-t0, \"seconds\")\n\n\nt2=timeit.default_timer()\nCG_calc = Clebsch_Gordan(j1,j2,j,m1,m2,m)\ncb_calc = CG_calc.cb()\nprint (cb_calc)\nt3=timeit.default_timer()\nprint(\"Execution time for CG function from Clebsch_Gordan:\", t3-t2, \"seconds\")\nprint(\"Execution time for CG calculation using class method is\", round((t3-t2)/(t1-t0)), \\\n      \"times faster than Sympy function\")
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/bispectrum/methods/test_ClebschGordan_calc.py b/bispectrum/methods/test_ClebschGordan_calc.py
+--- a/bispectrum/methods/test_ClebschGordan_calc.py	(revision d8dbf69227c6431100f1f95e9166b8647af4f3fe)
++++ b/bispectrum/methods/test_ClebschGordan_calc.py	(date 1680722180619)
+@@ -3,9 +3,9 @@
+ """
+ from sympy.physics.quantum.cg import CG
+ from sympy import *
+-from bispectrum.methods.calc.ClebschGordan import Clebsch_Gordan
++from bispectrum.methods.calc.ClebschGordan import Clebsch_Gordan, H_coeff
+ import timeit
+-
++#Function using Sympy
+ j1,m1,j2,m2,j,m=1,1,3/2,1/2,5/2,3/2
+ t0=timeit.default_timer()
+ cg = CG(j1,m1,j2,m2,j,m)
+@@ -14,12 +14,18 @@
+ print(N(cg))
+ print("Execution time for CG function from Sympy:", t1-t0, "seconds")
+ 
+-
++#Our function
+ t2=timeit.default_timer()
+ CG_calc = Clebsch_Gordan(j1,j2,j,m1,m2,m)
+-cb_calc = CG_calc.cb()
+-print (cb_calc)
++cg_calc = CG_calc.cg()
++print (cg_calc)
+ t3=timeit.default_timer()
+ print("Execution time for CG function from Clebsch_Gordan:", t3-t2, "seconds")
+ print("Execution time for CG calculation using class method is", round((t3-t2)/(t1-t0)), \
+-      "times faster than Sympy function")
+\ No newline at end of file
++      "times faster than Sympy function")
++
++
++#Coupling Coefficient
++#Example (𝑗1,𝑗2,𝑗,𝑚1,𝑚2,𝑚,𝑚′1,𝑚′2,𝑚′)=(1,1.5,2.5,1.0,0.5,1.5,−1.0,−0.5,−1.5)
++H= H_coeff(1,1.5,2.5,1.0,0.5,1.5,-1.0,-0.5,-1.5)
++print (H)
+\ No newline at end of file
+Index: bispectrum/methods/calc/WignerD.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import numpy as np\nimport cmath\n\ndef fact(n):\n    \"\"\"\n    This function is used to calculate factorial of a number by using\n    an iterative approach instead of recursive approach\n    \"\"\"\n    result = 1\n    for i in range(1, n + 1):\n        result *= i\n    return result\n\n\nclass Wigner_D:\n    \"\"\"\n    Args:\n        j (scalar): angular momentum\n        m (scalar): eigenvalue of angular momentum\n        mp (scalar): eigenvalue of j along rotated axis\n        theta_0 (scalar): first angle of rotation [0, pi]\n        theta (scalar): second angle of rotation [0, pi]\n        phi (scalar): third angle of rotation [0, 2*pi]\n    Returns: complex number, Wigner D function\n    ==========================Reference==================================\n    [5] Chapter 4.3-(p.76,eq.1)  D.A. Varshalovich, A.N. Moskalev, V.K Khersonskii,\n        Quantum Theory of Angular Momentum (1988)\n    \"\"\"\n    def __init__(self, j, m, mp, theta_0, theta, phi):\n        if j < 0 or not np.isclose(j, int(j)) or (j % 1 == 0.5 and (m % 1 != 0 or mp % 1 != 0)):\n            raise ValueError(\"Invalid input parameters: j must be a non-negative integer or half-integer, \"\n                             \"m and mp must be between -j and j.\")\n        if theta_0 < 0 or theta_0 > np.pi or theta < 0 or theta > np.pi or phi < 0 or phi > 2 * np.pi:\n            raise ValueError(\n                \"Invalid input parameters: theta_0, theta, and phi must be within [0, pi] and [0, 2pi], respectively.\")\n        self.j = j\n        self.m = m\n        self.mp = mp\n        self.theta_0 = theta_0\n        self.theta = theta\n        self.phi = phi\n    def compute_dsmall(self):\n        \"\"\"\n        This method is used to calculate the Wigner d small- real function involving trigonometric functions\n        ==========================Reference==================================\n        [5] Chapter 4.3.1-(p.76,eq.4)  D.A. Varshalovich, A.N. Moskalev, V.K Khersonskii,\n        Returns: Wigner d - real function\n        \"\"\"\n        kmax = max(0, self.m - self.mp)\n        kmin = min(self.j + self.m, self.j - self.mp)\n        term1 = np.sqrt(fact(self.j + self.m) * fact(self.j - self.m) * fact(self.j + self.mp) * fact(self.j - self.mp))\n        sum = 0\n        for k in range(kmax, kmin + 1):\n            numerator = (-1) ** k * (cmath.cos(self.theta / 2)) ** (2 * self.j - 2 * k + self.m - self.mp) * \\\n                        (cmath.sin(self.theta / 2)) ** (2 * k - self.m + self.mp)\n            denominator = fact(k) * fact(self.j + self.m - k) * fact(self.j - self.mp - k) * fact(self.mp - self.m + k)\n            sum += numerator / denominator\n        return sum*term1\n\n    def wigner_D(self):\n        term1 = np.exp(-1j * self.m * self.theta_0)\n        term2 = self.compute_dsmall()\n        term3 = np.exp(-1j * self.mp * self.phi)\n        result = term1 * term2 * term3\n        return result\n\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/bispectrum/methods/calc/WignerD.py b/bispectrum/methods/calc/WignerD.py
+--- a/bispectrum/methods/calc/WignerD.py	(revision d8dbf69227c6431100f1f95e9166b8647af4f3fe)
++++ b/bispectrum/methods/calc/WignerD.py	(date 1679275087315)
+@@ -30,7 +30,7 @@
+         if j < 0 or not np.isclose(j, int(j)) or (j % 1 == 0.5 and (m % 1 != 0 or mp % 1 != 0)):
+             raise ValueError("Invalid input parameters: j must be a non-negative integer or half-integer, "
+                              "m and mp must be between -j and j.")
+-        if theta_0 < 0 or theta_0 > np.pi or theta < 0 or theta > np.pi or phi < 0 or phi > 2 * np.pi:
++        if theta_0 < 0 or theta_0 > 2*np.pi or theta < 0 or theta > np.pi or phi < 0 or phi > 2 * np.pi:
+             raise ValueError(
+                 "Invalid input parameters: theta_0, theta, and phi must be within [0, pi] and [0, 2pi], respectively.")
+         self.j = j
+Index: bispectrum/methods/calc/H.py
+===================================================================
+diff --git a/bispectrum/methods/calc/H.py b/bispectrum/methods/calc/H.py
+deleted file mode 100644
+--- a/bispectrum/methods/calc/H.py	(revision d8dbf69227c6431100f1f95e9166b8647af4f3fe)
++++ /dev/null	(revision d8dbf69227c6431100f1f95e9166b8647af4f3fe)
+@@ -1,120 +0,0 @@
+-import numpy as np
+-import cmath
+-import
+-def fact(n):
+-    """
+-    This function is used to calculate factorial of a number by using
+-    an iterative approach instead of recursive approach
+-    """
+-    return np.prod(np.arange(1, n + 1))
+-class Clebsch_Gordan:
+-    """
+-    Definition:
+-    A Clebsch-Gordan coefficients are vector addition coefficients. They play an important role in decomposition of
+-    reducible representations of rotation. Let j1 and j2 with projections on m1 and m2 on the quantization axis.
+-    The coefficients represent the probability amplitude that j1 and j2 are coupled into a resultant angular momentum
+-    j with projection m.
+-    Args:
+-        j1 (scalar): angular momentum
+-        j2 (scalar): angular momentum
+-        j (scalar): angular momentum
+-        m1 (scalar): eigenvalue of angular momentum
+-        m2 (scalar): eigenvalue of angular momentum
+-        m (scalar): eigenvalue of angular momentum
+-    Returns: complex number, Clebsh Gordan function
+-    ==========================Reference==================================
+-    [5] Chapter 8 D.A. Varshalovich, A.N. Moskalev, V.K Khersonskii,
+-        Quantum Theory of Angular Momentum (1988)
+-    [12] Chapter 3 Biedenharn, L., & Louck, J.D. ,
+-        Encyclopedia of Mathematics and its Applications (1981)
+-    """
+-    def __init__(self, j1, j2, j, m1, m2, m):
+-        self.j1 = j1
+-        self.j2 = j2
+-        self.j = j
+-        self.m1 = m1
+-        self.m2 = m2
+-        self.m = m
+-        self.J = j1 + j2 + j
+-        #Condition 1 & 2 & 5
+-        if not (abs(j1 - j2) <= j <= j1 + j2 and m1 + m2 == m and j1 + j2 - j % 1 != 0.5):
+-            raise ValueError("Invalid input parameters: j1, j2, j, m1, m2, and m must satisfy the triangle inequality.\ "
+-                             "j1+j2-j must not be a half-integer")
+-        #Condition 3 & 6
+-        if not all(abs(x) <= y and (x % 0.5 == 0 or x % 1 == 0) for x, y in zip([m1, m2, m], [j1, j2, j])):
+-            raise ValueError("Invalid input parameters: |m1| <= j1, |m_2| <= j2, |m| <= j\ "
+-                             "m1, m2, m must be integer or half-integer (positive or negative) numbers")
+-        # Condition 4
+-        J =(j1+j2+j)
+-        if J < (int(j1+j2+j)) and J <0:
+-            raise ValueError("Invalid input parameters: j1, j2, j must not exceed a positive integer J")
+-        # Condition 7
+-        if not all(
+-                isinstance(x, (int, float, np.integer, np.floating)) and x >= 0 and (x % 0.5 == 0 or x % 1 == 0) for x
+-                in [j1, j2, j]):
+-            raise ValueError(
+-                "Invalid input parameters: j1, j2, j must be integer or half-integer non-negative numbers")
+-        # Condition 8
+-        if not all(isinstance(x, (int, float, np.integer, np.floating)) and x >= 0 and x % 1 == 0 for x in
+-                   [j1 + m1, j2 + m2, j + m, j1 + j2 + j]):
+-            raise ValueError("Invalid input parameters: j1+m1,j2+m2,j+m,j1+j2+j must be integer non-negative numbers")
+-    def cb(self):
+-        if self.m1 + self.m2 != self.m:
+-            return 0.0  # delta function fails
+-        prefactor = cmath.sqrt((2 * self.j + 1) * fact(self.j + self.j1 - self.j2) * fact(self.j-self.j1 + self.j2) \
+-                               * fact(self.j1 + self.j2 - self.j) / fact(self.j + self.j1 + self.j2 + 1))
+-        coefficient = cmath.sqrt(fact(self.j + self.m) * fact(self.j - self.m) / (fact(self.j1 + self.m1) \
+-                               * fact(self.j1 - self.m1) * fact(self.j2 + self.m2) * fact(self.j2 - self.m2)))
+-        sum = 0.0
+-        smin= max(0, int(self.m1-self.j1),int(self.j2-self.j1+self.m))
+-        smax= min(int(self.j2+self.j+self.m1),int(self.j-self.j1+self.j2),\
+-                   int(self.j+self.m))
+-
+-        for s in range(smin,smax+1):
+-            den = fact(s) * fact(self.j - self.j1 + self.j2 - s) * fact(self.j + self.m - s) \
+-                  * fact(self.j1 - self.j2 - self.m + s)
+-            num = ((-1) ** (self.j2 + self.m2 + s))* fact(self.j2 + self.j + self.m1 - s) * fact(self.j1 - self.m1 + s)
+-            sum += num / den
+-        cb = prefactor * coefficient * sum
+-        return cb
+-class H:
+-    """
+-    This function calculate coupling coefficient H via computing
+-    the Clebsch-Gordan coefficient for cg(j1,m1,j2,m2,j,m)
+-    and cg_p(j1,m1p,j2,m2p,j,mp)
+-    Parameters:
+-        j1 (scalar): angular momentum 1
+-        j2 (scalar): angular momentum 2
+-        j (scalar): total angular momentum (j1+j2)
+-        m1 (scalar): eigenvalue of angular momentum j1
+-        m2 (scalar): eigenvalue of angular momentum j2
+-        m (scalar): eigenvalue of angular momentum j
+-        m1p (scalar): eigenvalue of j1 along rotated axis
+-        m2p (scalar): eigenvalue of j2 along rotated axis
+-        mp (scalar): eigenvalue of j along rotated axis
+-    Returns:
+-        Scalar, Coupling coefficient H(j1,j2,j,m1,m2,m, m1p,m2p,mp)
+-    ====================Reference=========================
+-    [1] Thompson, Swiler, Trott, Foiles, Tucker,
+-        Spectral neighbor analysis method for automated generation of quantum-accurate interatomic potentials (2015)
+-    [5] Chapter 8  D.A. Varshalovich, A.N. Moskalev, V.K Khersonskii,
+-        Quantum Theory of Angular Momentum (1988)
+-    """
+-    def __int__(self,j1,j2,j,m1,m2,m,m1p,m2p,mp):
+-        self.j1 = j1
+-        self.j2 = j2
+-        self.j = j
+-        self.m1 = m1
+-        self.m2 = m2
+-        self.m = m
+-        self.m1p = m1p
+-        self.m2p = m2p
+-        self.mp = mp
+-    def getCoeffH(self):
+-        cg = Clebsch_Gordan(j1,m1,j2,m2,j,m)
+-        cg = cg.cb()
+-        cg_p = Clebsch_Gordan(j1,m1p,j2,m2p,j,mp)
+-        cg_p = cg_p.cb()
+-        H_coeff = (cg)*(cg_p)
+-        H = (H_coeff)
+-        return H
+\ No newline at end of file
+Index: bispectrum/methods/test_neighbor_pram.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/bispectrum/methods/test_neighbor_pram.py b/bispectrum/methods/test_neighbor_pram.py
+new file mode 100644
+--- /dev/null	(date 1680670796789)
++++ b/bispectrum/methods/test_neighbor_pram.py	(date 1680670796789)
+@@ -0,0 +1,75 @@
++from Bio.PDB.MMCIF2Dict import MMCIF2Dict
++import pandas as pd
++import numpy as np
++def neighbor_pram(input_file, center_atom_id, rcut):
++    '''
++    This function is to create a neighbor_list for a chosen center atoms
++    Parameters:
++        input_file (string) directory of the input file
++        ceter_atom_id (integer): center atom ID
++        rcut (float): cutoff radius depends on the size of the unit cell and atom type
++                note:choosen rcut needs to divide by the true cell length
++                    since atom coordinate (x,y,z)are fraction with cell dimension (1,1,1)
++    Returns: neighbor atoms pandas frame with atom ID and x,y,z fractional distance from center atom
++    '''
++    path = "/Users/duonghoang/Documents/GitHub/bispectrum_component/data/avgBL-Model.cif"
++    dico = MMCIF2Dict(path)
++    df_cif = pd.DataFrame.from_dict(dico, orient='index')
++    x = df_cif.iloc[-3]
++    y = df_cif.iloc[-2]
++    z = df_cif.iloc[-1]
++    atom_type = df_cif.iloc[-4]
++    x_array = np.array(x[0], dtype=float)
++    y_array = np.array(y[0], dtype=float)
++    z_array = np.array(z[0], dtype=float)
++    atom_type_array = np.array(atom_type[0], dtype=str)
++    df = pd.DataFrame({"atom_type": atom_type_array, "X": x_array, "Y": y_array, "Z": z_array})
++
++    # id
++    x_i = df['X'].iloc[center_atom_id]
++    y_i = df['Y'].iloc[center_atom_id]
++    z_i = df['Z'].iloc[center_atom_id]
++    # print(x_i,y_i,z_i)
++    X_array = df['X'].to_numpy()
++    Y_array = df['Y'].to_numpy()
++    Z_array = df['Z'].to_numpy()
++    X_k_array = X_array - x_i
++    Y_k_array = Y_array - y_i
++    Z_k_array = Z_array - z_i
++    r_ik = np.sqrt(np.square(X_k_array) + np.square(Y_k_array) + np.square(Z_k_array))
++    df['X_k'], df['Y_k'], df['Z_k'], df['r_ik'] = X_k_array, Y_k_array, Z_k_array, r_ik
++    # INPUT values
++    cell_length = df.iloc[4]  # index row start from 0 _cell_length_a at row 5 index [4]
++    df_ik = df[(df['r_ik']) <= (rcut)].copy(deep=True)
++
++    # ANGEL CONVERSION
++    # theta_0
++    r_ik_array = df_ik['r_ik'].to_numpy()  # r_ik from selected neighbors
++    r_0_array = np.full((r_ik_array.shape), rcut)
++    theta_0_array = np.pi * (np.divide(r_ik_array, r_0_array))
++    # theta
++    Z_k_abs_array = np.abs(df_ik['Z_k'].to_numpy())
++    theta_array = np.arccos(np.divide(Z_k_abs_array, r_ik_array))
++    # phi
++    X_k_array = df_ik['X_k'].to_numpy()
++    Y_k_array = df_ik['Y_k'].to_numpy()
++    phi_array = np.arctan(np.divide(Y_k_array, X_k_array))
++    # convert angle to positive value between [0,2pi]
++    phi_array_convert = np.mod(phi_array, 2 * np.pi)
++    for angle in phi_array_convert:
++        if (angle >= 2 * np.pi) and (angle < 0):
++            raise ValueError('phi angle in between 0 and 2pi')
++    # replace NaN with 0: (code will have error for invalid value center atom values 0/0)_
++
++    df_ik['theta_0'] = theta_0_array
++    df_ik['theta_0'] = df_ik['theta_0'].replace(np.nan, 0)
++    df_ik['theta'] = theta_array
++    df_ik['theta'] = df_ik['theta'].replace(np.nan, 0)
++    df_ik['phi'] = phi_array_convert
++    df_ik['phi'] = df_ik['phi'].replace(np.nan, 0)
++    return df_ik
++input_file = "/Users/duonghoang/Documents/GitHub/bispectrum_component/data/avgBL-Model.cif"
++center_atom_id = 17
++rcut = 0.15
++df_ik = neighbor_pram(input_file, center_atom_id, rcut)
++print(df_ik)
+\ No newline at end of file
+Index: bispectrum/optimization/test_functions_calc.ipynb
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>{\n  \"nbformat\": 4,\n  \"nbformat_minor\": 0,\n  \"metadata\": {\n    \"colab\": {\n      \"provenance\": [],\n      \"authorship_tag\": \"ABX9TyO+rtd9ZzYACsARVxe/m9lJ\",\n      \"include_colab_link\": true\n    },\n    \"kernelspec\": {\n      \"name\": \"python3\",\n      \"display_name\": \"Python 3\"\n    },\n    \"language_info\": {\n      \"name\": \"python\"\n    }\n  },\n  \"cells\": [\n    {\n      \"cell_type\": \"markdown\",\n      \"metadata\": {\n        \"id\": \"view-in-github\",\n        \"colab_type\": \"text\"\n      },\n      \"source\": [\n        \"<a href=\\\"https://colab.research.google.com/github/dtht2d/bispectrum_component/blob/main/bispectrum/optimization/test_functions_calc.ipynb\\\" target=\\\"_parent\\\"><img src=\\\"https://colab.research.google.com/assets/colab-badge.svg\\\" alt=\\\"Open In Colab\\\"/></a>\"\n      ]\n    },\n    {\n      \"cell_type\": \"code\",\n      \"source\": [\n        \"%autosave 30\"\n      ],\n      \"metadata\": {\n        \"colab\": {\n          \"base_uri\": \"https://localhost:8080/\",\n          \"height\": 35\n        },\n        \"id\": \"I9n2S-rfLHSh\",\n        \"outputId\": \"63bd205c-cb0e-4fc7-e41c-f5bfd3faaaab\"\n      },\n      \"execution_count\": null,\n      \"outputs\": [\n        {\n          \"output_type\": \"display_data\",\n          \"data\": {\n            \"application/javascript\": [\n              \"IPython.notebook.set_autosave_interval(30000)\"\n            ]\n          },\n          \"metadata\": {}\n        },\n        {\n          \"output_type\": \"stream\",\n          \"name\": \"stdout\",\n          \"text\": [\n            \"Autosaving every 30 seconds\\n\"\n          ]\n        }\n      ]\n    },\n    {\n      \"cell_type\": \"markdown\",\n      \"source\": [\n        \"# **Code optimization:**  Compile function used in computing bispectrum components with/without Numba\\n\",\n        \"\\n\",\n        \"**Numba**\\n\",\n        \"- An open source JIT compiler that translates a subset of Python and NumPy code into fast machine code.\\n\",\n        \"- Designed to be used with NumPy arrays and functions. Numba generates specialized code for different array data types and layouts to optimize performance.\\n\"\n      ],\n      \"metadata\": {\n        \"id\": \"mmmBfI1hnSLz\"\n      }\n    },\n    {\n      \"cell_type\": \"code\",\n      \"source\": [\n        \"pip install sympy\"\n      ],\n      \"metadata\": {\n        \"colab\": {\n          \"base_uri\": \"https://localhost:8080/\"\n        },\n        \"id\": \"ypnD2_8ZaqFc\",\n        \"outputId\": \"b5c7cc9b-3415-4d7d-8dec-4100cef9d60e\"\n      },\n      \"execution_count\": null,\n      \"outputs\": [\n        {\n          \"output_type\": \"stream\",\n          \"name\": \"stdout\",\n          \"text\": [\n            \"Looking in indexes: https://pypi.org/simple, https://us-python.pkg.dev/colab-wheels/public/simple/\\n\",\n            \"Requirement already satisfied: sympy in /usr/local/lib/python3.8/dist-packages (1.7.1)\\n\",\n            \"Requirement already satisfied: mpmath>=0.19 in /usr/local/lib/python3.8/dist-packages (from sympy) (1.2.1)\\n\"\n          ]\n        }\n      ]\n    },\n    {\n      \"cell_type\": \"code\",\n      \"source\": [\n        \"!pip install numpy\"\n      ],\n      \"metadata\": {\n        \"colab\": {\n          \"base_uri\": \"https://localhost:8080/\"\n        },\n        \"id\": \"bcRht3Fhn05r\",\n        \"outputId\": \"baf7cc37-ef9f-4441-f198-3c481494fd45\"\n      },\n      \"execution_count\": null,\n      \"outputs\": [\n        {\n          \"output_type\": \"stream\",\n          \"name\": \"stdout\",\n          \"text\": [\n            \"Looking in indexes: https://pypi.org/simple, https://us-python.pkg.dev/colab-wheels/public/simple/\\n\",\n            \"Requirement already satisfied: numpy in /usr/local/lib/python3.8/dist-packages (1.22.4)\\n\"\n          ]\n        }\n      ]\n    },\n    {\n      \"cell_type\": \"code\",\n      \"source\": [\n        \"!pip install numba\"\n      ],\n      \"metadata\": {\n        \"colab\": {\n          \"base_uri\": \"https://localhost:8080/\"\n        },\n        \"id\": \"JkAbpQUPn4Zw\",\n        \"outputId\": \"3f3c864a-e4a8-464b-dd8f-23e4ce810753\"\n      },\n      \"execution_count\": null,\n      \"outputs\": [\n        {\n          \"output_type\": \"stream\",\n          \"name\": \"stdout\",\n          \"text\": [\n            \"Looking in indexes: https://pypi.org/simple, https://us-python.pkg.dev/colab-wheels/public/simple/\\n\",\n            \"Requirement already satisfied: numba in /usr/local/lib/python3.8/dist-packages (0.56.4)\\n\",\n            \"Requirement already satisfied: numpy<1.24,>=1.18 in /usr/local/lib/python3.8/dist-packages (from numba) (1.22.4)\\n\",\n            \"Requirement already satisfied: setuptools in /usr/local/lib/python3.8/dist-packages (from numba) (57.4.0)\\n\",\n            \"Requirement already satisfied: llvmlite<0.40,>=0.39.0dev0 in /usr/local/lib/python3.8/dist-packages (from numba) (0.39.1)\\n\",\n            \"Requirement already satisfied: importlib-metadata in /usr/local/lib/python3.8/dist-packages (from numba) (6.0.0)\\n\",\n            \"Requirement already satisfied: zipp>=0.5 in /usr/local/lib/python3.8/dist-packages (from importlib-metadata->numba) (3.15.0)\\n\"\n          ]\n        }\n      ]\n    },\n    {\n      \"cell_type\": \"code\",\n      \"source\": [\n        \"!pip install ipython-autotime\\n\",\n        \"%load_ext autotime\"\n      ],\n      \"metadata\": {\n        \"colab\": {\n          \"base_uri\": \"https://localhost:8080/\"\n        },\n        \"id\": \"san3vLB3oEB5\",\n        \"outputId\": \"52c3463f-c6dd-48a2-b632-e9a06ea4c922\"\n      },\n      \"execution_count\": null,\n      \"outputs\": [\n        {\n          \"output_type\": \"stream\",\n          \"name\": \"stdout\",\n          \"text\": [\n            \"Looking in indexes: https://pypi.org/simple, https://us-python.pkg.dev/colab-wheels/public/simple/\\n\",\n            \"Collecting ipython-autotime\\n\",\n            \"  Downloading ipython_autotime-0.3.1-py2.py3-none-any.whl (6.8 kB)\\n\",\n            \"Requirement already satisfied: ipython in /usr/local/lib/python3.8/dist-packages (from ipython-autotime) (7.9.0)\\n\",\n            \"Requirement already satisfied: pickleshare in /usr/local/lib/python3.8/dist-packages (from ipython->ipython-autotime) (0.7.5)\\n\",\n            \"Requirement already satisfied: traitlets>=4.2 in /usr/local/lib/python3.8/dist-packages (from ipython->ipython-autotime) (5.7.1)\\n\",\n            \"Requirement already satisfied: backcall in /usr/local/lib/python3.8/dist-packages (from ipython->ipython-autotime) (0.2.0)\\n\",\n            \"Requirement already satisfied: pygments in /usr/local/lib/python3.8/dist-packages (from ipython->ipython-autotime) (2.6.1)\\n\",\n            \"Requirement already satisfied: pexpect in /usr/local/lib/python3.8/dist-packages (from ipython->ipython-autotime) (4.8.0)\\n\",\n            \"Requirement already satisfied: prompt-toolkit<2.1.0,>=2.0.0 in /usr/local/lib/python3.8/dist-packages (from ipython->ipython-autotime) (2.0.10)\\n\",\n            \"Requirement already satisfied: decorator in /usr/local/lib/python3.8/dist-packages (from ipython->ipython-autotime) (4.4.2)\\n\",\n            \"Collecting jedi>=0.10\\n\",\n            \"  Downloading jedi-0.18.2-py2.py3-none-any.whl (1.6 MB)\\n\",\n            \"\\u001b[2K     \\u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\\u001b[0m \\u001b[32m1.6/1.6 MB\\u001b[0m \\u001b[31m17.1 MB/s\\u001b[0m eta \\u001b[36m0:00:00\\u001b[0m\\n\",\n            \"\\u001b[?25hRequirement already satisfied: setuptools>=18.5 in /usr/local/lib/python3.8/dist-packages (from ipython->ipython-autotime) (57.4.0)\\n\",\n            \"Requirement already satisfied: parso<0.9.0,>=0.8.0 in /usr/local/lib/python3.8/dist-packages (from jedi>=0.10->ipython->ipython-autotime) (0.8.3)\\n\",\n            \"Requirement already satisfied: wcwidth in /usr/local/lib/python3.8/dist-packages (from prompt-toolkit<2.1.0,>=2.0.0->ipython->ipython-autotime) (0.2.6)\\n\",\n            \"Requirement already satisfied: six>=1.9.0 in /usr/local/lib/python3.8/dist-packages (from prompt-toolkit<2.1.0,>=2.0.0->ipython->ipython-autotime) (1.15.0)\\n\",\n            \"Requirement already satisfied: ptyprocess>=0.5 in /usr/local/lib/python3.8/dist-packages (from pexpect->ipython->ipython-autotime) (0.7.0)\\n\",\n            \"Installing collected packages: jedi, ipython-autotime\\n\",\n            \"Successfully installed ipython-autotime-0.3.1 jedi-0.18.2\\n\",\n            \"time: 750 µs (started: 2023-03-01 17:22:56 +00:00)\\n\"\n          ]\n        }\n      ]\n    },\n    {\n      \"cell_type\": \"markdown\",\n      \"source\": [\n        \"## **a. Wigner D function**\\n\",\n        \"Ref.[5], chapter 4.3-eq.1\\n\",\n        \"\\n\",\n        \"$$\\n\",\n        \"D^{j}_{mm'}(\\\\theta_0,\\\\theta,\\\\phi)=e^{-im\\\\theta_0}d^{j}_{mm'}(\\\\theta)e^{-im'\\\\phi}\\n\",\n        \"$$\\n\",\n        \"Choose 4.3.1 eq(4) to compute $d^{j}_{mm'}(\\\\theta)$\\n\",\n        \"\\n\",\n        \"\\\\begin{align*}d^j_{mm'}{(\\\\theta)}= [(j+m)!(j-m)!(j+m')!(j-m')!]^{\\\\frac{1}{2}} \\\\\\\\ \\\\times \\\\displaystyle\\\\sum_k(-1)^k\\\\frac{(cos\\\\frac{\\\\theta}{2})^{2j-2k+m-m'}(sin\\\\frac{\\\\theta}{2})^{2k-m+m'}}{k!(j+m-k)!(j-m'-k)!(m'-m+k))} \\\\end{align*}\\n\",\n        \"**Note:** $k$ runs over all integer values for which factorial arguments are non-negative. The sums contain $(N+1)$  terms where N is the minimum of $j+m, j-m, j+m'$ and $j-m'$. \\n\",\n        \"\\n\",\n        \"**Finding** $k_{max}, k_{min}:$\\n\",\n        \"\\n\",\n        \"\\\\begin{align*} j+m-k &\\\\geq 0 &\\\\\\\\ k &\\\\leq j-m \\\\leq j+m \\\\\\\\ j-m'-k &\\\\geq 0 &\\\\\\\\ k &\\\\leq j-m'  \\\\\\\\ k_{min}&= [\\\\text{int}(\\\\ j+m \\\\ ), \\\\text{int}(\\\\ j-m' \\\\ \\n\",\n        \")] \\\\\\\\ m-m'+k&\\\\geq 0 \\\\\\\\ k &\\\\geq m'-m &\\\\\\\\ k_{max}&=\\\\text{int}[0,m'-m] \\\\end{align*} \\n\"\n      ],\n      \"metadata\": {\n        \"id\": \"poynABn2YtZ-\"\n      }\n    },\n    {\n      \"cell_type\": \"markdown\",\n      \"source\": [\n        \"### **Compute class function without Numba**\"\n      ],\n      \"metadata\": {\n        \"id\": \"WBQ94kJLbGMb\"\n      }\n    },\n    {\n      \"cell_type\": \"code\",\n      \"source\": [\n        \"import numpy as np\\n\",\n        \"import cmath\\n\",\n        \"\\n\",\n        \"def fact(n):\\n\",\n        \"    \\\"\\\"\\\"\\n\",\n        \"    This function is used to calculate factorial of a number by using\\n\",\n        \"    an iterative approach instead of recursive approach\\n\",\n        \"    \\\"\\\"\\\"\\n\",\n        \"    result = 1\\n\",\n        \"    for i in range(1, n + 1):\\n\",\n        \"        result *= i\\n\",\n        \"    return result\\n\",\n        \"\\n\",\n        \"\\n\",\n        \"class Wigner_D:\\n\",\n        \"    \\\"\\\"\\\"\\n\",\n        \"    Args:\\n\",\n        \"        j (scalar): angular momentum\\n\",\n        \"        m (scalar): eigenvalue of angular momentum\\n\",\n        \"        mp (scalar): eigenvalue of j along rotated axis\\n\",\n        \"        theta_0 (scalar): first angle of rotation [0, pi]\\n\",\n        \"        theta (scalar): second angle of rotation [0, pi]\\n\",\n        \"        phi (scalar): third angle of rotation [0, 2*pi]\\n\",\n        \"    Returns: complex number, Wigner D function\\n\",\n        \"    ==========================Reference==================================\\n\",\n        \"    [5] Chapter 4.3-(p.76,eq.1)  D.A. Varshalovich, A.N. Moskalev, V.K Khersonskii,\\n\",\n        \"        Quantum Theory of Angular Momentum (1988)\\n\",\n        \"    \\\"\\\"\\\"\\n\",\n        \"    def __init__(self, j, m, mp, theta_0, theta, phi):\\n\",\n        \"        if j < 0 or not np.isclose(j, int(j)) or (j % 1 == 0.5 and (m % 1 != 0 or mp % 1 != 0)):\\n\",\n        \"            raise ValueError(\\\"Invalid input parameters: j must be a non-negative integer or half-integer, \\\"\\n\",\n        \"                             \\\"m and mp must be between -j and j.\\\")\\n\",\n        \"        if theta_0 < 0 or theta_0 > np.pi or theta < 0 or theta > np.pi or phi < 0 or phi > 2 * np.pi:\\n\",\n        \"            raise ValueError(\\n\",\n        \"                \\\"Invalid input parameters: theta_0, theta, and phi must be within [0, pi] and [0, 2pi], respectively.\\\")\\n\",\n        \"        self.j = j\\n\",\n        \"        self.m = m\\n\",\n        \"        self.mp = mp\\n\",\n        \"        self.theta_0 = theta_0\\n\",\n        \"        self.theta = theta\\n\",\n        \"        self.phi = phi\\n\",\n        \"    def compute_dsmall(self):\\n\",\n        \"        \\\"\\\"\\\"\\n\",\n        \"        This method is used to calculate the Wigner d small- real function involving trigonometric functions\\n\",\n        \"        ==========================Reference==================================\\n\",\n        \"        [5] Chapter 4.3.1-(p.76,eq.4)  D.A. Varshalovich, A.N. Moskalev, V.K Khersonskii,\\n\",\n        \"        Returns: Wigner d - real function\\n\",\n        \"        \\\"\\\"\\\"\\n\",\n        \"        kmax = max(0, self.m - self.mp)\\n\",\n        \"        kmin = min(self.j + self.m, self.j - self.mp)\\n\",\n        \"        term1 = np.sqrt(fact(self.j + self.m) * fact(self.j - self.m) * fact(self.j + self.mp) * fact(self.j - self.mp))\\n\",\n        \"        sum = 0\\n\",\n        \"        for k in range(kmax, kmin + 1):\\n\",\n        \"            numerator = (-1) ** k * (cmath.cos(self.theta / 2)) ** (2 * self.j - 2 * k + self.m - self.mp) * \\\\\\n\",\n        \"                        (cmath.sin(self.theta / 2)) ** (2 * k - self.m + self.mp)\\n\",\n        \"            denominator = fact(k) * fact(self.j + self.m - k) * fact(self.j - self.mp - k) * fact(self.mp - self.m + k)\\n\",\n        \"            sum += numerator / denominator\\n\",\n        \"        return sum*term1\\n\",\n        \"\\n\",\n        \"    def wigner_D(self):\\n\",\n        \"        term1 = np.exp(-1j * self.m * self.theta_0)\\n\",\n        \"        term2 = self.compute_dsmall()\\n\",\n        \"        term3 = np.exp(-1j * self.mp * self.phi)\\n\",\n        \"        result = term1 * term2 * term3\\n\",\n        \"        return result\\n\",\n        \"\\n\"\n      ],\n      \"metadata\": {\n        \"id\": \"qGZ4B_6yoQbm\",\n        \"colab\": {\n          \"base_uri\": \"https://localhost:8080/\"\n        },\n        \"outputId\": \"9ac8f928-fea8-4a29-e1af-2e4ae90e89a6\"\n      },\n      \"execution_count\": null,\n      \"outputs\": [\n        {\n          \"output_type\": \"stream\",\n          \"name\": \"stdout\",\n          \"text\": [\n            \"time: 6.1 ms (started: 2023-03-01 17:22:56 +00:00)\\n\"\n          ]\n        }\n      ]\n    },\n    {\n      \"cell_type\": \"markdown\",\n      \"source\": [\n        \"**Example**\"\n      ],\n      \"metadata\": {\n        \"id\": \"eU77rfCGqvyn\"\n      }\n    },\n    {\n      \"cell_type\": \"code\",\n      \"source\": [\n        \"import numpy as np\\n\",\n        \"j, m, mp, theta_0, theta,phi= 1, 1, 0, np.pi, np.pi/2, 0\\n\",\n        \"# Calculate the Wigner D function using our function\\n\",\n        \"WD = Wigner_D(j, m, mp, theta_0, theta,phi)\\n\",\n        \"wd = WD.wigner_D()\\n\",\n        \"print(wd)\"\n      ],\n      \"metadata\": {\n        \"id\": \"cczu8YPFquZ5\",\n        \"colab\": {\n          \"base_uri\": \"https://localhost:8080/\"\n        },\n        \"outputId\": \"b0dd6f22-7df5-460c-9f0f-15494a117e77\"\n      },\n      \"execution_count\": null,\n      \"outputs\": [\n        {\n          \"output_type\": \"stream\",\n          \"name\": \"stdout\",\n          \"text\": [\n            \"(0.7071067811865476+8.659560562354934e-17j)\\n\",\n            \"time: 8.23 ms (started: 2023-03-01 17:22:56 +00:00)\\n\"\n          ]\n        }\n      ]\n    },\n    {\n      \"cell_type\": \"code\",\n      \"source\": [\n        \"from sympy import *\\n\",\n        \"from sympy.physics.quantum.spin import Rotation\\n\",\n        \"#Calculate the Wigner D matrix with Sympy\\n\",\n        \"rot1 = Rotation.D(j, m, mp, theta_0, theta,phi)\\n\",\n        \"wignerD_sympy = rot1.doit()\\n\",\n        \"print(N(wignerD_sympy))\"\n      ],\n      \"metadata\": {\n        \"colab\": {\n          \"base_uri\": \"https://localhost:8080/\"\n        },\n        \"id\": \"y5zOc5b1MhWM\",\n        \"outputId\": \"2d9e816d-eed3-4728-9b0e-00d5bbfce9cf\"\n      },\n      \"execution_count\": null,\n      \"outputs\": [\n        {\n          \"output_type\": \"stream\",\n          \"name\": \"stdout\",\n          \"text\": [\n            \"0.707106781186548 + 8.65956056235493e-17*I\\n\",\n            \"time: 1.52 s (started: 2023-03-01 17:23:27 +00:00)\\n\"\n          ]\n        }\n      ]\n    },\n    {\n      \"cell_type\": \"markdown\",\n      \"source\": [\n        \"**Comment:** Our function run faster than Sympy function\"\n      ],\n      \"metadata\": {\n        \"id\": \"eP9ui7J4M3d_\"\n      }\n    },\n    {\n      \"cell_type\": \"markdown\",\n      \"source\": [\n        \"### **b. Compute Coupling Coefficients $H^{jmm'}_{{{j_1}{m_1}{m'_1}} ,{{j_2}{m_2}{m'_2}}}$analogous to Clebsch -Gordan coeffcients**\\n\",\n        \"\\n\",\n        \"**Clebsch- Gordan coefficient**\\n\",\n        \"\\n\",\n        \"Ref.[3], Eq.(5) and Ref.[1], Eq.(5)\\n\",\n        \"\\n\",\n        \"$$\\n\",\n        \"C^{jm}_{{j_1}{m_1}{j_2}{m_2}} C^{jm'}_{{j_1}{m'_1}{j_2}{m'_2}} \\\\equiv H^{jmm'}_{{{j_1}{m_1}{m'_1}} ,{{j_2}{m_2}{m'_2}}} \\n\",\n        \"$$\\n\",\n        \"\\n\",\n        \"**Definition**\\n\",\n        \"\\n\",\n        \"Ref.[5] p.235\\n\",\n        \"\\n\",\n        \"A Clebsch-Gordan coefficients are vector addition coefficients. They play an important role in decomposition of reducible representations of rotational….Let angular momentum $j_1$ and $j_2$ with projections on $m_1$  and $m_2$ on the quantization axis. represents **the probability amplitude that $j_1$ and $j_2$ are coupled into a resultant angular momentum $j$ with projection $m$.**\\n\",\n        \"\\n\",\n        \"\\n\",\n        \"$$\\n\",\n        \"(j_1,m_1)\\\\otimes(j_2,m_2) \\\\to (jm) \\n\",\n        \"$$\\n\",\n        \"\\n\",\n        \"$$\\n\",\n        \"C\\\\equiv\\\\langle{j_1m_1j_2m_2\\\\vert jm}⟩\\n\",\n        \"$$\\n\",\n        \"\\n\",\n        \"$$\\n\",\n        \"\\\\langle{j_1j_2m_2\\\\vert jm}⟩=(-1)^{j_1-j_2+m}\\\\sqrt{2j+1}\\\\begin{pmatrix}j_1&j_2&j \\\\\\\\ m_1&m_2&{-m}\\\\end{pmatrix} \\n\",\n        \"$$\\n\",\n        \"\\n\",\n        \"The $3jm$ symbols are related to Clebsch-Gordan coefficients. The inverse relation:\\n\",\n        \"\\n\",\n        \"Ref[5]. Ch8.1.2, eq.(12)\\n\",\n        \"\\n\",\n        \"$$\\n\",\n        \"C^{jm}_{j_1m_1j_2m_2}=(-1)^{j_1-j_2+m}\\\\sqrt{2j+1}\\\\begin{pmatrix}j_1&j_2&j \\\\\\\\ m_1&m_2&{-m}\\\\end{pmatrix} \\n\",\n        \"$$\\n\",\n        \"\\n\",\n        \"Ref[12]. Ch3.12, eq(3.171)\\n\",\n        \"\\n\",\n        \"$$\\n\",\n        \"\\\\begin{align*} C_{j_1m_1j_2m_2}^{jm} &= \\\\ \\\\delta(m_1 +m_2,m) \\\\\\\\ & \\\\times \\\\left[\\\\frac{(2j+1)(j+j_1-j_2)!(j-j_1+j_2)!(j_1+j_2-j)!}{(j+j_1+j_2+1)!} \\\\right]^{\\\\frac{1}{2}} \\\\\\\\ & \\\\times \\\\left[ \\\\frac{(j+m)!(j-m)!}{(j_1+m_1)!(j_1-m_1)!(j_2+m_2)!(j_2-m_2)!}\\\\right]^{\\\\frac{1}{2}} \\\\\\\\ & \\\\times \\\\displaystyle\\\\sum_s\\\\frac{(-1)^{j_2+m_2+s}(j_2+j+m_1-s)!(j_1-m_1+s)!}{s!(j-j_1+j_2-s)!(j+m-s)!(j_1-j_2-m+s)!} \\\\end{align*}\\n\",\n        \"$$\\n\",\n        \"\\n\",\n        \"**Condition for $j_1,j_2,j,m_1,m_2,m$**\\n\",\n        \"\\n\",\n        \"In accordance with vector addition rules $j_1+j_2=j$, unless the triangular conditions (triangular in equalities) are fulfilled\\n\",\n        \"\\n\",\n        \"(1)$|j_1-j_2|\\\\ \\\\le j \\\\le j_1+j_2$ \\n\",\n        \"\\n\",\n        \"$j= 0, \\\\frac{1}{2},1,...\\\\infty$  and $m, m' = -j,-j+1, ...,j-1,j$\\n\",\n        \"\\n\",\n        \"(2)$m_1+m_2=m \\\\ \\\\text{and} \\\\ j_1 +j_2=j$\\n\",\n        \"\\n\",\n        \"(3)$|m_1| \\\\le j_1, \\\\ |m_2| \\\\le j_2,\\\\ |m| \\\\le j$ \\n\",\n        \"\\n\",\n        \"(4) $j_1,j_2,j$ not exceed a positive integer $J \\\\ \\\\text{is}$\\n\",\n        \"\\n\",\n        \"(5) $j_1+j_2-j$ not half integer\\n\",\n        \"\\n\",\n        \"(6) $m_1,m_2,m$ are integer or half-integer (positive or negative) numbers\\n\",\n        \"\\n\",\n        \"(7) $j_1,j_2,j$ are integer or half integer non negative numbers \\n\",\n        \"\\n\",\n        \"(8) $j_1 +m_1, \\\\ j_2 +m_2, \\\\ j +m, \\\\ j_1+j_2+j$  are integer non-negative numbers\\n\",\n        \"**Condition for $s$ :** such that nowhere does a factorial of negative number appear\\n\",\n        \"\\n\",\n        \"$$\\n\",\n        \"\\\\begin{align*} j_2+j+m_1-s  &\\\\geq 0 \\\\rightarrow \\\\ s \\\\leq j_1+j+m_1 \\\\\\\\ j_1-m_1+s &\\\\geq 0 \\\\rightarrow \\\\ s \\\\geq m_1-j_1 \\\\\\\\ j-j_1+j_2-s &\\\\geq 0 \\\\rightarrow \\\\ s \\\\leq j-j_1+j_2 \\\\\\\\ j+m-s &\\\\geq 0 \\\\rightarrow \\\\ s \\\\leq j+m \\\\\\\\ j_1-j_2-m+s &\\\\geq 0 \\\\rightarrow \\\\ s \\\\geq -j_1+j_2+m\\\\end{align*}\\n\",\n        \"$$\\n\",\n        \"\\n\",\n        \"$s_{min}=max(0,m_1-j_1,-j_1+j_2+m)$\\n\",\n        \"\\n\",\n        \"$s_{max} = min(j_1+j+m_1, j-j_1+j_2,j+m)$\\n\",\n        \"\\n\",\n        \"$$\\n\",\n        \"s_{range}=[s_{min},s_{max}+1]\\n\",\n        \"$$\\n\",\n        \"\\n\",\n        \"**Note:** add `+1` to `smax`since the `range()`function does not include the endpoint, and we want to include it in the loop\\n\",\n        \"\\n\",\n        \"**Parameter:**\\n\",\n        \"\\n\",\n        \"$j_1, j_2$ : Angular momenta of states 1 and 2\\n\",\n        \"\\n\",\n        \"$j,m\\\\ :$  Total angular momentum of $(j_1+j_2)$\\n\",\n        \"\\n\",\n        \"$m_1, \\\\ m_2, \\\\ m:$  Eigenvalues w.r.t to anglar momentum $j_1, \\\\ j_2, \\\\ j$\\n\",\n        \"\\n\",\n        \"$m_1', \\\\ m_2', \\\\ m':$ Eigenvalues w.r.t $j_1, \\\\ j_2, \\\\ j$ along rotated axis\"\n      ],\n      \"metadata\": {\n        \"id\": \"KKFECX2kNCkW\"\n      }\n    },\n    {\n      \"cell_type\": \"markdown\",\n      \"source\": [\n        \"\\n\",\n        \"### **Compute $C_{j_1m_1j_2m_2}^{jm}, \\\\ C_{j_1m_1j_2m_2}^{jm'}$**\"\n      ],\n      \"metadata\": {\n        \"id\": \"i1Qrdh5ROSM3\"\n      }\n    },\n    {\n      \"cell_type\": \"code\",\n      \"source\": [\n        \"import numpy as np\\n\",\n        \"import cmath\\n\",\n        \"def fact(n):\\n\",\n        \"    \\\"\\\"\\\"\\n\",\n        \"    This function is used to calculate factorial of a number by using\\n\",\n        \"    an iterative approach instead of recursive approach\\n\",\n        \"    \\\"\\\"\\\"\\n\",\n        \"    return np.prod(np.arange(1, n + 1))\\n\",\n        \"class Clebsch_Gordan:\\n\",\n        \"    \\\"\\\"\\\"\\n\",\n        \"    Definition:\\n\",\n        \"    A Clebsch-Gordan coefficients are vector addition coefficients. They play an important role in decomposition of\\n\",\n        \"    reducible representations of rotation. Let j1 and j2 with projections on m1 and m2 on the quantization axis.\\n\",\n        \"    The coefficients represent the probability amplitude that j1 and j2 are coupled into a resultant angular momentum\\n\",\n        \"    j with projection m.\\n\",\n        \"    Args:\\n\",\n        \"        j1 (scalar): angular momentum\\n\",\n        \"        j2 (scalar): angular momentum\\n\",\n        \"        j (scalar): angular momentum\\n\",\n        \"        m1 (scalar): eigenvalue of angular momentum\\n\",\n        \"        m2 (scalar): eigenvalue of angular momentum\\n\",\n        \"        m (scalar): eigenvalue of angular momentum\\n\",\n        \"    Returns: complex number, Clebsh Gordan function\\n\",\n        \"    ==========================Reference==================================\\n\",\n        \"    [5] Chapter 8 D.A. Varshalovich, A.N. Moskalev, V.K Khersonskii,\\n\",\n        \"        Quantum Theory of Angular Momentum (1988)\\n\",\n        \"    [12] Chapter 3 Biedenharn, L., & Louck, J.D. ,\\n\",\n        \"        Encyclopedia of Mathematics and its Applications (1981)\\n\",\n        \"    \\\"\\\"\\\"\\n\",\n        \"    def __init__(self, j1, j2, j, m1, m2, m):\\n\",\n        \"        self.j1 = j1\\n\",\n        \"        self.j2 = j2\\n\",\n        \"        self.j = j\\n\",\n        \"        self.m1 = m1\\n\",\n        \"        self.m2 = m2\\n\",\n        \"        self.m = m\\n\",\n        \"        self.J = j1 + j2 + j\\n\",\n        \"        #Condition 1 & 2 & 5\\n\",\n        \"        if not (abs(j1 - j2) <= j <= j1 + j2 and m1 + m2 == m and j1 + j2 - j % 1 != 0.5):\\n\",\n        \"            raise ValueError(\\\"Invalid input parameters: j1, j2, j, m1, m2, and m must satisfy the triangle inequality.\\\\ \\\"\\n\",\n        \"                             \\\"j1+j2-j must not be a half-integer\\\")\\n\",\n        \"        #Condition 3 & 6\\n\",\n        \"        if not all(abs(x) <= y and (x % 0.5 == 0 or x % 1 == 0) for x, y in zip([m1, m2, m], [j1, j2, j])):\\n\",\n        \"            raise ValueError(\\\"Invalid input parameters: |m1| <= j1, |m_2| <= j2, |m| <= j\\\\ \\\"\\n\",\n        \"                             \\\"m1, m2, m must be integer or half-integer (positive or negative) numbers\\\")\\n\",\n        \"        # Condition 4\\n\",\n        \"        J =(j1+j2+j)\\n\",\n        \"        if J < (int(j1+j2+j)) and J <0:\\n\",\n        \"            raise ValueError(\\\"Invalid input parameters: j1, j2, j must not exceed a positive integer J\\\")\\n\",\n        \"        # Condition 7\\n\",\n        \"        if not all(\\n\",\n        \"                isinstance(x, (int, float, np.integer, np.floating)) and x >= 0 and (x % 0.5 == 0 or x % 1 == 0) for x\\n\",\n        \"                in [j1, j2, j]):\\n\",\n        \"            raise ValueError(\\n\",\n        \"                \\\"Invalid input parameters: j1, j2, j must be integer or half-integer non-negative numbers\\\")\\n\",\n        \"        # Condition 8\\n\",\n        \"        if not all(isinstance(x, (int, float, np.integer, np.floating)) and x >= 0 and x % 1 == 0 for x in\\n\",\n        \"                   [j1 + m1, j2 + m2, j + m, j1 + j2 + j]):\\n\",\n        \"            raise ValueError(\\\"Invalid input parameters: j1+m1,j2+m2,j+m,j1+j2+j must be integer non-negative numbers\\\")\\n\",\n        \"    def cb(self):\\n\",\n        \"        if self.m1 + self.m2 != self.m:\\n\",\n        \"            return 0.0  # delta function fails\\n\",\n        \"        prefactor = cmath.sqrt((2 * self.j + 1) * fact(self.j + self.j1 - self.j2) * fact(self.j-self.j1 + self.j2) \\\\\\n\",\n        \"                               * fact(self.j1 + self.j2 - self.j) / fact(self.j + self.j1 + self.j2 + 1))\\n\",\n        \"        coefficient = cmath.sqrt(fact(self.j + self.m) * fact(self.j - self.m) / (fact(self.j1 + self.m1) \\\\\\n\",\n        \"                               * fact(self.j1 - self.m1) * fact(self.j2 + self.m2) * fact(self.j2 - self.m2)))\\n\",\n        \"        sum = 0.0\\n\",\n        \"        smin= max(0, int(self.m1-self.j1),int(self.j2-self.j1+self.m))\\n\",\n        \"        smax= min(int(self.j2+self.j+self.m1),int(self.j-self.j1+self.j2),\\\\\\n\",\n        \"                   int(self.j+self.m))\\n\",\n        \"\\n\",\n        \"        for s in range(smin,smax+1):\\n\",\n        \"            den = fact(s) * fact(self.j - self.j1 + self.j2 - s) * fact(self.j + self.m - s) \\\\\\n\",\n        \"                  * fact(self.j1 - self.j2 - self.m + s)\\n\",\n        \"            num = ((-1) ** (self.j2 + self.m2 + s))* fact(self.j2 + self.j + self.m1 - s) * fact(self.j1 - self.m1 + s)\\n\",\n        \"            sum += num / den\\n\",\n        \"        cb = prefactor * coefficient * sum\\n\",\n        \"        return cb\"\n      ],\n      \"metadata\": {\n        \"id\": \"aljPFHNTON_C\"\n      },\n      \"execution_count\": 7,\n      \"outputs\": []\n    },\n    {\n      \"cell_type\": \"code\",\n      \"source\": [\n        \"j1,m1,j2,m2,j,m=1,1,3/2,1/2,5/2,3/2\\n\",\n        \"CG_calc = Clebsch_Gordan(j1,j2,j,m1,m2,m)\\n\",\n        \"cb_calc = CG_calc.cb()\\n\",\n        \"print(cb_calc)\"\n      ],\n      \"metadata\": {\n        \"colab\": {\n          \"base_uri\": \"https://localhost:8080/\"\n        },\n        \"id\": \"Mg-GqD0ITtHR\",\n        \"outputId\": \"81707cdc-d2ee-4816-a856-12a91afeebda\"\n      },\n      \"execution_count\": 8,\n      \"outputs\": [\n        {\n          \"output_type\": \"stream\",\n          \"name\": \"stdout\",\n          \"text\": [\n            \"(0.7745966692414833+0j)\\n\"\n          ]\n        }\n      ]\n    },\n    {\n      \"cell_type\": \"code\",\n      \"source\": [\n        \"from sympy.physics.quantum.cg import CG\\n\",\n        \"from sympy import *\\n\",\n        \"cg = CG(j1,m1,j2,m2,j,m)\\n\",\n        \"cg = cg.doit()\\n\",\n        \"print (N(cg))\"\n      ],\n      \"metadata\": {\n        \"id\": \"bc18kuwUUgLG\",\n        \"outputId\": \"224ce5c3-8ea3-436b-9483-d796667392ec\",\n        \"colab\": {\n          \"base_uri\": \"https://localhost:8080/\"\n        }\n      },\n      \"execution_count\": 9,\n      \"outputs\": [\n        {\n          \"output_type\": \"stream\",\n          \"name\": \"stdout\",\n          \"text\": [\n            \"0.774596669241483\\n\"\n          ]\n        }\n      ]\n    },\n    {\n      \"cell_type\": \"markdown\",\n      \"source\": [\n        \"**Comment:** our function to calculate Clebsch Gordan Coefficient run faster\"\n      ],\n      \"metadata\": {\n        \"id\": \"Lf0lR3bhXEey\"\n      }\n    },\n    {\n      \"cell_type\": \"markdown\",\n      \"source\": [\n        \"### **Compute Coupling Coefficients $H^{jmm'}_{{{j_1}{m_1}{m'_1}} ,{{j_2}{m_2}{m'_2}}}$**\\n\",\n        \"\\n\"\n      ],\n      \"metadata\": {\n        \"id\": \"Ohk_Rz__Wl_D\"\n      }\n    },\n    {\n      \"cell_type\": \"markdown\",\n      \"source\": [\n        \"$$\\n\",\n        \"C^{jm}_{{j_1}{m_1}{j_2}{m_2}} C^{jm'}_{{j_1}{m'_1}{j_2}{m'_2}} \\\\equiv H^{jmm'}_{{{j_1}{m_1}{m'_1}} ,{{j_2}{m_2}{m'_2}}}   \\n\",\n        \"$$\"\n      ],\n      \"metadata\": {\n        \"id\": \"2Z_Qh4bKXAbp\"\n      }\n    },\n    {\n      \"cell_type\": \"code\",\n      \"source\": [],\n      \"metadata\": {\n        \"id\": \"gUKcPWPfXB46\"\n      },\n      \"execution_count\": null,\n      \"outputs\": []\n    }\n  ]\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/bispectrum/optimization/test_functions_calc.ipynb b/bispectrum/optimization/test_functions_calc.ipynb
+--- a/bispectrum/optimization/test_functions_calc.ipynb	(revision d8dbf69227c6431100f1f95e9166b8647af4f3fe)
++++ b/bispectrum/optimization/test_functions_calc.ipynb	(date 1677704476013)
+@@ -1,682 +1,682 @@
+ {
+-  "nbformat": 4,
+-  "nbformat_minor": 0,
+-  "metadata": {
+-    "colab": {
+-      "provenance": [],
+-      "authorship_tag": "ABX9TyO+rtd9ZzYACsARVxe/m9lJ",
+-      "include_colab_link": true
+-    },
+-    "kernelspec": {
+-      "name": "python3",
+-      "display_name": "Python 3"
+-    },
+-    "language_info": {
+-      "name": "python"
+-    }
+-  },
+-  "cells": [
+-    {
+-      "cell_type": "markdown",
+-      "metadata": {
+-        "id": "view-in-github",
+-        "colab_type": "text"
+-      },
+-      "source": [
+-        "<a href=\"https://colab.research.google.com/github/dtht2d/bispectrum_component/blob/main/bispectrum/optimization/test_functions_calc.ipynb\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+-      ]
+-    },
+-    {
+-      "cell_type": "code",
+-      "source": [
+-        "%autosave 30"
+-      ],
+-      "metadata": {
+-        "colab": {
+-          "base_uri": "https://localhost:8080/",
+-          "height": 35
+-        },
+-        "id": "I9n2S-rfLHSh",
+-        "outputId": "63bd205c-cb0e-4fc7-e41c-f5bfd3faaaab"
+-      },
+-      "execution_count": null,
+-      "outputs": [
+-        {
+-          "output_type": "display_data",
+-          "data": {
+-            "application/javascript": [
+-              "IPython.notebook.set_autosave_interval(30000)"
+-            ]
+-          },
+-          "metadata": {}
+-        },
+-        {
+-          "output_type": "stream",
+-          "name": "stdout",
+-          "text": [
+-            "Autosaving every 30 seconds\n"
+-          ]
+-        }
+-      ]
+-    },
+-    {
+-      "cell_type": "markdown",
+-      "source": [
+-        "# **Code optimization:**  Compile function used in computing bispectrum components with/without Numba\n",
+-        "\n",
+-        "**Numba**\n",
+-        "- An open source JIT compiler that translates a subset of Python and NumPy code into fast machine code.\n",
+-        "- Designed to be used with NumPy arrays and functions. Numba generates specialized code for different array data types and layouts to optimize performance.\n"
+-      ],
+-      "metadata": {
+-        "id": "mmmBfI1hnSLz"
+-      }
+-    },
+-    {
+-      "cell_type": "code",
+-      "source": [
+-        "pip install sympy"
+-      ],
+-      "metadata": {
+-        "colab": {
+-          "base_uri": "https://localhost:8080/"
+-        },
+-        "id": "ypnD2_8ZaqFc",
+-        "outputId": "b5c7cc9b-3415-4d7d-8dec-4100cef9d60e"
+-      },
+-      "execution_count": null,
+-      "outputs": [
+-        {
+-          "output_type": "stream",
+-          "name": "stdout",
+-          "text": [
+-            "Looking in indexes: https://pypi.org/simple, https://us-python.pkg.dev/colab-wheels/public/simple/\n",
+-            "Requirement already satisfied: sympy in /usr/local/lib/python3.8/dist-packages (1.7.1)\n",
+-            "Requirement already satisfied: mpmath>=0.19 in /usr/local/lib/python3.8/dist-packages (from sympy) (1.2.1)\n"
+-          ]
+-        }
+-      ]
+-    },
+-    {
+-      "cell_type": "code",
+-      "source": [
+-        "!pip install numpy"
+-      ],
+-      "metadata": {
+-        "colab": {
+-          "base_uri": "https://localhost:8080/"
+-        },
+-        "id": "bcRht3Fhn05r",
+-        "outputId": "baf7cc37-ef9f-4441-f198-3c481494fd45"
+-      },
+-      "execution_count": null,
+-      "outputs": [
+-        {
+-          "output_type": "stream",
+-          "name": "stdout",
+-          "text": [
+-            "Looking in indexes: https://pypi.org/simple, https://us-python.pkg.dev/colab-wheels/public/simple/\n",
+-            "Requirement already satisfied: numpy in /usr/local/lib/python3.8/dist-packages (1.22.4)\n"
+-          ]
+-        }
+-      ]
+-    },
+-    {
+-      "cell_type": "code",
+-      "source": [
+-        "!pip install numba"
+-      ],
+-      "metadata": {
+-        "colab": {
+-          "base_uri": "https://localhost:8080/"
+-        },
+-        "id": "JkAbpQUPn4Zw",
+-        "outputId": "3f3c864a-e4a8-464b-dd8f-23e4ce810753"
+-      },
+-      "execution_count": null,
+-      "outputs": [
+-        {
+-          "output_type": "stream",
+-          "name": "stdout",
+-          "text": [
+-            "Looking in indexes: https://pypi.org/simple, https://us-python.pkg.dev/colab-wheels/public/simple/\n",
+-            "Requirement already satisfied: numba in /usr/local/lib/python3.8/dist-packages (0.56.4)\n",
+-            "Requirement already satisfied: numpy<1.24,>=1.18 in /usr/local/lib/python3.8/dist-packages (from numba) (1.22.4)\n",
+-            "Requirement already satisfied: setuptools in /usr/local/lib/python3.8/dist-packages (from numba) (57.4.0)\n",
+-            "Requirement already satisfied: llvmlite<0.40,>=0.39.0dev0 in /usr/local/lib/python3.8/dist-packages (from numba) (0.39.1)\n",
+-            "Requirement already satisfied: importlib-metadata in /usr/local/lib/python3.8/dist-packages (from numba) (6.0.0)\n",
+-            "Requirement already satisfied: zipp>=0.5 in /usr/local/lib/python3.8/dist-packages (from importlib-metadata->numba) (3.15.0)\n"
+-          ]
+-        }
+-      ]
+-    },
+-    {
+-      "cell_type": "code",
+-      "source": [
+-        "!pip install ipython-autotime\n",
+-        "%load_ext autotime"
+-      ],
+-      "metadata": {
+-        "colab": {
+-          "base_uri": "https://localhost:8080/"
+-        },
+-        "id": "san3vLB3oEB5",
+-        "outputId": "52c3463f-c6dd-48a2-b632-e9a06ea4c922"
+-      },
+-      "execution_count": null,
+-      "outputs": [
+-        {
+-          "output_type": "stream",
+-          "name": "stdout",
+-          "text": [
+-            "Looking in indexes: https://pypi.org/simple, https://us-python.pkg.dev/colab-wheels/public/simple/\n",
+-            "Collecting ipython-autotime\n",
+-            "  Downloading ipython_autotime-0.3.1-py2.py3-none-any.whl (6.8 kB)\n",
+-            "Requirement already satisfied: ipython in /usr/local/lib/python3.8/dist-packages (from ipython-autotime) (7.9.0)\n",
+-            "Requirement already satisfied: pickleshare in /usr/local/lib/python3.8/dist-packages (from ipython->ipython-autotime) (0.7.5)\n",
+-            "Requirement already satisfied: traitlets>=4.2 in /usr/local/lib/python3.8/dist-packages (from ipython->ipython-autotime) (5.7.1)\n",
+-            "Requirement already satisfied: backcall in /usr/local/lib/python3.8/dist-packages (from ipython->ipython-autotime) (0.2.0)\n",
+-            "Requirement already satisfied: pygments in /usr/local/lib/python3.8/dist-packages (from ipython->ipython-autotime) (2.6.1)\n",
+-            "Requirement already satisfied: pexpect in /usr/local/lib/python3.8/dist-packages (from ipython->ipython-autotime) (4.8.0)\n",
+-            "Requirement already satisfied: prompt-toolkit<2.1.0,>=2.0.0 in /usr/local/lib/python3.8/dist-packages (from ipython->ipython-autotime) (2.0.10)\n",
+-            "Requirement already satisfied: decorator in /usr/local/lib/python3.8/dist-packages (from ipython->ipython-autotime) (4.4.2)\n",
+-            "Collecting jedi>=0.10\n",
+-            "  Downloading jedi-0.18.2-py2.py3-none-any.whl (1.6 MB)\n",
+-            "\u001b[2K     \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m1.6/1.6 MB\u001b[0m \u001b[31m17.1 MB/s\u001b[0m eta \u001b[36m0:00:00\u001b[0m\n",
+-            "\u001b[?25hRequirement already satisfied: setuptools>=18.5 in /usr/local/lib/python3.8/dist-packages (from ipython->ipython-autotime) (57.4.0)\n",
+-            "Requirement already satisfied: parso<0.9.0,>=0.8.0 in /usr/local/lib/python3.8/dist-packages (from jedi>=0.10->ipython->ipython-autotime) (0.8.3)\n",
+-            "Requirement already satisfied: wcwidth in /usr/local/lib/python3.8/dist-packages (from prompt-toolkit<2.1.0,>=2.0.0->ipython->ipython-autotime) (0.2.6)\n",
+-            "Requirement already satisfied: six>=1.9.0 in /usr/local/lib/python3.8/dist-packages (from prompt-toolkit<2.1.0,>=2.0.0->ipython->ipython-autotime) (1.15.0)\n",
+-            "Requirement already satisfied: ptyprocess>=0.5 in /usr/local/lib/python3.8/dist-packages (from pexpect->ipython->ipython-autotime) (0.7.0)\n",
+-            "Installing collected packages: jedi, ipython-autotime\n",
+-            "Successfully installed ipython-autotime-0.3.1 jedi-0.18.2\n",
+-            "time: 750 µs (started: 2023-03-01 17:22:56 +00:00)\n"
+-          ]
+-        }
+-      ]
+-    },
+-    {
+-      "cell_type": "markdown",
+-      "source": [
+-        "## **a. Wigner D function**\n",
+-        "Ref.[5], chapter 4.3-eq.1\n",
+-        "\n",
+-        "$$\n",
+-        "D^{j}_{mm'}(\\theta_0,\\theta,\\phi)=e^{-im\\theta_0}d^{j}_{mm'}(\\theta)e^{-im'\\phi}\n",
+-        "$$\n",
+-        "Choose 4.3.1 eq(4) to compute $d^{j}_{mm'}(\\theta)$\n",
+-        "\n",
+-        "\\begin{align*}d^j_{mm'}{(\\theta)}= [(j+m)!(j-m)!(j+m')!(j-m')!]^{\\frac{1}{2}} \\\\ \\times \\displaystyle\\sum_k(-1)^k\\frac{(cos\\frac{\\theta}{2})^{2j-2k+m-m'}(sin\\frac{\\theta}{2})^{2k-m+m'}}{k!(j+m-k)!(j-m'-k)!(m'-m+k))} \\end{align*}\n",
+-        "**Note:** $k$ runs over all integer values for which factorial arguments are non-negative. The sums contain $(N+1)$  terms where N is the minimum of $j+m, j-m, j+m'$ and $j-m'$. \n",
+-        "\n",
+-        "**Finding** $k_{max}, k_{min}:$\n",
+-        "\n",
+-        "\\begin{align*} j+m-k &\\geq 0 &\\\\ k &\\leq j-m \\leq j+m \\\\ j-m'-k &\\geq 0 &\\\\ k &\\leq j-m'  \\\\ k_{min}&= [\\text{int}(\\ j+m \\ ), \\text{int}(\\ j-m' \\ \n",
+-        ")] \\\\ m-m'+k&\\geq 0 \\\\ k &\\geq m'-m &\\\\ k_{max}&=\\text{int}[0,m'-m] \\end{align*} \n"
+-      ],
+-      "metadata": {
+-        "id": "poynABn2YtZ-"
+-      }
+-    },
+-    {
+-      "cell_type": "markdown",
+-      "source": [
+-        "### **Compute class function without Numba**"
+-      ],
+-      "metadata": {
+-        "id": "WBQ94kJLbGMb"
+-      }
+-    },
+-    {
+-      "cell_type": "code",
+-      "source": [
+-        "import numpy as np\n",
+-        "import cmath\n",
+-        "\n",
+-        "def fact(n):\n",
+-        "    \"\"\"\n",
+-        "    This function is used to calculate factorial of a number by using\n",
+-        "    an iterative approach instead of recursive approach\n",
+-        "    \"\"\"\n",
+-        "    result = 1\n",
+-        "    for i in range(1, n + 1):\n",
+-        "        result *= i\n",
+-        "    return result\n",
+-        "\n",
+-        "\n",
+-        "class Wigner_D:\n",
+-        "    \"\"\"\n",
+-        "    Args:\n",
+-        "        j (scalar): angular momentum\n",
+-        "        m (scalar): eigenvalue of angular momentum\n",
+-        "        mp (scalar): eigenvalue of j along rotated axis\n",
+-        "        theta_0 (scalar): first angle of rotation [0, pi]\n",
+-        "        theta (scalar): second angle of rotation [0, pi]\n",
+-        "        phi (scalar): third angle of rotation [0, 2*pi]\n",
+-        "    Returns: complex number, Wigner D function\n",
+-        "    ==========================Reference==================================\n",
+-        "    [5] Chapter 4.3-(p.76,eq.1)  D.A. Varshalovich, A.N. Moskalev, V.K Khersonskii,\n",
+-        "        Quantum Theory of Angular Momentum (1988)\n",
+-        "    \"\"\"\n",
+-        "    def __init__(self, j, m, mp, theta_0, theta, phi):\n",
+-        "        if j < 0 or not np.isclose(j, int(j)) or (j % 1 == 0.5 and (m % 1 != 0 or mp % 1 != 0)):\n",
+-        "            raise ValueError(\"Invalid input parameters: j must be a non-negative integer or half-integer, \"\n",
+-        "                             \"m and mp must be between -j and j.\")\n",
+-        "        if theta_0 < 0 or theta_0 > np.pi or theta < 0 or theta > np.pi or phi < 0 or phi > 2 * np.pi:\n",
+-        "            raise ValueError(\n",
+-        "                \"Invalid input parameters: theta_0, theta, and phi must be within [0, pi] and [0, 2pi], respectively.\")\n",
+-        "        self.j = j\n",
+-        "        self.m = m\n",
+-        "        self.mp = mp\n",
+-        "        self.theta_0 = theta_0\n",
+-        "        self.theta = theta\n",
+-        "        self.phi = phi\n",
+-        "    def compute_dsmall(self):\n",
+-        "        \"\"\"\n",
+-        "        This method is used to calculate the Wigner d small- real function involving trigonometric functions\n",
+-        "        ==========================Reference==================================\n",
+-        "        [5] Chapter 4.3.1-(p.76,eq.4)  D.A. Varshalovich, A.N. Moskalev, V.K Khersonskii,\n",
+-        "        Returns: Wigner d - real function\n",
+-        "        \"\"\"\n",
+-        "        kmax = max(0, self.m - self.mp)\n",
+-        "        kmin = min(self.j + self.m, self.j - self.mp)\n",
+-        "        term1 = np.sqrt(fact(self.j + self.m) * fact(self.j - self.m) * fact(self.j + self.mp) * fact(self.j - self.mp))\n",
+-        "        sum = 0\n",
+-        "        for k in range(kmax, kmin + 1):\n",
+-        "            numerator = (-1) ** k * (cmath.cos(self.theta / 2)) ** (2 * self.j - 2 * k + self.m - self.mp) * \\\n",
+-        "                        (cmath.sin(self.theta / 2)) ** (2 * k - self.m + self.mp)\n",
+-        "            denominator = fact(k) * fact(self.j + self.m - k) * fact(self.j - self.mp - k) * fact(self.mp - self.m + k)\n",
+-        "            sum += numerator / denominator\n",
+-        "        return sum*term1\n",
+-        "\n",
+-        "    def wigner_D(self):\n",
+-        "        term1 = np.exp(-1j * self.m * self.theta_0)\n",
+-        "        term2 = self.compute_dsmall()\n",
+-        "        term3 = np.exp(-1j * self.mp * self.phi)\n",
+-        "        result = term1 * term2 * term3\n",
+-        "        return result\n",
+-        "\n"
+-      ],
+-      "metadata": {
+-        "id": "qGZ4B_6yoQbm",
+-        "colab": {
+-          "base_uri": "https://localhost:8080/"
+-        },
+-        "outputId": "9ac8f928-fea8-4a29-e1af-2e4ae90e89a6"
+-      },
+-      "execution_count": null,
+-      "outputs": [
+-        {
+-          "output_type": "stream",
+-          "name": "stdout",
+-          "text": [
+-            "time: 6.1 ms (started: 2023-03-01 17:22:56 +00:00)\n"
+-          ]
+-        }
+-      ]
+-    },
+-    {
+-      "cell_type": "markdown",
+-      "source": [
+-        "**Example**"
+-      ],
+-      "metadata": {
+-        "id": "eU77rfCGqvyn"
+-      }
+-    },
+-    {
+-      "cell_type": "code",
+-      "source": [
+-        "import numpy as np\n",
+-        "j, m, mp, theta_0, theta,phi= 1, 1, 0, np.pi, np.pi/2, 0\n",
+-        "# Calculate the Wigner D function using our function\n",
+-        "WD = Wigner_D(j, m, mp, theta_0, theta,phi)\n",
+-        "wd = WD.wigner_D()\n",
+-        "print(wd)"
+-      ],
+-      "metadata": {
+-        "id": "cczu8YPFquZ5",
+-        "colab": {
+-          "base_uri": "https://localhost:8080/"
+-        },
+-        "outputId": "b0dd6f22-7df5-460c-9f0f-15494a117e77"
+-      },
+-      "execution_count": null,
+-      "outputs": [
+-        {
+-          "output_type": "stream",
+-          "name": "stdout",
+-          "text": [
+-            "(0.7071067811865476+8.659560562354934e-17j)\n",
+-            "time: 8.23 ms (started: 2023-03-01 17:22:56 +00:00)\n"
+-          ]
+-        }
+-      ]
+-    },
+-    {
+-      "cell_type": "code",
+-      "source": [
+-        "from sympy import *\n",
+-        "from sympy.physics.quantum.spin import Rotation\n",
+-        "#Calculate the Wigner D matrix with Sympy\n",
+-        "rot1 = Rotation.D(j, m, mp, theta_0, theta,phi)\n",
+-        "wignerD_sympy = rot1.doit()\n",
+-        "print(N(wignerD_sympy))"
+-      ],
+-      "metadata": {
+-        "colab": {
+-          "base_uri": "https://localhost:8080/"
+-        },
+-        "id": "y5zOc5b1MhWM",
+-        "outputId": "2d9e816d-eed3-4728-9b0e-00d5bbfce9cf"
+-      },
+-      "execution_count": null,
+-      "outputs": [
+-        {
+-          "output_type": "stream",
+-          "name": "stdout",
+-          "text": [
+-            "0.707106781186548 + 8.65956056235493e-17*I\n",
+-            "time: 1.52 s (started: 2023-03-01 17:23:27 +00:00)\n"
+-          ]
+-        }
+-      ]
+-    },
+-    {
+-      "cell_type": "markdown",
+-      "source": [
+-        "**Comment:** Our function run faster than Sympy function"
+-      ],
+-      "metadata": {
+-        "id": "eP9ui7J4M3d_"
+-      }
+-    },
+-    {
+-      "cell_type": "markdown",
+-      "source": [
+-        "### **b. Compute Coupling Coefficients $H^{jmm'}_{{{j_1}{m_1}{m'_1}} ,{{j_2}{m_2}{m'_2}}}$analogous to Clebsch -Gordan coeffcients**\n",
+-        "\n",
+-        "**Clebsch- Gordan coefficient**\n",
+-        "\n",
+-        "Ref.[3], Eq.(5) and Ref.[1], Eq.(5)\n",
+-        "\n",
+-        "$$\n",
+-        "C^{jm}_{{j_1}{m_1}{j_2}{m_2}} C^{jm'}_{{j_1}{m'_1}{j_2}{m'_2}} \\equiv H^{jmm'}_{{{j_1}{m_1}{m'_1}} ,{{j_2}{m_2}{m'_2}}} \n",
+-        "$$\n",
+-        "\n",
+-        "**Definition**\n",
+-        "\n",
+-        "Ref.[5] p.235\n",
+-        "\n",
+-        "A Clebsch-Gordan coefficients are vector addition coefficients. They play an important role in decomposition of reducible representations of rotational….Let angular momentum $j_1$ and $j_2$ with projections on $m_1$  and $m_2$ on the quantization axis. represents **the probability amplitude that $j_1$ and $j_2$ are coupled into a resultant angular momentum $j$ with projection $m$.**\n",
+-        "\n",
+-        "\n",
+-        "$$\n",
+-        "(j_1,m_1)\\otimes(j_2,m_2) \\to (jm) \n",
+-        "$$\n",
+-        "\n",
+-        "$$\n",
+-        "C\\equiv\\langle{j_1m_1j_2m_2\\vert jm}⟩\n",
+-        "$$\n",
+-        "\n",
+-        "$$\n",
+-        "\\langle{j_1j_2m_2\\vert jm}⟩=(-1)^{j_1-j_2+m}\\sqrt{2j+1}\\begin{pmatrix}j_1&j_2&j \\\\ m_1&m_2&{-m}\\end{pmatrix} \n",
+-        "$$\n",
+-        "\n",
+-        "The $3jm$ symbols are related to Clebsch-Gordan coefficients. The inverse relation:\n",
+-        "\n",
+-        "Ref[5]. Ch8.1.2, eq.(12)\n",
+-        "\n",
+-        "$$\n",
+-        "C^{jm}_{j_1m_1j_2m_2}=(-1)^{j_1-j_2+m}\\sqrt{2j+1}\\begin{pmatrix}j_1&j_2&j \\\\ m_1&m_2&{-m}\\end{pmatrix} \n",
+-        "$$\n",
+-        "\n",
+-        "Ref[12]. Ch3.12, eq(3.171)\n",
+-        "\n",
+-        "$$\n",
+-        "\\begin{align*} C_{j_1m_1j_2m_2}^{jm} &= \\ \\delta(m_1 +m_2,m) \\\\ & \\times \\left[\\frac{(2j+1)(j+j_1-j_2)!(j-j_1+j_2)!(j_1+j_2-j)!}{(j+j_1+j_2+1)!} \\right]^{\\frac{1}{2}} \\\\ & \\times \\left[ \\frac{(j+m)!(j-m)!}{(j_1+m_1)!(j_1-m_1)!(j_2+m_2)!(j_2-m_2)!}\\right]^{\\frac{1}{2}} \\\\ & \\times \\displaystyle\\sum_s\\frac{(-1)^{j_2+m_2+s}(j_2+j+m_1-s)!(j_1-m_1+s)!}{s!(j-j_1+j_2-s)!(j+m-s)!(j_1-j_2-m+s)!} \\end{align*}\n",
+-        "$$\n",
+-        "\n",
+-        "**Condition for $j_1,j_2,j,m_1,m_2,m$**\n",
+-        "\n",
+-        "In accordance with vector addition rules $j_1+j_2=j$, unless the triangular conditions (triangular in equalities) are fulfilled\n",
+-        "\n",
+-        "(1)$|j_1-j_2|\\ \\le j \\le j_1+j_2$ \n",
+-        "\n",
+-        "$j= 0, \\frac{1}{2},1,...\\infty$  and $m, m' = -j,-j+1, ...,j-1,j$\n",
+-        "\n",
+-        "(2)$m_1+m_2=m \\ \\text{and} \\ j_1 +j_2=j$\n",
+-        "\n",
+-        "(3)$|m_1| \\le j_1, \\ |m_2| \\le j_2,\\ |m| \\le j$ \n",
+-        "\n",
+-        "(4) $j_1,j_2,j$ not exceed a positive integer $J \\ \\text{is}$\n",
+-        "\n",
+-        "(5) $j_1+j_2-j$ not half integer\n",
+-        "\n",
+-        "(6) $m_1,m_2,m$ are integer or half-integer (positive or negative) numbers\n",
+-        "\n",
+-        "(7) $j_1,j_2,j$ are integer or half integer non negative numbers \n",
+-        "\n",
+-        "(8) $j_1 +m_1, \\ j_2 +m_2, \\ j +m, \\ j_1+j_2+j$  are integer non-negative numbers\n",
+-        "**Condition for $s$ :** such that nowhere does a factorial of negative number appear\n",
+-        "\n",
+-        "$$\n",
+-        "\\begin{align*} j_2+j+m_1-s  &\\geq 0 \\rightarrow \\ s \\leq j_1+j+m_1 \\\\ j_1-m_1+s &\\geq 0 \\rightarrow \\ s \\geq m_1-j_1 \\\\ j-j_1+j_2-s &\\geq 0 \\rightarrow \\ s \\leq j-j_1+j_2 \\\\ j+m-s &\\geq 0 \\rightarrow \\ s \\leq j+m \\\\ j_1-j_2-m+s &\\geq 0 \\rightarrow \\ s \\geq -j_1+j_2+m\\end{align*}\n",
+-        "$$\n",
+-        "\n",
+-        "$s_{min}=max(0,m_1-j_1,-j_1+j_2+m)$\n",
+-        "\n",
+-        "$s_{max} = min(j_1+j+m_1, j-j_1+j_2,j+m)$\n",
+-        "\n",
+-        "$$\n",
+-        "s_{range}=[s_{min},s_{max}+1]\n",
+-        "$$\n",
+-        "\n",
+-        "**Note:** add `+1` to `smax`since the `range()`function does not include the endpoint, and we want to include it in the loop\n",
+-        "\n",
+-        "**Parameter:**\n",
+-        "\n",
+-        "$j_1, j_2$ : Angular momenta of states 1 and 2\n",
+-        "\n",
+-        "$j,m\\ :$  Total angular momentum of $(j_1+j_2)$\n",
+-        "\n",
+-        "$m_1, \\ m_2, \\ m:$  Eigenvalues w.r.t to anglar momentum $j_1, \\ j_2, \\ j$\n",
+-        "\n",
+-        "$m_1', \\ m_2', \\ m':$ Eigenvalues w.r.t $j_1, \\ j_2, \\ j$ along rotated axis"
+-      ],
+-      "metadata": {
+-        "id": "KKFECX2kNCkW"
+-      }
+-    },
+-    {
+-      "cell_type": "markdown",
+-      "source": [
+-        "\n",
+-        "### **Compute $C_{j_1m_1j_2m_2}^{jm}, \\ C_{j_1m_1j_2m_2}^{jm'}$**"
+-      ],
+-      "metadata": {
+-        "id": "i1Qrdh5ROSM3"
+-      }
+-    },
+-    {
+-      "cell_type": "code",
+-      "source": [
+-        "import numpy as np\n",
+-        "import cmath\n",
+-        "def fact(n):\n",
+-        "    \"\"\"\n",
+-        "    This function is used to calculate factorial of a number by using\n",
+-        "    an iterative approach instead of recursive approach\n",
+-        "    \"\"\"\n",
+-        "    return np.prod(np.arange(1, n + 1))\n",
+-        "class Clebsch_Gordan:\n",
+-        "    \"\"\"\n",
+-        "    Definition:\n",
+-        "    A Clebsch-Gordan coefficients are vector addition coefficients. They play an important role in decomposition of\n",
+-        "    reducible representations of rotation. Let j1 and j2 with projections on m1 and m2 on the quantization axis.\n",
+-        "    The coefficients represent the probability amplitude that j1 and j2 are coupled into a resultant angular momentum\n",
+-        "    j with projection m.\n",
+-        "    Args:\n",
+-        "        j1 (scalar): angular momentum\n",
+-        "        j2 (scalar): angular momentum\n",
+-        "        j (scalar): angular momentum\n",
+-        "        m1 (scalar): eigenvalue of angular momentum\n",
+-        "        m2 (scalar): eigenvalue of angular momentum\n",
+-        "        m (scalar): eigenvalue of angular momentum\n",
+-        "    Returns: complex number, Clebsh Gordan function\n",
+-        "    ==========================Reference==================================\n",
+-        "    [5] Chapter 8 D.A. Varshalovich, A.N. Moskalev, V.K Khersonskii,\n",
+-        "        Quantum Theory of Angular Momentum (1988)\n",
+-        "    [12] Chapter 3 Biedenharn, L., & Louck, J.D. ,\n",
+-        "        Encyclopedia of Mathematics and its Applications (1981)\n",
+-        "    \"\"\"\n",
+-        "    def __init__(self, j1, j2, j, m1, m2, m):\n",
+-        "        self.j1 = j1\n",
+-        "        self.j2 = j2\n",
+-        "        self.j = j\n",
+-        "        self.m1 = m1\n",
+-        "        self.m2 = m2\n",
+-        "        self.m = m\n",
+-        "        self.J = j1 + j2 + j\n",
+-        "        #Condition 1 & 2 & 5\n",
+-        "        if not (abs(j1 - j2) <= j <= j1 + j2 and m1 + m2 == m and j1 + j2 - j % 1 != 0.5):\n",
+-        "            raise ValueError(\"Invalid input parameters: j1, j2, j, m1, m2, and m must satisfy the triangle inequality.\\ \"\n",
+-        "                             \"j1+j2-j must not be a half-integer\")\n",
+-        "        #Condition 3 & 6\n",
+-        "        if not all(abs(x) <= y and (x % 0.5 == 0 or x % 1 == 0) for x, y in zip([m1, m2, m], [j1, j2, j])):\n",
+-        "            raise ValueError(\"Invalid input parameters: |m1| <= j1, |m_2| <= j2, |m| <= j\\ \"\n",
+-        "                             \"m1, m2, m must be integer or half-integer (positive or negative) numbers\")\n",
+-        "        # Condition 4\n",
+-        "        J =(j1+j2+j)\n",
+-        "        if J < (int(j1+j2+j)) and J <0:\n",
+-        "            raise ValueError(\"Invalid input parameters: j1, j2, j must not exceed a positive integer J\")\n",
+-        "        # Condition 7\n",
+-        "        if not all(\n",
+-        "                isinstance(x, (int, float, np.integer, np.floating)) and x >= 0 and (x % 0.5 == 0 or x % 1 == 0) for x\n",
+-        "                in [j1, j2, j]):\n",
+-        "            raise ValueError(\n",
+-        "                \"Invalid input parameters: j1, j2, j must be integer or half-integer non-negative numbers\")\n",
+-        "        # Condition 8\n",
+-        "        if not all(isinstance(x, (int, float, np.integer, np.floating)) and x >= 0 and x % 1 == 0 for x in\n",
+-        "                   [j1 + m1, j2 + m2, j + m, j1 + j2 + j]):\n",
+-        "            raise ValueError(\"Invalid input parameters: j1+m1,j2+m2,j+m,j1+j2+j must be integer non-negative numbers\")\n",
+-        "    def cb(self):\n",
+-        "        if self.m1 + self.m2 != self.m:\n",
+-        "            return 0.0  # delta function fails\n",
+-        "        prefactor = cmath.sqrt((2 * self.j + 1) * fact(self.j + self.j1 - self.j2) * fact(self.j-self.j1 + self.j2) \\\n",
+-        "                               * fact(self.j1 + self.j2 - self.j) / fact(self.j + self.j1 + self.j2 + 1))\n",
+-        "        coefficient = cmath.sqrt(fact(self.j + self.m) * fact(self.j - self.m) / (fact(self.j1 + self.m1) \\\n",
+-        "                               * fact(self.j1 - self.m1) * fact(self.j2 + self.m2) * fact(self.j2 - self.m2)))\n",
+-        "        sum = 0.0\n",
+-        "        smin= max(0, int(self.m1-self.j1),int(self.j2-self.j1+self.m))\n",
+-        "        smax= min(int(self.j2+self.j+self.m1),int(self.j-self.j1+self.j2),\\\n",
+-        "                   int(self.j+self.m))\n",
+-        "\n",
+-        "        for s in range(smin,smax+1):\n",
+-        "            den = fact(s) * fact(self.j - self.j1 + self.j2 - s) * fact(self.j + self.m - s) \\\n",
+-        "                  * fact(self.j1 - self.j2 - self.m + s)\n",
+-        "            num = ((-1) ** (self.j2 + self.m2 + s))* fact(self.j2 + self.j + self.m1 - s) * fact(self.j1 - self.m1 + s)\n",
+-        "            sum += num / den\n",
+-        "        cb = prefactor * coefficient * sum\n",
+-        "        return cb"
+-      ],
+-      "metadata": {
+-        "id": "aljPFHNTON_C"
+-      },
+-      "execution_count": 7,
+-      "outputs": []
+-    },
+-    {
+-      "cell_type": "code",
+-      "source": [
+-        "j1,m1,j2,m2,j,m=1,1,3/2,1/2,5/2,3/2\n",
+-        "CG_calc = Clebsch_Gordan(j1,j2,j,m1,m2,m)\n",
+-        "cb_calc = CG_calc.cb()\n",
+-        "print(cb_calc)"
+-      ],
+-      "metadata": {
+-        "colab": {
+-          "base_uri": "https://localhost:8080/"
+-        },
+-        "id": "Mg-GqD0ITtHR",
+-        "outputId": "81707cdc-d2ee-4816-a856-12a91afeebda"
+-      },
+-      "execution_count": 8,
+-      "outputs": [
+-        {
+-          "output_type": "stream",
+-          "name": "stdout",
+-          "text": [
+-            "(0.7745966692414833+0j)\n"
+-          ]
+-        }
+-      ]
+-    },
+-    {
+-      "cell_type": "code",
+-      "source": [
+-        "from sympy.physics.quantum.cg import CG\n",
+-        "from sympy import *\n",
+-        "cg = CG(j1,m1,j2,m2,j,m)\n",
+-        "cg = cg.doit()\n",
+-        "print (N(cg))"
+-      ],
+-      "metadata": {
+-        "id": "bc18kuwUUgLG",
+-        "outputId": "224ce5c3-8ea3-436b-9483-d796667392ec",
+-        "colab": {
+-          "base_uri": "https://localhost:8080/"
+-        }
+-      },
+-      "execution_count": 9,
+-      "outputs": [
+-        {
+-          "output_type": "stream",
+-          "name": "stdout",
+-          "text": [
+-            "0.774596669241483\n"
+-          ]
+-        }
+-      ]
+-    },
+-    {
+-      "cell_type": "markdown",
+-      "source": [
+-        "**Comment:** our function to calculate Clebsch Gordan Coefficient run faster"
+-      ],
+-      "metadata": {
+-        "id": "Lf0lR3bhXEey"
+-      }
+-    },
+-    {
+-      "cell_type": "markdown",
+-      "source": [
+-        "### **Compute Coupling Coefficients $H^{jmm'}_{{{j_1}{m_1}{m'_1}} ,{{j_2}{m_2}{m'_2}}}$**\n",
+-        "\n"
+-      ],
+-      "metadata": {
+-        "id": "Ohk_Rz__Wl_D"
+-      }
+-    },
+-    {
+-      "cell_type": "markdown",
+-      "source": [
+-        "$$\n",
+-        "C^{jm}_{{j_1}{m_1}{j_2}{m_2}} C^{jm'}_{{j_1}{m'_1}{j_2}{m'_2}} \\equiv H^{jmm'}_{{{j_1}{m_1}{m'_1}} ,{{j_2}{m_2}{m'_2}}}   \n",
+-        "$$"
+-      ],
+-      "metadata": {
+-        "id": "2Z_Qh4bKXAbp"
+-      }
+-    },
+-    {
+-      "cell_type": "code",
+-      "source": [],
+-      "metadata": {
+-        "id": "gUKcPWPfXB46"
+-      },
+-      "execution_count": null,
+-      "outputs": []
+-    }
+-  ]
+-}
+\ No newline at end of file
++ "nbformat": 4,
++ "nbformat_minor": 0,
++ "metadata": {
++  "colab": {
++   "provenance": [],
++   "authorship_tag": "ABX9TyO+rtd9ZzYACsARVxe/m9lJ",
++   "include_colab_link": true
++  },
++  "kernelspec": {
++   "name": "python3",
++   "display_name": "Python 3"
++  },
++  "language_info": {
++   "name": "python"
++  }
++ },
++ "cells": [
++  {
++   "cell_type": "markdown",
++   "metadata": {
++    "id": "view-in-github",
++    "colab_type": "text"
++   },
++   "source": [
++    "<a href=\"https://colab.research.google.com/github/dtht2d/bispectrum_component/blob/main/bispectrum/optimization/test_functions_calc.ipynb\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
++   ]
++  },
++  {
++   "cell_type": "code",
++   "source": [
++    "%autosave 30"
++   ],
++   "metadata": {
++    "colab": {
++     "base_uri": "https://localhost:8080/",
++     "height": 35
++    },
++    "id": "I9n2S-rfLHSh",
++    "outputId": "63bd205c-cb0e-4fc7-e41c-f5bfd3faaaab"
++   },
++   "execution_count": null,
++   "outputs": [
++    {
++     "output_type": "display_data",
++     "data": {
++      "application/javascript": [
++       "IPython.notebook.set_autosave_interval(30000)"
++      ]
++     },
++     "metadata": {}
++    },
++    {
++     "output_type": "stream",
++     "name": "stdout",
++     "text": [
++      "Autosaving every 30 seconds\n"
++     ]
++    }
++   ]
++  },
++  {
++   "cell_type": "markdown",
++   "source": [
++    "# **Code optimization:**  Compile function used in computing bispectrum components with/without Numba\n",
++    "\n",
++    "**Numba**\n",
++    "- An open source JIT compiler that translates a subset of Python and NumPy code into fast machine code.\n",
++    "- Designed to be used with NumPy arrays and functions. Numba generates specialized code for different array data types and layouts to optimize performance.\n"
++   ],
++   "metadata": {
++    "id": "mmmBfI1hnSLz"
++   }
++  },
++  {
++   "cell_type": "code",
++   "source": [
++    "pip install sympy"
++   ],
++   "metadata": {
++    "colab": {
++     "base_uri": "https://localhost:8080/"
++    },
++    "id": "ypnD2_8ZaqFc",
++    "outputId": "b5c7cc9b-3415-4d7d-8dec-4100cef9d60e"
++   },
++   "execution_count": null,
++   "outputs": [
++    {
++     "output_type": "stream",
++     "name": "stdout",
++     "text": [
++      "Looking in indexes: https://pypi.org/simple, https://us-python.pkg.dev/colab-wheels/public/simple/\n",
++      "Requirement already satisfied: sympy in /usr/local/lib/python3.8/dist-packages (1.7.1)\n",
++      "Requirement already satisfied: mpmath>=0.19 in /usr/local/lib/python3.8/dist-packages (from sympy) (1.2.1)\n"
++     ]
++    }
++   ]
++  },
++  {
++   "cell_type": "code",
++   "source": [
++    "!pip install numpy"
++   ],
++   "metadata": {
++    "colab": {
++     "base_uri": "https://localhost:8080/"
++    },
++    "id": "bcRht3Fhn05r",
++    "outputId": "baf7cc37-ef9f-4441-f198-3c481494fd45"
++   },
++   "execution_count": null,
++   "outputs": [
++    {
++     "output_type": "stream",
++     "name": "stdout",
++     "text": [
++      "Looking in indexes: https://pypi.org/simple, https://us-python.pkg.dev/colab-wheels/public/simple/\n",
++      "Requirement already satisfied: numpy in /usr/local/lib/python3.8/dist-packages (1.22.4)\n"
++     ]
++    }
++   ]
++  },
++  {
++   "cell_type": "code",
++   "source": [
++    "!pip install numba"
++   ],
++   "metadata": {
++    "colab": {
++     "base_uri": "https://localhost:8080/"
++    },
++    "id": "JkAbpQUPn4Zw",
++    "outputId": "3f3c864a-e4a8-464b-dd8f-23e4ce810753"
++   },
++   "execution_count": null,
++   "outputs": [
++    {
++     "output_type": "stream",
++     "name": "stdout",
++     "text": [
++      "Looking in indexes: https://pypi.org/simple, https://us-python.pkg.dev/colab-wheels/public/simple/\n",
++      "Requirement already satisfied: numba in /usr/local/lib/python3.8/dist-packages (0.56.4)\n",
++      "Requirement already satisfied: numpy<1.24,>=1.18 in /usr/local/lib/python3.8/dist-packages (from numba) (1.22.4)\n",
++      "Requirement already satisfied: setuptools in /usr/local/lib/python3.8/dist-packages (from numba) (57.4.0)\n",
++      "Requirement already satisfied: llvmlite<0.40,>=0.39.0dev0 in /usr/local/lib/python3.8/dist-packages (from numba) (0.39.1)\n",
++      "Requirement already satisfied: importlib-metadata in /usr/local/lib/python3.8/dist-packages (from numba) (6.0.0)\n",
++      "Requirement already satisfied: zipp>=0.5 in /usr/local/lib/python3.8/dist-packages (from importlib-metadata->numba) (3.15.0)\n"
++     ]
++    }
++   ]
++  },
++  {
++   "cell_type": "code",
++   "source": [
++    "!pip install ipython-autotime\n",
++    "%load_ext autotime"
++   ],
++   "metadata": {
++    "colab": {
++     "base_uri": "https://localhost:8080/"
++    },
++    "id": "san3vLB3oEB5",
++    "outputId": "52c3463f-c6dd-48a2-b632-e9a06ea4c922"
++   },
++   "execution_count": null,
++   "outputs": [
++    {
++     "output_type": "stream",
++     "name": "stdout",
++     "text": [
++      "Looking in indexes: https://pypi.org/simple, https://us-python.pkg.dev/colab-wheels/public/simple/\n",
++      "Collecting ipython-autotime\n",
++      "  Downloading ipython_autotime-0.3.1-py2.py3-none-any.whl (6.8 kB)\n",
++      "Requirement already satisfied: ipython in /usr/local/lib/python3.8/dist-packages (from ipython-autotime) (7.9.0)\n",
++      "Requirement already satisfied: pickleshare in /usr/local/lib/python3.8/dist-packages (from ipython->ipython-autotime) (0.7.5)\n",
++      "Requirement already satisfied: traitlets>=4.2 in /usr/local/lib/python3.8/dist-packages (from ipython->ipython-autotime) (5.7.1)\n",
++      "Requirement already satisfied: backcall in /usr/local/lib/python3.8/dist-packages (from ipython->ipython-autotime) (0.2.0)\n",
++      "Requirement already satisfied: pygments in /usr/local/lib/python3.8/dist-packages (from ipython->ipython-autotime) (2.6.1)\n",
++      "Requirement already satisfied: pexpect in /usr/local/lib/python3.8/dist-packages (from ipython->ipython-autotime) (4.8.0)\n",
++      "Requirement already satisfied: prompt-toolkit<2.1.0,>=2.0.0 in /usr/local/lib/python3.8/dist-packages (from ipython->ipython-autotime) (2.0.10)\n",
++      "Requirement already satisfied: decorator in /usr/local/lib/python3.8/dist-packages (from ipython->ipython-autotime) (4.4.2)\n",
++      "Collecting jedi>=0.10\n",
++      "  Downloading jedi-0.18.2-py2.py3-none-any.whl (1.6 MB)\n",
++      "\u001B[2K     \u001B[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001B[0m \u001B[32m1.6/1.6 MB\u001B[0m \u001B[31m17.1 MB/s\u001B[0m eta \u001B[36m0:00:00\u001B[0m\n",
++      "\u001B[?25hRequirement already satisfied: setuptools>=18.5 in /usr/local/lib/python3.8/dist-packages (from ipython->ipython-autotime) (57.4.0)\n",
++      "Requirement already satisfied: parso<0.9.0,>=0.8.0 in /usr/local/lib/python3.8/dist-packages (from jedi>=0.10->ipython->ipython-autotime) (0.8.3)\n",
++      "Requirement already satisfied: wcwidth in /usr/local/lib/python3.8/dist-packages (from prompt-toolkit<2.1.0,>=2.0.0->ipython->ipython-autotime) (0.2.6)\n",
++      "Requirement already satisfied: six>=1.9.0 in /usr/local/lib/python3.8/dist-packages (from prompt-toolkit<2.1.0,>=2.0.0->ipython->ipython-autotime) (1.15.0)\n",
++      "Requirement already satisfied: ptyprocess>=0.5 in /usr/local/lib/python3.8/dist-packages (from pexpect->ipython->ipython-autotime) (0.7.0)\n",
++      "Installing collected packages: jedi, ipython-autotime\n",
++      "Successfully installed ipython-autotime-0.3.1 jedi-0.18.2\n",
++      "time: 750 µs (started: 2023-03-01 17:22:56 +00:00)\n"
++     ]
++    }
++   ]
++  },
++  {
++   "cell_type": "markdown",
++   "source": [
++    "## **a. Wigner D function**\n",
++    "Ref.[5], chapter 4.3-eq.1\n",
++    "\n",
++    "$$\n",
++    "D^{j}_{mm'}(\\theta_0,\\theta,\\phi)=e^{-im\\theta_0}d^{j}_{mm'}(\\theta)e^{-im'\\phi}\n",
++    "$$\n",
++    "Choose 4.3.1 eq(4) to compute $d^{j}_{mm'}(\\theta)$\n",
++    "\n",
++    "\\begin{align*}d^j_{mm'}{(\\theta)}= [(j+m)!(j-m)!(j+m')!(j-m')!]^{\\frac{1}{2}} \\\\ \\times \\displaystyle\\sum_k(-1)^k\\frac{(cos\\frac{\\theta}{2})^{2j-2k+m-m'}(sin\\frac{\\theta}{2})^{2k-m+m'}}{k!(j+m-k)!(j-m'-k)!(m'-m+k))} \\end{align*}\n",
++    "**Note:** $k$ runs over all integer values for which factorial arguments are non-negative. The sums contain $(N+1)$  terms where N is the minimum of $j+m, j-m, j+m'$ and $j-m'$. \n",
++    "\n",
++    "**Finding** $k_{max}, k_{min}:$\n",
++    "\n",
++    "\\begin{align*} j+m-k &\\geq 0 &\\\\ k &\\leq j-m \\leq j+m \\\\ j-m'-k &\\geq 0 &\\\\ k &\\leq j-m'  \\\\ k_{min}&= [\\text{int}(\\ j+m \\ ), \\text{int}(\\ j-m' \\ \n",
++    ")] \\\\ m-m'+k&\\geq 0 \\\\ k &\\geq m'-m &\\\\ k_{max}&=\\text{int}[0,m'-m] \\end{align*} \n"
++   ],
++   "metadata": {
++    "id": "poynABn2YtZ-"
++   }
++  },
++  {
++   "cell_type": "markdown",
++   "source": [
++    "### **Compute class function without Numba**"
++   ],
++   "metadata": {
++    "id": "WBQ94kJLbGMb"
++   }
++  },
++  {
++   "cell_type": "code",
++   "source": [
++    "import numpy as np\n",
++    "import cmath\n",
++    "\n",
++    "def fact(n):\n",
++    "    \"\"\"\n",
++    "    This function is used to calculate factorial of a number by using\n",
++    "    an iterative approach instead of recursive approach\n",
++    "    \"\"\"\n",
++    "    result = 1\n",
++    "    for i in range(1, n + 1):\n",
++    "        result *= i\n",
++    "    return result\n",
++    "\n",
++    "\n",
++    "class Wigner_D:\n",
++    "    \"\"\"\n",
++    "    Args:\n",
++    "        j (scalar): angular momentum\n",
++    "        m (scalar): eigenvalue of angular momentum\n",
++    "        mp (scalar): eigenvalue of j along rotated axis\n",
++    "        theta_0 (scalar): first angle of rotation [0, pi]\n",
++    "        theta (scalar): second angle of rotation [0, pi]\n",
++    "        phi (scalar): third angle of rotation [0, 2*pi]\n",
++    "    Returns: complex number, Wigner D function\n",
++    "    ==========================Reference==================================\n",
++    "    [5] Chapter 4.3-(p.76,eq.1)  D.A. Varshalovich, A.N. Moskalev, V.K Khersonskii,\n",
++    "        Quantum Theory of Angular Momentum (1988)\n",
++    "    \"\"\"\n",
++    "    def __init__(self, j, m, mp, theta_0, theta, phi):\n",
++    "        if j < 0 or not np.isclose(j, int(j)) or (j % 1 == 0.5 and (m % 1 != 0 or mp % 1 != 0)):\n",
++    "            raise ValueError(\"Invalid input parameters: j must be a non-negative integer or half-integer, \"\n",
++    "                             \"m and mp must be between -j and j.\")\n",
++    "        if theta_0 < 0 or theta_0 > np.pi or theta < 0 or theta > np.pi or phi < 0 or phi > 2 * np.pi:\n",
++    "            raise ValueError(\n",
++    "                \"Invalid input parameters: theta_0, theta, and phi must be within [0, pi] and [0, 2pi], respectively.\")\n",
++    "        self.j = j\n",
++    "        self.m = m\n",
++    "        self.mp = mp\n",
++    "        self.theta_0 = theta_0\n",
++    "        self.theta = theta\n",
++    "        self.phi = phi\n",
++    "    def compute_dsmall(self):\n",
++    "        \"\"\"\n",
++    "        This method is used to calculate the Wigner d small- real function involving trigonometric functions\n",
++    "        ==========================Reference==================================\n",
++    "        [5] Chapter 4.3.1-(p.76,eq.4)  D.A. Varshalovich, A.N. Moskalev, V.K Khersonskii,\n",
++    "        Returns: Wigner d - real function\n",
++    "        \"\"\"\n",
++    "        kmax = max(0, self.m - self.mp)\n",
++    "        kmin = min(self.j + self.m, self.j - self.mp)\n",
++    "        term1 = np.sqrt(fact(self.j + self.m) * fact(self.j - self.m) * fact(self.j + self.mp) * fact(self.j - self.mp))\n",
++    "        sum = 0\n",
++    "        for k in range(kmax, kmin + 1):\n",
++    "            numerator = (-1) ** k * (cmath.cos(self.theta / 2)) ** (2 * self.j - 2 * k + self.m - self.mp) * \\\n",
++    "                        (cmath.sin(self.theta / 2)) ** (2 * k - self.m + self.mp)\n",
++    "            denominator = fact(k) * fact(self.j + self.m - k) * fact(self.j - self.mp - k) * fact(self.mp - self.m + k)\n",
++    "            sum += numerator / denominator\n",
++    "        return sum*term1\n",
++    "\n",
++    "    def wigner_D(self):\n",
++    "        term1 = np.exp(-1j * self.m * self.theta_0)\n",
++    "        term2 = self.compute_dsmall()\n",
++    "        term3 = np.exp(-1j * self.mp * self.phi)\n",
++    "        result = term1 * term2 * term3\n",
++    "        return result\n",
++    "\n"
++   ],
++   "metadata": {
++    "id": "qGZ4B_6yoQbm",
++    "colab": {
++     "base_uri": "https://localhost:8080/"
++    },
++    "outputId": "9ac8f928-fea8-4a29-e1af-2e4ae90e89a6"
++   },
++   "execution_count": null,
++   "outputs": [
++    {
++     "output_type": "stream",
++     "name": "stdout",
++     "text": [
++      "time: 6.1 ms (started: 2023-03-01 17:22:56 +00:00)\n"
++     ]
++    }
++   ]
++  },
++  {
++   "cell_type": "markdown",
++   "source": [
++    "**Example**"
++   ],
++   "metadata": {
++    "id": "eU77rfCGqvyn"
++   }
++  },
++  {
++   "cell_type": "code",
++   "source": [
++    "import numpy as np\n",
++    "j, m, mp, theta_0, theta,phi= 1, 1, 0, np.pi, np.pi/2, 0\n",
++    "# Calculate the Wigner D function using our function\n",
++    "WD = Wigner_D(j, m, mp, theta_0, theta,phi)\n",
++    "wd = WD.wigner_D()\n",
++    "print(wd)"
++   ],
++   "metadata": {
++    "id": "cczu8YPFquZ5",
++    "colab": {
++     "base_uri": "https://localhost:8080/"
++    },
++    "outputId": "b0dd6f22-7df5-460c-9f0f-15494a117e77"
++   },
++   "execution_count": null,
++   "outputs": [
++    {
++     "output_type": "stream",
++     "name": "stdout",
++     "text": [
++      "(0.7071067811865476+8.659560562354934e-17j)\n",
++      "time: 8.23 ms (started: 2023-03-01 17:22:56 +00:00)\n"
++     ]
++    }
++   ]
++  },
++  {
++   "cell_type": "code",
++   "source": [
++    "from sympy import *\n",
++    "from sympy.physics.quantum.spin import Rotation\n",
++    "#Calculate the Wigner D matrix with Sympy\n",
++    "rot1 = Rotation.D(j, m, mp, theta_0, theta,phi)\n",
++    "wignerD_sympy = rot1.doit()\n",
++    "print(N(wignerD_sympy))"
++   ],
++   "metadata": {
++    "colab": {
++     "base_uri": "https://localhost:8080/"
++    },
++    "id": "y5zOc5b1MhWM",
++    "outputId": "2d9e816d-eed3-4728-9b0e-00d5bbfce9cf"
++   },
++   "execution_count": null,
++   "outputs": [
++    {
++     "output_type": "stream",
++     "name": "stdout",
++     "text": [
++      "0.707106781186548 + 8.65956056235493e-17*I\n",
++      "time: 1.52 s (started: 2023-03-01 17:23:27 +00:00)\n"
++     ]
++    }
++   ]
++  },
++  {
++   "cell_type": "markdown",
++   "source": [
++    "**Comment:** Our function run faster than Sympy function"
++   ],
++   "metadata": {
++    "id": "eP9ui7J4M3d_"
++   }
++  },
++  {
++   "cell_type": "markdown",
++   "source": [
++    "### **b. Compute Coupling Coefficients $H^{jmm'}_{{{j_1}{m_1}{m'_1}} ,{{j_2}{m_2}{m'_2}}}$analogous to Clebsch -Gordan coeffcients**\n",
++    "\n",
++    "**Clebsch- Gordan coefficient**\n",
++    "\n",
++    "Ref.[3], Eq.(5) and Ref.[1], Eq.(5)\n",
++    "\n",
++    "$$\n",
++    "C^{jm}_{{j_1}{m_1}{j_2}{m_2}} C^{jm'}_{{j_1}{m'_1}{j_2}{m'_2}} \\equiv H^{jmm'}_{{{j_1}{m_1}{m'_1}} ,{{j_2}{m_2}{m'_2}}} \n",
++    "$$\n",
++    "\n",
++    "**Definition**\n",
++    "\n",
++    "Ref.[5] p.235\n",
++    "\n",
++    "A Clebsch-Gordan coefficients are vector addition coefficients. They play an important role in decomposition of reducible representations of rotational….Let angular momentum $j_1$ and $j_2$ with projections on $m_1$  and $m_2$ on the quantization axis. represents **the probability amplitude that $j_1$ and $j_2$ are coupled into a resultant angular momentum $j$ with projection $m$.**\n",
++    "\n",
++    "\n",
++    "$$\n",
++    "(j_1,m_1)\\otimes(j_2,m_2) \\to (jm) \n",
++    "$$\n",
++    "\n",
++    "$$\n",
++    "C\\equiv\\langle{j_1m_1j_2m_2\\vert jm}⟩\n",
++    "$$\n",
++    "\n",
++    "$$\n",
++    "\\langle{j_1j_2m_2\\vert jm}⟩=(-1)^{j_1-j_2+m}\\sqrt{2j+1}\\begin{pmatrix}j_1&j_2&j \\\\ m_1&m_2&{-m}\\end{pmatrix} \n",
++    "$$\n",
++    "\n",
++    "The $3jm$ symbols are related to Clebsch-Gordan coefficients. The inverse relation:\n",
++    "\n",
++    "Ref[5]. Ch8.1.2, eq.(12)\n",
++    "\n",
++    "$$\n",
++    "C^{jm}_{j_1m_1j_2m_2}=(-1)^{j_1-j_2+m}\\sqrt{2j+1}\\begin{pmatrix}j_1&j_2&j \\\\ m_1&m_2&{-m}\\end{pmatrix} \n",
++    "$$\n",
++    "\n",
++    "Ref[12]. Ch3.12, eq(3.171)\n",
++    "\n",
++    "$$\n",
++    "\\begin{align*} C_{j_1m_1j_2m_2}^{jm} &= \\ \\delta(m_1 +m_2,m) \\\\ & \\times \\left[\\frac{(2j+1)(j+j_1-j_2)!(j-j_1+j_2)!(j_1+j_2-j)!}{(j+j_1+j_2+1)!} \\right]^{\\frac{1}{2}} \\\\ & \\times \\left[ \\frac{(j+m)!(j-m)!}{(j_1+m_1)!(j_1-m_1)!(j_2+m_2)!(j_2-m_2)!}\\right]^{\\frac{1}{2}} \\\\ & \\times \\displaystyle\\sum_s\\frac{(-1)^{j_2+m_2+s}(j_2+j+m_1-s)!(j_1-m_1+s)!}{s!(j-j_1+j_2-s)!(j+m-s)!(j_1-j_2-m+s)!} \\end{align*}\n",
++    "$$\n",
++    "\n",
++    "**Condition for $j_1,j_2,j,m_1,m_2,m$**\n",
++    "\n",
++    "In accordance with vector addition rules $j_1+j_2=j$, unless the triangular conditions (triangular in equalities) are fulfilled\n",
++    "\n",
++    "(1)$|j_1-j_2|\\ \\le j \\le j_1+j_2$ \n",
++    "\n",
++    "$j= 0, \\frac{1}{2},1,...\\infty$  and $m, m' = -j,-j+1, ...,j-1,j$\n",
++    "\n",
++    "(2)$m_1+m_2=m \\ \\text{and} \\ j_1 +j_2=j$\n",
++    "\n",
++    "(3)$|m_1| \\le j_1, \\ |m_2| \\le j_2,\\ |m| \\le j$ \n",
++    "\n",
++    "(4) $j_1,j_2,j$ not exceed a positive integer $J \\ \\text{is}$\n",
++    "\n",
++    "(5) $j_1+j_2-j$ not half integer\n",
++    "\n",
++    "(6) $m_1,m_2,m$ are integer or half-integer (positive or negative) numbers\n",
++    "\n",
++    "(7) $j_1,j_2,j$ are integer or half integer non negative numbers \n",
++    "\n",
++    "(8) $j_1 +m_1, \\ j_2 +m_2, \\ j +m, \\ j_1+j_2+j$  are integer non-negative numbers\n",
++    "**Condition for $s$ :** such that nowhere does a factorial of negative number appear\n",
++    "\n",
++    "$$\n",
++    "\\begin{align*} j_2+j+m_1-s  &\\geq 0 \\rightarrow \\ s \\leq j_1+j+m_1 \\\\ j_1-m_1+s &\\geq 0 \\rightarrow \\ s \\geq m_1-j_1 \\\\ j-j_1+j_2-s &\\geq 0 \\rightarrow \\ s \\leq j-j_1+j_2 \\\\ j+m-s &\\geq 0 \\rightarrow \\ s \\leq j+m \\\\ j_1-j_2-m+s &\\geq 0 \\rightarrow \\ s \\geq -j_1+j_2+m\\end{align*}\n",
++    "$$\n",
++    "\n",
++    "$s_{min}=max(0,m_1-j_1,-j_1+j_2+m)$\n",
++    "\n",
++    "$s_{max} = min(j_1+j+m_1, j-j_1+j_2,j+m)$\n",
++    "\n",
++    "$$\n",
++    "s_{range}=[s_{min},s_{max}+1]\n",
++    "$$\n",
++    "\n",
++    "**Note:** add `+1` to `smax`since the `range()`function does not include the endpoint, and we want to include it in the loop\n",
++    "\n",
++    "**Parameter:**\n",
++    "\n",
++    "$j_1, j_2$ : Angular momenta of states 1 and 2\n",
++    "\n",
++    "$j,m\\ :$  Total angular momentum of $(j_1+j_2)$\n",
++    "\n",
++    "$m_1, \\ m_2, \\ m:$  Eigenvalues w.r.t to anglar momentum $j_1, \\ j_2, \\ j$\n",
++    "\n",
++    "$m_1', \\ m_2', \\ m':$ Eigenvalues w.r.t $j_1, \\ j_2, \\ j$ along rotated axis"
++   ],
++   "metadata": {
++    "id": "KKFECX2kNCkW"
++   }
++  },
++  {
++   "cell_type": "markdown",
++   "source": [
++    "\n",
++    "### **Compute $C_{j_1m_1j_2m_2}^{jm}, \\ C_{j_1m_1j_2m_2}^{jm'}$**"
++   ],
++   "metadata": {
++    "id": "i1Qrdh5ROSM3"
++   }
++  },
++  {
++   "cell_type": "code",
++   "source": [
++    "import numpy as np\n",
++    "import cmath\n",
++    "def fact(n):\n",
++    "    \"\"\"\n",
++    "    This function is used to calculate factorial of a number by using\n",
++    "    an iterative approach instead of recursive approach\n",
++    "    \"\"\"\n",
++    "    return np.prod(np.arange(1, n + 1))\n",
++    "class Clebsch_Gordan:\n",
++    "    \"\"\"\n",
++    "    Definition:\n",
++    "    A Clebsch-Gordan coefficients are vector addition coefficients. They play an important role in decomposition of\n",
++    "    reducible representations of rotation. Let j1 and j2 with projections on m1 and m2 on the quantization axis.\n",
++    "    The coefficients represent the probability amplitude that j1 and j2 are coupled into a resultant angular momentum\n",
++    "    j with projection m.\n",
++    "    Args:\n",
++    "        j1 (scalar): angular momentum\n",
++    "        j2 (scalar): angular momentum\n",
++    "        j (scalar): angular momentum\n",
++    "        m1 (scalar): eigenvalue of angular momentum\n",
++    "        m2 (scalar): eigenvalue of angular momentum\n",
++    "        m (scalar): eigenvalue of angular momentum\n",
++    "    Returns: complex number, Clebsh Gordan function\n",
++    "    ==========================Reference==================================\n",
++    "    [5] Chapter 8 D.A. Varshalovich, A.N. Moskalev, V.K Khersonskii,\n",
++    "        Quantum Theory of Angular Momentum (1988)\n",
++    "    [12] Chapter 3 Biedenharn, L., & Louck, J.D. ,\n",
++    "        Encyclopedia of Mathematics and its Applications (1981)\n",
++    "    \"\"\"\n",
++    "    def __init__(self, j1, j2, j, m1, m2, m):\n",
++    "        self.j1 = j1\n",
++    "        self.j2 = j2\n",
++    "        self.j = j\n",
++    "        self.m1 = m1\n",
++    "        self.m2 = m2\n",
++    "        self.m = m\n",
++    "        self.J = j1 + j2 + j\n",
++    "        #Condition 1 & 2 & 5\n",
++    "        if not (abs(j1 - j2) <= j <= j1 + j2 and m1 + m2 == m and j1 + j2 - j % 1 != 0.5):\n",
++    "            raise ValueError(\"Invalid input parameters: j1, j2, j, m1, m2, and m must satisfy the triangle inequality.\\ \"\n",
++    "                             \"j1+j2-j must not be a half-integer\")\n",
++    "        #Condition 3 & 6\n",
++    "        if not all(abs(x) <= y and (x % 0.5 == 0 or x % 1 == 0) for x, y in zip([m1, m2, m], [j1, j2, j])):\n",
++    "            raise ValueError(\"Invalid input parameters: |m1| <= j1, |m_2| <= j2, |m| <= j\\ \"\n",
++    "                             \"m1, m2, m must be integer or half-integer (positive or negative) numbers\")\n",
++    "        # Condition 4\n",
++    "        J =(j1+j2+j)\n",
++    "        if J < (int(j1+j2+j)) and J <0:\n",
++    "            raise ValueError(\"Invalid input parameters: j1, j2, j must not exceed a positive integer J\")\n",
++    "        # Condition 7\n",
++    "        if not all(\n",
++    "                isinstance(x, (int, float, np.integer, np.floating)) and x >= 0 and (x % 0.5 == 0 or x % 1 == 0) for x\n",
++    "                in [j1, j2, j]):\n",
++    "            raise ValueError(\n",
++    "                \"Invalid input parameters: j1, j2, j must be integer or half-integer non-negative numbers\")\n",
++    "        # Condition 8\n",
++    "        if not all(isinstance(x, (int, float, np.integer, np.floating)) and x >= 0 and x % 1 == 0 for x in\n",
++    "                   [j1 + m1, j2 + m2, j + m, j1 + j2 + j]):\n",
++    "            raise ValueError(\"Invalid input parameters: j1+m1,j2+m2,j+m,j1+j2+j must be integer non-negative numbers\")\n",
++    "    def cb(self):\n",
++    "        if self.m1 + self.m2 != self.m:\n",
++    "            return 0.0  # delta function fails\n",
++    "        prefactor = cmath.sqrt((2 * self.j + 1) * fact(self.j + self.j1 - self.j2) * fact(self.j-self.j1 + self.j2) \\\n",
++    "                               * fact(self.j1 + self.j2 - self.j) / fact(self.j + self.j1 + self.j2 + 1))\n",
++    "        coefficient = cmath.sqrt(fact(self.j + self.m) * fact(self.j - self.m) / (fact(self.j1 + self.m1) \\\n",
++    "                               * fact(self.j1 - self.m1) * fact(self.j2 + self.m2) * fact(self.j2 - self.m2)))\n",
++    "        sum = 0.0\n",
++    "        smin= max(0, int(self.m1-self.j1),int(self.j2-self.j1+self.m))\n",
++    "        smax= min(int(self.j2+self.j+self.m1),int(self.j-self.j1+self.j2),\\\n",
++    "                   int(self.j+self.m))\n",
++    "\n",
++    "        for s in range(smin,smax+1):\n",
++    "            den = fact(s) * fact(self.j - self.j1 + self.j2 - s) * fact(self.j + self.m - s) \\\n",
++    "                  * fact(self.j1 - self.j2 - self.m + s)\n",
++    "            num = ((-1) ** (self.j2 + self.m2 + s))* fact(self.j2 + self.j + self.m1 - s) * fact(self.j1 - self.m1 + s)\n",
++    "            sum += num / den\n",
++    "        cb = prefactor * coefficient * sum\n",
++    "        return cb"
++   ],
++   "metadata": {
++    "id": "aljPFHNTON_C"
++   },
++   "execution_count": 7,
++   "outputs": []
++  },
++  {
++   "cell_type": "code",
++   "source": [
++    "j1,m1,j2,m2,j,m=1,1,3/2,1/2,5/2,3/2\n",
++    "CG_calc = Clebsch_Gordan(j1,j2,j,m1,m2,m)\n",
++    "cb_calc = CG_calc.cb()\n",
++    "print(cb_calc)"
++   ],
++   "metadata": {
++    "colab": {
++     "base_uri": "https://localhost:8080/"
++    },
++    "id": "Mg-GqD0ITtHR",
++    "outputId": "81707cdc-d2ee-4816-a856-12a91afeebda"
++   },
++   "execution_count": 8,
++   "outputs": [
++    {
++     "output_type": "stream",
++     "name": "stdout",
++     "text": [
++      "(0.7745966692414833+0j)\n"
++     ]
++    }
++   ]
++  },
++  {
++   "cell_type": "code",
++   "source": [
++    "from sympy.physics.quantum.cg import CG\n",
++    "from sympy import *\n",
++    "cg = CG(j1,m1,j2,m2,j,m)\n",
++    "cg = cg.doit()\n",
++    "print (N(cg))"
++   ],
++   "metadata": {
++    "id": "bc18kuwUUgLG",
++    "outputId": "224ce5c3-8ea3-436b-9483-d796667392ec",
++    "colab": {
++     "base_uri": "https://localhost:8080/"
++    }
++   },
++   "execution_count": 9,
++   "outputs": [
++    {
++     "output_type": "stream",
++     "name": "stdout",
++     "text": [
++      "0.774596669241483\n"
++     ]
++    }
++   ]
++  },
++  {
++   "cell_type": "markdown",
++   "source": [
++    "**Comment:** our function to calculate Clebsch Gordan Coefficient run faster"
++   ],
++   "metadata": {
++    "id": "Lf0lR3bhXEey"
++   }
++  },
++  {
++   "cell_type": "markdown",
++   "source": [
++    "### **Compute Coupling Coefficients $H^{jmm'}_{{{j_1}{m_1}{m'_1}} ,{{j_2}{m_2}{m'_2}}}$**\n",
++    "\n"
++   ],
++   "metadata": {
++    "id": "Ohk_Rz__Wl_D"
++   }
++  },
++  {
++   "cell_type": "markdown",
++   "source": [
++    "$$\n",
++    "C^{jm}_{{j_1}{m_1}{j_2}{m_2}} C^{jm'}_{{j_1}{m'_1}{j_2}{m'_2}} \\equiv H^{jmm'}_{{{j_1}{m_1}{m'_1}} ,{{j_2}{m_2}{m'_2}}}   \n",
++    "$$"
++   ],
++   "metadata": {
++    "id": "2Z_Qh4bKXAbp"
++   }
++  },
++  {
++   "cell_type": "code",
++   "source": [],
++   "metadata": {
++    "id": "gUKcPWPfXB46"
++   },
++   "execution_count": null,
++   "outputs": []
++  }
++ ]
++}
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"AnalysisUIOptions\">\n    <option name=\"FILE_MASK\" value=\"*.py\" />\n  </component>\n  <component name=\"AutoImportSettings\">\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\n  </component>\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"bd025cd4-a48e-4c77-ad8a-b238b1464541\" name=\"Changes\" comment=\"References added\">\n      <change afterPath=\"$PROJECT_DIR$/bispectrum/methods/calc/SO4.py\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/bispectrum/methods/calc/H.py\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/bispectrum/methods/calc/H.py\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/bispectrum/optimization/test_functions_calc.ipynb\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/bispectrum/optimization/test_functions_calc.ipynb\" afterDir=\"false\" />\n    </list>\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n  <component name=\"FileTemplateManagerImpl\">\n    <option name=\"RECENT_TEMPLATES\">\n      <list>\n        <option value=\"Julia File\" />\n        <option value=\"Setup Script\" />\n        <option value=\"Python Script\" />\n      </list>\n    </option>\n  </component>\n  <component name=\"FlaskConsoleOptions\" custom-start-script=\"import sys&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo&#10;locals().update(ScriptInfo(create_app=None).load_app().make_shell_context())&#10;print(&quot;Python %s on %s\\nApp: %s [%s]\\nInstance: %s&quot; % (sys.version, sys.platform, app.import_name, app.env, app.instance_path))\">\n    <envs>\n      <env key=\"FLASK_APP\" value=\"app\" />\n    </envs>\n    <option name=\"myCustomStartScript\" value=\"import sys&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;from flask.cli import ScriptInfo&#10;locals().update(ScriptInfo(create_app=None).load_app().make_shell_context())&#10;print(&quot;Python %s on %s\\nApp: %s [%s]\\nInstance: %s&quot; % (sys.version, sys.platform, app.import_name, app.env, app.instance_path))\" />\n    <option name=\"myEnvs\">\n      <map>\n        <entry key=\"FLASK_APP\" value=\"app\" />\n      </map>\n    </option>\n  </component>\n  <component name=\"Git.Settings\">\n    <option name=\"PUSH_AUTO_UPDATE\" value=\"true\" />\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\n  </component>\n  <component name=\"MarkdownSettingsMigration\">\n    <option name=\"stateVersion\" value=\"1\" />\n  </component>\n  <component name=\"ProblemsViewState\">\n    <option name=\"selectedTabId\" value=\"ProjectErrors\" />\n  </component>\n  <component name=\"ProjectId\" id=\"2JTUWRZlNjTiHoc1Nqg8PIYE6dQ\" />\n  <component name=\"ProjectLevelVcsManager\">\n    <ConfirmationsSetting value=\"2\" id=\"Add\" />\n  </component>\n  <component name=\"ProjectViewState\">\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\n    <option name=\"showLibraryContents\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\"><![CDATA[{\n  \"keyToString\": {\n    \"ASKED_ADD_EXTERNAL_FILES\": \"true\",\n    \"RunOnceActivity.OpenProjectViewOnStart\": \"true\",\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\",\n    \"WebServerToolWindowFactoryState\": \"false\",\n    \"last_opened_file_path\": \"/Users/duonghoang/Documents/GitHub/bispectrum_component\",\n    \"node.js.detected.package.eslint\": \"true\",\n    \"node.js.detected.package.tslint\": \"true\",\n    \"node.js.selected.package.eslint\": \"(autodetect)\",\n    \"node.js.selected.package.tslint\": \"(autodetect)\",\n    \"nodejs_package_manager_path\": \"npm\",\n    \"run.code.analysis.last.selected.profile\": \"pProject Default\",\n    \"settings.editor.selected.configurable\": \"project.propVCSSupport.CommitDialog\",\n    \"vue.rearranger.settings.migration\": \"true\"\n  }\n}]]></component>\n  <component name=\"RecentsManager\">\n    <key name=\"MoveFile.RECENT_KEYS\">\n      <recent name=\"$PROJECT_DIR$/codes/methods\" />\n    </key>\n  </component>\n  <component name=\"RunManager\" selected=\"Python.test_ClebschGordan_calc\">\n    <configuration name=\"ClebschGordan\" type=\"PythonConfigurationType\" factoryName=\"Python\" temporary=\"true\" nameIsGenerated=\"true\">\n      <module name=\"bispectrum_component\" />\n      <option name=\"INTERPRETER_OPTIONS\" value=\"\" />\n      <option name=\"PARENT_ENVS\" value=\"true\" />\n      <envs>\n        <env name=\"PYTHONUNBUFFERED\" value=\"1\" />\n      </envs>\n      <option name=\"SDK_HOME\" value=\"\" />\n      <option name=\"WORKING_DIRECTORY\" value=\"$PROJECT_DIR$/bispectrum/methods/calc\" />\n      <option name=\"IS_MODULE_SDK\" value=\"true\" />\n      <option name=\"ADD_CONTENT_ROOTS\" value=\"true\" />\n      <option name=\"ADD_SOURCE_ROOTS\" value=\"true\" />\n      <EXTENSION ID=\"PythonCoverageRunConfigurationExtension\" runner=\"coverage.py\" />\n      <option name=\"SCRIPT_NAME\" value=\"$PROJECT_DIR$/bispectrum/methods/calc/ClebschGordan.py\" />\n      <option name=\"PARAMETERS\" value=\"\" />\n      <option name=\"SHOW_COMMAND_LINE\" value=\"false\" />\n      <option name=\"EMULATE_TERMINAL\" value=\"false\" />\n      <option name=\"MODULE_MODE\" value=\"false\" />\n      <option name=\"REDIRECT_INPUT\" value=\"false\" />\n      <option name=\"INPUT_FILE\" value=\"\" />\n      <method v=\"2\" />\n    </configuration>\n    <configuration name=\"ClesbchGordan\" type=\"PythonConfigurationType\" factoryName=\"Python\" temporary=\"true\" nameIsGenerated=\"true\">\n      <module name=\"bispectrum_component\" />\n      <option name=\"INTERPRETER_OPTIONS\" value=\"\" />\n      <option name=\"PARENT_ENVS\" value=\"true\" />\n      <envs>\n        <env name=\"PYTHONUNBUFFERED\" value=\"1\" />\n      </envs>\n      <option name=\"SDK_HOME\" value=\"\" />\n      <option name=\"WORKING_DIRECTORY\" value=\"$PROJECT_DIR$/bispectrum/methods/calc\" />\n      <option name=\"IS_MODULE_SDK\" value=\"true\" />\n      <option name=\"ADD_CONTENT_ROOTS\" value=\"true\" />\n      <option name=\"ADD_SOURCE_ROOTS\" value=\"true\" />\n      <EXTENSION ID=\"PythonCoverageRunConfigurationExtension\" runner=\"coverage.py\" />\n      <option name=\"SCRIPT_NAME\" value=\"$PROJECT_DIR$/bispectrum/methods/calc/ClesbchGordan.py\" />\n      <option name=\"PARAMETERS\" value=\"\" />\n      <option name=\"SHOW_COMMAND_LINE\" value=\"false\" />\n      <option name=\"EMULATE_TERMINAL\" value=\"false\" />\n      <option name=\"MODULE_MODE\" value=\"false\" />\n      <option name=\"REDIRECT_INPUT\" value=\"false\" />\n      <option name=\"INPUT_FILE\" value=\"\" />\n      <method v=\"2\" />\n    </configuration>\n    <configuration name=\"WignerD\" type=\"PythonConfigurationType\" factoryName=\"Python\" temporary=\"true\" nameIsGenerated=\"true\">\n      <module name=\"bispectrum_component\" />\n      <option name=\"INTERPRETER_OPTIONS\" value=\"\" />\n      <option name=\"PARENT_ENVS\" value=\"true\" />\n      <envs>\n        <env name=\"PYTHONUNBUFFERED\" value=\"1\" />\n      </envs>\n      <option name=\"SDK_HOME\" value=\"\" />\n      <option name=\"WORKING_DIRECTORY\" value=\"$PROJECT_DIR$/bispectrum/methods/calc\" />\n      <option name=\"IS_MODULE_SDK\" value=\"true\" />\n      <option name=\"ADD_CONTENT_ROOTS\" value=\"true\" />\n      <option name=\"ADD_SOURCE_ROOTS\" value=\"true\" />\n      <EXTENSION ID=\"PythonCoverageRunConfigurationExtension\" runner=\"coverage.py\" />\n      <option name=\"SCRIPT_NAME\" value=\"$PROJECT_DIR$/bispectrum/methods/calc/WignerD.py\" />\n      <option name=\"PARAMETERS\" value=\"\" />\n      <option name=\"SHOW_COMMAND_LINE\" value=\"false\" />\n      <option name=\"EMULATE_TERMINAL\" value=\"false\" />\n      <option name=\"MODULE_MODE\" value=\"false\" />\n      <option name=\"REDIRECT_INPUT\" value=\"false\" />\n      <option name=\"INPUT_FILE\" value=\"\" />\n      <method v=\"2\" />\n    </configuration>\n    <configuration name=\"test_ClebschGordan_calc\" type=\"PythonConfigurationType\" factoryName=\"Python\" temporary=\"true\" nameIsGenerated=\"true\">\n      <module name=\"bispectrum_component\" />\n      <option name=\"INTERPRETER_OPTIONS\" value=\"\" />\n      <option name=\"PARENT_ENVS\" value=\"true\" />\n      <envs>\n        <env name=\"PYTHONUNBUFFERED\" value=\"1\" />\n      </envs>\n      <option name=\"SDK_HOME\" value=\"\" />\n      <option name=\"WORKING_DIRECTORY\" value=\"$PROJECT_DIR$/bispectrum/methods\" />\n      <option name=\"IS_MODULE_SDK\" value=\"true\" />\n      <option name=\"ADD_CONTENT_ROOTS\" value=\"true\" />\n      <option name=\"ADD_SOURCE_ROOTS\" value=\"true\" />\n      <EXTENSION ID=\"PythonCoverageRunConfigurationExtension\" runner=\"coverage.py\" />\n      <option name=\"SCRIPT_NAME\" value=\"$PROJECT_DIR$/bispectrum/methods/test_ClebschGordan_calc.py\" />\n      <option name=\"PARAMETERS\" value=\"\" />\n      <option name=\"SHOW_COMMAND_LINE\" value=\"false\" />\n      <option name=\"EMULATE_TERMINAL\" value=\"false\" />\n      <option name=\"MODULE_MODE\" value=\"false\" />\n      <option name=\"REDIRECT_INPUT\" value=\"false\" />\n      <option name=\"INPUT_FILE\" value=\"\" />\n      <method v=\"2\" />\n    </configuration>\n    <configuration name=\"test_WignerD_calc (3)\" type=\"PythonConfigurationType\" factoryName=\"Python\" temporary=\"true\" nameIsGenerated=\"true\">\n      <module name=\"bispectrum_component\" />\n      <option name=\"INTERPRETER_OPTIONS\" value=\"\" />\n      <option name=\"PARENT_ENVS\" value=\"true\" />\n      <envs>\n        <env name=\"PYTHONUNBUFFERED\" value=\"1\" />\n      </envs>\n      <option name=\"SDK_HOME\" value=\"\" />\n      <option name=\"WORKING_DIRECTORY\" value=\"$PROJECT_DIR$/bispectrum/methods\" />\n      <option name=\"IS_MODULE_SDK\" value=\"true\" />\n      <option name=\"ADD_CONTENT_ROOTS\" value=\"true\" />\n      <option name=\"ADD_SOURCE_ROOTS\" value=\"true\" />\n      <EXTENSION ID=\"PythonCoverageRunConfigurationExtension\" runner=\"coverage.py\" />\n      <option name=\"SCRIPT_NAME\" value=\"$PROJECT_DIR$/bispectrum/methods/test_WignerD_calc.py\" />\n      <option name=\"PARAMETERS\" value=\"\" />\n      <option name=\"SHOW_COMMAND_LINE\" value=\"false\" />\n      <option name=\"EMULATE_TERMINAL\" value=\"false\" />\n      <option name=\"MODULE_MODE\" value=\"false\" />\n      <option name=\"REDIRECT_INPUT\" value=\"false\" />\n      <option name=\"INPUT_FILE\" value=\"\" />\n      <method v=\"2\" />\n    </configuration>\n    <recent_temporary>\n      <list>\n        <item itemvalue=\"Python.test_ClebschGordan_calc\" />\n        <item itemvalue=\"Python.ClebschGordan\" />\n        <item itemvalue=\"Python.ClesbchGordan\" />\n        <item itemvalue=\"Python.test_WignerD_calc (3)\" />\n        <item itemvalue=\"Python.WignerD\" />\n      </list>\n    </recent_temporary>\n  </component>\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\n  <component name=\"TaskManager\">\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\n      <changelist id=\"bd025cd4-a48e-4c77-ad8a-b238b1464541\" name=\"Changes\" comment=\"\" />\n      <created>1672101601112</created>\n      <option name=\"number\" value=\"Default\" />\n      <option name=\"presentableId\" value=\"Default\" />\n      <updated>1672101601112</updated>\n      <workItem from=\"1672101610101\" duration=\"3211000\" />\n      <workItem from=\"1672204572904\" duration=\"149000\" />\n      <workItem from=\"1672204786267\" duration=\"8950000\" />\n      <workItem from=\"1673347335610\" duration=\"1015000\" />\n      <workItem from=\"1676405774623\" duration=\"304000\" />\n      <workItem from=\"1676406160670\" duration=\"199000\" />\n      <workItem from=\"1676406433605\" duration=\"364000\" />\n      <workItem from=\"1676484361894\" duration=\"1793000\" />\n      <workItem from=\"1677218691459\" duration=\"2612000\" />\n      <workItem from=\"1677221411634\" duration=\"2000\" />\n      <workItem from=\"1677265686978\" duration=\"1142000\" />\n      <workItem from=\"1677282776176\" duration=\"649000\" />\n      <workItem from=\"1677382257521\" duration=\"3113000\" />\n      <workItem from=\"1677385552111\" duration=\"336000\" />\n      <workItem from=\"1677385890699\" duration=\"1686000\" />\n      <workItem from=\"1677525144059\" duration=\"11731000\" />\n      <workItem from=\"1677629293369\" duration=\"3007000\" />\n      <workItem from=\"1677702492628\" duration=\"4085000\" />\n    </task>\n    <task id=\"LOCAL-00001\" summary=\"Update B calculation\">\n      <created>1672102626687</created>\n      <option name=\"number\" value=\"00001\" />\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1672102626687</updated>\n    </task>\n    <task id=\"LOCAL-00002\" summary=\"Update B calculation\">\n      <created>1672208827103</created>\n      <option name=\"number\" value=\"00002\" />\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1672208827103</updated>\n    </task>\n    <task id=\"LOCAL-00003\" summary=\"Update B calculation\">\n      <created>1672208886269</created>\n      <option name=\"number\" value=\"00003\" />\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1672208886269</updated>\n    </task>\n    <task id=\"LOCAL-00004\" summary=\"parameters description\">\n      <created>1672209872312</created>\n      <option name=\"number\" value=\"00004\" />\n      <option name=\"presentableId\" value=\"LOCAL-00004\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1672209872312</updated>\n    </task>\n    <task id=\"LOCAL-00005\" summary=\"parameters description\">\n      <created>1672330283941</created>\n      <option name=\"number\" value=\"00005\" />\n      <option name=\"presentableId\" value=\"LOCAL-00005\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1672330283941</updated>\n    </task>\n    <task id=\"LOCAL-00006\" summary=\"Clebsch_Gordan function\">\n      <created>1677703748633</created>\n      <option name=\"number\" value=\"00006\" />\n      <option name=\"presentableId\" value=\"LOCAL-00006\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1677703748633</updated>\n    </task>\n    <task id=\"LOCAL-00007\" summary=\"Clebsch_Gordan function\">\n      <created>1677703931217</created>\n      <option name=\"number\" value=\"00007\" />\n      <option name=\"presentableId\" value=\"LOCAL-00007\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1677703931217</updated>\n    </task>\n    <task id=\"LOCAL-00008\" summary=\"Clebsch_Gordan function\">\n      <created>1677704035631</created>\n      <option name=\"number\" value=\"00008\" />\n      <option name=\"presentableId\" value=\"LOCAL-00008\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1677704035631</updated>\n    </task>\n    <task id=\"LOCAL-00009\" summary=\"References added\">\n      <created>1677704289877</created>\n      <option name=\"number\" value=\"00009\" />\n      <option name=\"presentableId\" value=\"LOCAL-00009\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1677704289877</updated>\n    </task>\n    <task id=\"LOCAL-00010\" summary=\"References added\">\n      <created>1677704361653</created>\n      <option name=\"number\" value=\"00010\" />\n      <option name=\"presentableId\" value=\"LOCAL-00010\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1677704361653</updated>\n    </task>\n    <task id=\"LOCAL-00011\" summary=\"References added\">\n      <created>1677705939780</created>\n      <option name=\"number\" value=\"00011\" />\n      <option name=\"presentableId\" value=\"LOCAL-00011\" />\n      <option name=\"project\" value=\"LOCAL\" />\n      <updated>1677705939780</updated>\n    </task>\n    <option name=\"localTasksCounter\" value=\"12\" />\n    <servers />\n  </component>\n  <component name=\"TypeScriptGeneratedFilesManager\">\n    <option name=\"version\" value=\"3\" />\n  </component>\n  <component name=\"Vcs.Log.Tabs.Properties\">\n    <option name=\"TAB_STATES\">\n      <map>\n        <entry key=\"MAIN\">\n          <value>\n            <State>\n              <option name=\"FILTERS\">\n                <map>\n                  <entry key=\"branch\">\n                    <value>\n                      <list>\n                        <option value=\"main\" />\n                      </list>\n                    </value>\n                  </entry>\n                </map>\n              </option>\n            </State>\n          </value>\n        </entry>\n      </map>\n    </option>\n  </component>\n  <component name=\"VcsManagerConfiguration\">\n    <option name=\"ADD_EXTERNAL_FILES_SILENTLY\" value=\"true\" />\n    <MESSAGE value=\"Update B calculation\" />\n    <MESSAGE value=\"parameters description\" />\n    <MESSAGE value=\"Clebsch_Gordan function\" />\n    <MESSAGE value=\"References added\" />\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"References added\" />\n  </component>\n  <component name=\"XDebuggerManager\">\n    <breakpoint-manager>\n      <breakpoints>\n        <line-breakpoint enabled=\"true\" suspend=\"THREAD\" type=\"python-line\">\n          <url>file://$PROJECT_DIR$/bispectrum/methods/test_Clebsh_Gordan_calc.py</url>\n          <line>6</line>\n          <option name=\"timeStamp\" value=\"3\" />\n        </line-breakpoint>\n        <line-breakpoint enabled=\"true\" suspend=\"THREAD\" type=\"python-line\">\n          <url>file://$PROJECT_DIR$/bispectrum/methods/__init__.py</url>\n          <line>2</line>\n          <option name=\"timeStamp\" value=\"4\" />\n        </line-breakpoint>\n      </breakpoints>\n    </breakpoint-manager>\n  </component>\n  <component name=\"com.intellij.coverage.CoverageDataManagerImpl\">\n    <SUITE FILE_PATH=\"coverage/bispectrump_component$test_optimize_B_calculation.coverage\" NAME=\"test_optimize_B_calculation Coverage Results\" MODIFIED=\"1672270862582\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"true\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"$PROJECT_DIR$/codes\" />\n    <SUITE FILE_PATH=\"coverage/bispectrum_component$test_WignerD_calc__2_.coverage\" NAME=\"test_WignerD_calc (2) Coverage Results\" MODIFIED=\"1677386890368\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"true\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"$PROJECT_DIR$/codes/methods\" />\n    <SUITE FILE_PATH=\"coverage/bispectrum_component$Wigner_D.coverage\" NAME=\"Wigner_D Coverage Results\" MODIFIED=\"1677220781727\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"true\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"$PROJECT_DIR$/codes/methods\" />\n    <SUITE FILE_PATH=\"coverage/bispectrum_component$WignerD.coverage\" NAME=\"WignerD Coverage Results\" MODIFIED=\"1677630513881\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"true\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"$PROJECT_DIR$/bispectrum/methods/calc\" />\n    <SUITE FILE_PATH=\"coverage/bispectrum_component$test_WignerD_calc.coverage\" NAME=\"test_WignerD_calc Coverage Results\" MODIFIED=\"1677386294563\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"true\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"$PROJECT_DIR$/codes/methods\" />\n    <SUITE FILE_PATH=\"coverage/bispectrum_component$test_WignerD_calc__3_.coverage\" NAME=\"test_WignerD_calc (3) Coverage Results\" MODIFIED=\"1677631208162\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"true\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"$PROJECT_DIR$/bispectrum/methods\" />\n    <SUITE FILE_PATH=\"coverage/bispectrum_component$test_Clebsch_Gordan_calc.coverage\" NAME=\"test_Clebsch_Gordan_calc Coverage Results\" MODIFIED=\"1677630509950\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"true\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"$PROJECT_DIR$/bispectrum/methods\" />\n    <SUITE FILE_PATH=\"coverage/bispectrum_component$test_ClebschGordan_calc.coverage\" NAME=\"test_ClebschGordan_calc Coverage Results\" MODIFIED=\"1677704011411\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"true\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"$PROJECT_DIR$/bispectrum/methods\" />\n    <SUITE FILE_PATH=\"coverage/bispectrum_component$Bi_SO4.coverage\" NAME=\"Bi_SO4 Coverage Results\" MODIFIED=\"1677220541141\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"true\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"$PROJECT_DIR$/codes/methods\" />\n    <SUITE FILE_PATH=\"coverage/bispectrum_component$ClebschGordan.coverage\" NAME=\"ClebschGordan Coverage Results\" MODIFIED=\"1677702609257\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"true\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"$PROJECT_DIR$/bispectrum/methods/calc\" />\n    <SUITE FILE_PATH=\"coverage/profile_py$test_optimize_B_calculation__1_.coverage\" NAME=\"test_optimize_B_calculation (1) Coverage Results\" MODIFIED=\"1676485776905\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"true\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"$PROJECT_DIR$/tests\" />\n    <SUITE FILE_PATH=\"coverage/bispectrum_component$ClesbchGordan.coverage\" NAME=\"ClesbchGordan Coverage Results\" MODIFIED=\"1677702599529\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"true\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"$PROJECT_DIR$/bispectrum/methods/calc\" />\n    <SUITE FILE_PATH=\"coverage/bispectrum_component$test_WignerD_calc__1_.coverage\" NAME=\"test_WignerD_calc (1) Coverage Results\" MODIFIED=\"1677384471664\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"true\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"$PROJECT_DIR$/codes/methods/tests\" />\n    <SUITE FILE_PATH=\"coverage/bispectrump_component$compute_bispectrum_component.coverage\" NAME=\"compute-bispectrum-component Coverage Results\" MODIFIED=\"1672210327757\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"true\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"$PROJECT_DIR$/codes\" />\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision d8dbf69227c6431100f1f95e9166b8647af4f3fe)
++++ b/.idea/workspace.xml	(date 1680722181003)
+@@ -7,10 +7,20 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="bd025cd4-a48e-4c77-ad8a-b238b1464541" name="Changes" comment="References added">
+-      <change afterPath="$PROJECT_DIR$/bispectrum/methods/calc/SO4.py" afterDir="false" />
++    <list default="true" id="bd025cd4-a48e-4c77-ad8a-b238b1464541" name="Changes" comment="Bispectrum function">
++      <change afterPath="$PROJECT_DIR$/bispectrum/methods/calc/m_value.py" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/bispectrum/methods/calc/neighbor_pram.py" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/bispectrum/methods/test_neighbor_pram.py" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/docs/CPG-Poster-DuongHoang-Bispectrum.png" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/docs/[14]s41524-020-0310-0.pdf" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/docs/[15]KB22.pdf" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/bispectrum/methods/calc/H.py" beforeDir="false" afterPath="$PROJECT_DIR$/bispectrum/methods/calc/H.py" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/bispectrum/methods/calc/ClebschGordan.py" beforeDir="false" afterPath="$PROJECT_DIR$/bispectrum/methods/calc/ClebschGordan.py" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/bispectrum/methods/calc/H.py" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/bispectrum/methods/calc/SO4.py" beforeDir="false" afterPath="$PROJECT_DIR$/bispectrum/methods/calc/SO4.py" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/bispectrum/methods/calc/WignerD.py" beforeDir="false" afterPath="$PROJECT_DIR$/bispectrum/methods/calc/WignerD.py" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/bispectrum/methods/test_ClebschGordan_calc.py" beforeDir="false" afterPath="$PROJECT_DIR$/bispectrum/methods/test_ClebschGordan_calc.py" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/bispectrum/methods/test_optimize_B_calculation.py" beforeDir="false" afterPath="$PROJECT_DIR$/bispectrum/methods/test_optimize_B_calculation.py" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/bispectrum/optimization/test_functions_calc.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/bispectrum/optimization/test_functions_calc.ipynb" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+@@ -56,23 +66,23 @@
+     <option name="hideEmptyMiddlePackages" value="true" />
+     <option name="showLibraryContents" value="true" />
+   </component>
+-  <component name="PropertiesComponent"><![CDATA[{
+-  "keyToString": {
+-    "ASKED_ADD_EXTERNAL_FILES": "true",
+-    "RunOnceActivity.OpenProjectViewOnStart": "true",
+-    "RunOnceActivity.ShowReadmeOnStart": "true",
+-    "WebServerToolWindowFactoryState": "false",
+-    "last_opened_file_path": "/Users/duonghoang/Documents/GitHub/bispectrum_component",
+-    "node.js.detected.package.eslint": "true",
+-    "node.js.detected.package.tslint": "true",
+-    "node.js.selected.package.eslint": "(autodetect)",
+-    "node.js.selected.package.tslint": "(autodetect)",
+-    "nodejs_package_manager_path": "npm",
+-    "run.code.analysis.last.selected.profile": "pProject Default",
+-    "settings.editor.selected.configurable": "project.propVCSSupport.CommitDialog",
+-    "vue.rearranger.settings.migration": "true"
++  <component name="PropertiesComponent">{
++  &quot;keyToString&quot;: {
++    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
++    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
++    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
++    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
++    &quot;last_opened_file_path&quot;: &quot;/Users/duonghoang/Documents/GitHub/bispectrum_component&quot;,
++    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
++    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
++    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
++    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
++    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
++    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
++    &quot;settings.editor.selected.configurable&quot;: &quot;project.propVCSSupport.CommitDialog&quot;,
++    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+   }
+-}]]></component>
++}</component>
+   <component name="RecentsManager">
+     <key name="MoveFile.RECENT_KEYS">
+       <recent name="$PROJECT_DIR$/codes/methods" />
+@@ -123,7 +133,7 @@
+       <option name="INPUT_FILE" value="" />
+       <method v="2" />
+     </configuration>
+-    <configuration name="WignerD" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
++    <configuration name="test_ClebschGordan_calc" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+       <module name="bispectrum_component" />
+       <option name="INTERPRETER_OPTIONS" value="" />
+       <option name="PARENT_ENVS" value="true" />
+@@ -131,12 +141,12 @@
+         <env name="PYTHONUNBUFFERED" value="1" />
+       </envs>
+       <option name="SDK_HOME" value="" />
+-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/bispectrum/methods/calc" />
++      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/bispectrum/methods" />
+       <option name="IS_MODULE_SDK" value="true" />
+       <option name="ADD_CONTENT_ROOTS" value="true" />
+       <option name="ADD_SOURCE_ROOTS" value="true" />
+       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/bispectrum/methods/calc/WignerD.py" />
++      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/bispectrum/methods/test_ClebschGordan_calc.py" />
+       <option name="PARAMETERS" value="" />
+       <option name="SHOW_COMMAND_LINE" value="false" />
+       <option name="EMULATE_TERMINAL" value="false" />
+@@ -145,7 +155,7 @@
+       <option name="INPUT_FILE" value="" />
+       <method v="2" />
+     </configuration>
+-    <configuration name="test_ClebschGordan_calc" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
++    <configuration name="test_WignerD_calc (3)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+       <module name="bispectrum_component" />
+       <option name="INTERPRETER_OPTIONS" value="" />
+       <option name="PARENT_ENVS" value="true" />
+@@ -158,7 +168,7 @@
+       <option name="ADD_CONTENT_ROOTS" value="true" />
+       <option name="ADD_SOURCE_ROOTS" value="true" />
+       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/bispectrum/methods/test_ClebschGordan_calc.py" />
++      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/bispectrum/methods/test_WignerD_calc.py" />
+       <option name="PARAMETERS" value="" />
+       <option name="SHOW_COMMAND_LINE" value="false" />
+       <option name="EMULATE_TERMINAL" value="false" />
+@@ -167,7 +177,7 @@
+       <option name="INPUT_FILE" value="" />
+       <method v="2" />
+     </configuration>
+-    <configuration name="test_WignerD_calc (3)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
++    <configuration name="test_neighbor_list" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+       <module name="bispectrum_component" />
+       <option name="INTERPRETER_OPTIONS" value="" />
+       <option name="PARENT_ENVS" value="true" />
+@@ -180,7 +190,7 @@
+       <option name="ADD_CONTENT_ROOTS" value="true" />
+       <option name="ADD_SOURCE_ROOTS" value="true" />
+       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/bispectrum/methods/test_WignerD_calc.py" />
++      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/bispectrum/methods/test_neighbor_list.py" />
+       <option name="PARAMETERS" value="" />
+       <option name="SHOW_COMMAND_LINE" value="false" />
+       <option name="EMULATE_TERMINAL" value="false" />
+@@ -193,9 +203,9 @@
+       <list>
+         <item itemvalue="Python.test_ClebschGordan_calc" />
+         <item itemvalue="Python.ClebschGordan" />
+-        <item itemvalue="Python.ClesbchGordan" />
++        <item itemvalue="Python.test_neighbor_list" />
+         <item itemvalue="Python.test_WignerD_calc (3)" />
+-        <item itemvalue="Python.WignerD" />
++        <item itemvalue="Python.ClesbchGordan" />
+       </list>
+     </recent_temporary>
+   </component>
+@@ -224,7 +234,14 @@
+       <workItem from="1677385890699" duration="1686000" />
+       <workItem from="1677525144059" duration="11731000" />
+       <workItem from="1677629293369" duration="3007000" />
+-      <workItem from="1677702492628" duration="4085000" />
++      <workItem from="1677702492628" duration="5318000" />
++      <workItem from="1678907006030" duration="893000" />
++      <workItem from="1678936336044" duration="11000" />
++      <workItem from="1679273120192" duration="87000" />
++      <workItem from="1679273411837" duration="1177000" />
++      <workItem from="1679332474357" duration="621000" />
++      <workItem from="1679440233281" duration="214000" />
++      <workItem from="1680660539842" duration="9474000" />
+     </task>
+     <task id="LOCAL-00001" summary="Update B calculation">
+       <created>1672102626687</created>
+@@ -303,7 +320,21 @@
+       <option name="project" value="LOCAL" />
+       <updated>1677705939780</updated>
+     </task>
+-    <option name="localTasksCounter" value="12" />
++    <task id="LOCAL-00012" summary="H function">
++      <created>1677707731957</created>
++      <option name="number" value="00012" />
++      <option name="presentableId" value="LOCAL-00012" />
++      <option name="project" value="LOCAL" />
++      <updated>1677707731957</updated>
++    </task>
++    <task id="LOCAL-00013" summary="Bispectrum function">
++      <created>1677707792096</created>
++      <option name="number" value="00013" />
++      <option name="presentableId" value="LOCAL-00013" />
++      <option name="project" value="LOCAL" />
++      <updated>1677707792096</updated>
++    </task>
++    <option name="localTasksCounter" value="14" />
+     <servers />
+   </component>
+   <component name="TypeScriptGeneratedFilesManager">
+@@ -338,7 +369,9 @@
+     <MESSAGE value="parameters description" />
+     <MESSAGE value="Clebsch_Gordan function" />
+     <MESSAGE value="References added" />
+-    <option name="LAST_COMMIT_MESSAGE" value="References added" />
++    <MESSAGE value="H function" />
++    <MESSAGE value="Bispectrum function" />
++    <option name="LAST_COMMIT_MESSAGE" value="Bispectrum function" />
+   </component>
+   <component name="XDebuggerManager">
+     <breakpoint-manager>
+@@ -362,11 +395,12 @@
+     <SUITE FILE_PATH="coverage/bispectrum_component$Wigner_D.coverage" NAME="Wigner_D Coverage Results" MODIFIED="1677220781727" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/codes/methods" />
+     <SUITE FILE_PATH="coverage/bispectrum_component$WignerD.coverage" NAME="WignerD Coverage Results" MODIFIED="1677630513881" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/bispectrum/methods/calc" />
+     <SUITE FILE_PATH="coverage/bispectrum_component$test_WignerD_calc.coverage" NAME="test_WignerD_calc Coverage Results" MODIFIED="1677386294563" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/codes/methods" />
+-    <SUITE FILE_PATH="coverage/bispectrum_component$test_WignerD_calc__3_.coverage" NAME="test_WignerD_calc (3) Coverage Results" MODIFIED="1677631208162" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/bispectrum/methods" />
++    <SUITE FILE_PATH="coverage/bispectrum_component$test_WignerD_calc__3_.coverage" NAME="test_WignerD_calc (3) Coverage Results" MODIFIED="1680662560036" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/bispectrum/methods" />
+     <SUITE FILE_PATH="coverage/bispectrum_component$test_Clebsch_Gordan_calc.coverage" NAME="test_Clebsch_Gordan_calc Coverage Results" MODIFIED="1677630509950" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/bispectrum/methods" />
+-    <SUITE FILE_PATH="coverage/bispectrum_component$test_ClebschGordan_calc.coverage" NAME="test_ClebschGordan_calc Coverage Results" MODIFIED="1677704011411" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/bispectrum/methods" />
++    <SUITE FILE_PATH="coverage/bispectrum_component$test_ClebschGordan_calc.coverage" NAME="test_ClebschGordan_calc Coverage Results" MODIFIED="1680721854280" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/bispectrum/methods" />
+     <SUITE FILE_PATH="coverage/bispectrum_component$Bi_SO4.coverage" NAME="Bi_SO4 Coverage Results" MODIFIED="1677220541141" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/codes/methods" />
+-    <SUITE FILE_PATH="coverage/bispectrum_component$ClebschGordan.coverage" NAME="ClebschGordan Coverage Results" MODIFIED="1677702609257" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/bispectrum/methods/calc" />
++    <SUITE FILE_PATH="coverage/bispectrum_component$test_neighbor_list.coverage" NAME="test_neighbor_list Coverage Results" MODIFIED="1680670722203" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/bispectrum/methods" />
++    <SUITE FILE_PATH="coverage/bispectrum_component$ClebschGordan.coverage" NAME="ClebschGordan Coverage Results" MODIFIED="1680721957060" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/bispectrum/methods/calc" />
+     <SUITE FILE_PATH="coverage/profile_py$test_optimize_B_calculation__1_.coverage" NAME="test_optimize_B_calculation (1) Coverage Results" MODIFIED="1676485776905" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+     <SUITE FILE_PATH="coverage/bispectrum_component$ClesbchGordan.coverage" NAME="ClesbchGordan Coverage Results" MODIFIED="1677702599529" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/bispectrum/methods/calc" />
+     <SUITE FILE_PATH="coverage/bispectrum_component$test_WignerD_calc__1_.coverage" NAME="test_WignerD_calc (1) Coverage Results" MODIFIED="1677384471664" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/codes/methods/tests" />
+Index: bispectrum/methods/calc/neighbor_pram.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/bispectrum/methods/calc/neighbor_pram.py b/bispectrum/methods/calc/neighbor_pram.py
+new file mode 100644
+--- /dev/null	(date 1680721649022)
++++ b/bispectrum/methods/calc/neighbor_pram.py	(date 1680721649022)
+@@ -0,0 +1,70 @@
++from Bio.PDB.MMCIF2Dict import MMCIF2Dict
++import pandas as pd
++import numpy as np
++def neighbor_pram(input_file, center_atom_id, rcut):
++    '''
++    This function is to create a neighbor_list for a chosen center atoms
++    Parameters:
++        input_file (string) directory of the input file
++        ceter_atom_id (integer): center atom ID
++        rcut (float): cutoff radius depends on the size of the unit cell and atom type
++                note:choosen rcut needs to divide by the true cell length
++                    since atom coordinate (x,y,z)are fraction with cell dimension (1,1,1)
++    Returns: neighbor atoms pandas frame with atom ID and x,y,z fractional distance from center atom
++    '''
++    path = "/Users/duonghoang/Documents/GitHub/bispectrum_component/data/avgBL-Model.cif"
++    dico = MMCIF2Dict(path)
++    df_cif = pd.DataFrame.from_dict(dico, orient='index')
++    x = df_cif.iloc[-3]
++    y = df_cif.iloc[-2]
++    z = df_cif.iloc[-1]
++    atom_type = df_cif.iloc[-4]
++    x_array = np.array(x[0], dtype=float)
++    y_array = np.array(y[0], dtype=float)
++    z_array = np.array(z[0], dtype=float)
++    atom_type_array = np.array(atom_type[0], dtype=str)
++    df = pd.DataFrame({"atom_type": atom_type_array, "X": x_array, "Y": y_array, "Z": z_array})
++
++    # id
++    x_i = df['X'].iloc[center_atom_id]
++    y_i = df['Y'].iloc[center_atom_id]
++    z_i = df['Z'].iloc[center_atom_id]
++    # print(x_i,y_i,z_i)
++    X_array = df['X'].to_numpy()
++    Y_array = df['Y'].to_numpy()
++    Z_array = df['Z'].to_numpy()
++    X_k_array = X_array - x_i
++    Y_k_array = Y_array - y_i
++    Z_k_array = Z_array - z_i
++    r_ik = np.sqrt(np.square(X_k_array) + np.square(Y_k_array) + np.square(Z_k_array))
++    df['X_k'], df['Y_k'], df['Z_k'], df['r_ik'] = X_k_array, Y_k_array, Z_k_array, r_ik
++    # INPUT values
++    cell_length = df.iloc[4]  # index row start from 0 _cell_length_a at row 5 index [4]
++    df_ik = df[(df['r_ik']) <= (rcut)].copy(deep=True)
++
++    # ANGEL CONVERSION
++    # theta_0
++    r_ik_array = df_ik['r_ik'].to_numpy()  # r_ik from selected neighbors
++    r_0_array = np.full((r_ik_array.shape), rcut)
++    theta_0_array = np.pi * (np.divide(r_ik_array, r_0_array))
++    # theta
++    Z_k_abs_array = np.abs(df_ik['Z_k'].to_numpy())
++    theta_array = np.arccos(np.divide(Z_k_abs_array, r_ik_array))
++    # phi
++    X_k_array = df_ik['X_k'].to_numpy()
++    Y_k_array = df_ik['Y_k'].to_numpy()
++    phi_array = np.arctan(np.divide(Y_k_array, X_k_array))
++    # convert angle to positive value between [0,2pi]
++    phi_array_convert = np.mod(phi_array, 2 * np.pi)
++    for angle in phi_array_convert:
++        if (angle >= 2 * np.pi) and (angle < 0):
++            raise ValueError('phi angle in between 0 and 2pi')
++    # replace NaN with 0: (code will have error for invalid value center atom values 0/0)_
++
++    df_ik['theta_0'] = theta_0_array
++    df_ik['theta_0'] = df_ik['theta_0'].replace(np.nan, 0)
++    df_ik['theta'] = theta_array
++    df_ik['theta'] = df_ik['theta'].replace(np.nan, 0)
++    df_ik['phi'] = phi_array_convert
++    df_ik['phi'] = df_ik['phi'].replace(np.nan, 0)
++    return df_ik
+\ No newline at end of file
+Index: bispectrum/methods/calc/m_value.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/bispectrum/methods/calc/m_value.py b/bispectrum/methods/calc/m_value.py
+new file mode 100644
+--- /dev/null	(date 1678907303450)
++++ b/bispectrum/methods/calc/m_value.py	(date 1678907303450)
+@@ -0,0 +1,50 @@
++def generate_m_val(j1, j2, j):
++    """
++    This function generates (m1, m2, m, m1p, m2p, mp) from input set (j1,j2,j)
++    and only keep set that satisfy the condition
++    """
++    # Generate m values
++    m = np.linspace(-j, j, int(2 * j + 1))
++    mp = m.copy()
++    m1 = np.linspace(-j1, j1, int(2 * j1 + 1))
++    m1p = m1.copy()
++    m2 = np.linspace(-j2, j2, int(2 * j2 + 1))
++    m2p = m2.copy()
++    s = product(m1, m2, m, m1p, m2p, mp)
++    keep_list = []
++    for i in s:
++        m1, m2, m, m1p, m2p, mp = i[0], i[1], i[2], i[3], i[4], i[5]
++        # Check input parameter conditions
++        # Condition 1 & 2 & 5
++        if not (abs(j1 - j2) <= j <= j1 + j2 and m1 + m2 == m and j1 + j2 - j % 1 != 0.5):
++            pass
++        if not (abs(j1 - j2) <= j <= j1 + j2 and m1p + m2p == mp and
++                j1 + j2 - j % 1 != 0.5):
++            pass
++        # Condition 3 & 6
++        if not all(abs(x) <= y and (x % 0.5 == 0 or x % 1 == 0) for x, y in
++                   zip([m1, m2, m], [j1, j2, j])):
++            pass
++        if not all(abs(x) <= y and (x % 0.5 == 0 or x % 1 == 0) for x, y in
++                   zip([m1p, m2p, mp], [j1, j2, j])):
++            pass
++        # Condition 4
++        J = (j1 + j2 + j)
++        if J < (int(j1 + j2 + j)) and J < 0:
++            raise ValueError("Invalid input parameters: j1, j2, j \
++                              must not exceed a positive integer J")
++        # Condition 7
++        if not all(isinstance(x, (int, float, np.integer, np.floating)) and x >= 0
++                   and (x % 0.5 == 0 or x % 1 == 0) for x in [j1, j2, j]):
++            raise ValueError("Invalid input parameters: j1, j2, j must be integer \
++                             or half-integer non-negative numbers")
++        # Condition 8
++        if not all(isinstance(x, (int, float, np.integer, np.floating)) and x >= 0
++                   and x % 1 == 0 for x in [j1 + m1, j2 + m2, j + m, j1 + j2 + j]):
++            pass
++        if not all(isinstance(x, (int, float, np.integer, np.floating)) and x >= 0
++                   and x % 1 == 0 for x in [j1 + m1p, j2 + m2p, j + mp, j1 + j2 + j]):
++            pass
++        else:
++            keep_list.append(i)
++    return keep_list
+\ No newline at end of file

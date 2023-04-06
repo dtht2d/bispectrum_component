@@ -27,8 +27,6 @@ df_atoms = df[(df['X'].between(0.5,0.7,inclusive='both'))
                          & (df['Z'].between(0.5,0.7, inclusive='both'))]
 #print (df_atoms)
 
-#Choose a center atom i, in this example we choose atom 'Name'=17 from df_atoms dataframe
-atom_i =df.iloc[17]
 
 # id
 x_i = df['X'].iloc[17]

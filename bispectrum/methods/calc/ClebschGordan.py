@@ -57,7 +57,7 @@ class Clebsch_Gordan:
         if not all(isinstance(x, (int, float, np.integer, np.floating)) and x >= 0 and x % 1 == 0 for x in
                    [j1 + m1, j2 + m2, j + m, j1 + j2 + j]):
             raise ValueError("Invalid input parameters: j1+m1,j2+m2,j+m,j1+j2+j must be integer non-negative numbers")
-    def cb(self):
+    def cg(self):
         if self.m1 + self.m2 != self.m:
             return 0.0  # delta function fails
         prefactor = cmath.sqrt((2 * self.j + 1) * fact(self.j + self.j1 - self.j2) * fact(self.j-self.j1 + self.j2) \
@@ -74,5 +74,34 @@ class Clebsch_Gordan:
                   * fact(self.j1 - self.j2 - self.m + s)
             num = ((-1) ** (self.j2 + self.m2 + s))* fact(self.j2 + self.j + self.m1 - s) * fact(self.j1 - self.m1 + s)
             sum += num / den
-        cb = prefactor * coefficient * sum
-        return cb
+        cg = prefactor * coefficient * sum
+        return cg
+
+def H_coeff(j1,j2,j,m1,m2,m,m1p,m2p,mp):
+    '''
+    This function calculate coupling coefficient H via computing
+    the Clebsch-Gordan coefficient for cg(j1,m1,j2,m2,j,m)
+    and cg(j1,m1p,j2,m2p,j,mp)
+    Parameters:
+        j1: angular momentum 1
+        j2: angular momentum 2
+        j: total angular momentum (j1+j2)
+        m1: eigenvalue of angular momentum j1
+        m2: eigenvalue of angular momentum j2
+        m: eigenvalue of angular momentum j
+        m1p: eigenvalue of j1 along rotated axis
+        m2p: eigenvalue of j2 along rotated axis
+        mp: eigenvalue of j along rotated axis
+    Returns: Coupling coefficient H(j1,j2,j,m1,m2,m.m1p,m2p,mp)
+    ======================Reference=========================
+    [1] Thompson, Swiler, Trott, Foiles, Tucker,
+        Spectral neighbor analysis method for automated generation of quantum-accurate interatomic potentials (2015)
+    [5] Chapter 8  D.A. Varshalovich, A.N. Moskalev, V.K Khersonskii,
+        Quantum Theory of Angular Momentum (1988)
+    '''
+    CG = Clebsch_Gordan(j1,j2,j,m1,m2,m)
+    cg = CG.cg()
+    CGp = Clebsch_Gordan(j1,j2,j,m1p,m2p,mp)
+    cg_p = CGp.cg()
+    H = (cg)*(cg_p)
+    return H, cg, cg_p
