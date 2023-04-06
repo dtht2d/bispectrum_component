@@ -1,11 +1,14 @@
 # **Compute Bispectrum Components**
+## Introduction
 ---
-## Motivation
 
-This research aims to leverage Python scripts to compute bispectrum components, which will then be used as descriptors to train a machine learning model that is capable of predicting the electronic structure of materials. A comprehensive grasp of the electronic structure of materials is fundamental for gaining insight into their behavior at the molecular and nanoscale level. The arrangement of electrons in atoms or molecules is what determines their physical and chemical properties, and the development of predictive models for the electronic structure of materials can facilitate the optimization of their properties.
+In the field of materials science, machine learning and computational physics have revolutionized the process of discovering and developing new materials. Accurately predicting electronic structure is crucial in designing materials with desired properties. Although Density Functional Theory (DFT) is a popular computational model, it faces challenges when dealing with transition metals, rare earth elements, and strong correlation effects. Therefore, current research aims to improve DFT's accuracy and applicability by developing new functionals and techniques.
 
-This study aims to further understand the correlation between atomic structure and its local environment, and to develop models that can explore the electronic properties of novel materials and enhance the characteristics of existing materials. Electronic structure is a critical factor in several properties of materials such as how atoms bond to form molecules, how they interact with light, and the material's electrical conductivity, thermal conductivity, and mechanical properties. A comprehensive comprehension of electronic structure is necessary for the creation of new materials with superior properties and the optimization of the performance of existing materials.
-Ultimately, the development of precise electronic structure prediction models can facilitate the design and engineering of advanced materials for various applications, including electronics, energy storage, catalysis, and drug discovery. Thus, the progress of our knowledge of electronic structure is essential for the development of materials science and the invention of new technologies that can benefit society.
+Objective: This research aims to develop a new machine learning framework and additional descriptors such as bispectrum components, Coulomb matrix eigenvalues (CMEs), and Atom-centered Symmetry Functions (ACSFs) to enhance the accuracy and applicability of predicting electronic structure. The focus of this repository is to optimize the code for computing bispectrum components using Python and use them as input features for a machine learning model.
+
+Significance: Predicting electronic structure enhances our understanding of the correlation between atomic structure and local environment, which can facilitate the development of advanced materials and new technologies. Bispectrum components are a promising descriptor for capturing essential features of electronic structure that traditional spectral descriptors may miss.
+
+Measure of Success: The success of this project will be the development of Python scripts that can automatically generate bispectrum coefficients from crystal structure datasets. The accuracy of the calculations will be tested by comparing predicted electronic structure results to experimental or theoretical results. This research has the potential to contribute to the field of materials science by providing more accurate and efficient methods for predicting electronic structure and designing new materials. Additionally, I am interested in utilizing their research to develop new mediums and techniques for creative expression.
 
 ---
 Objective
@@ -46,3 +49,13 @@ $$H^{jmm'}_{{{j_1}{m_1}{m'_1}} ,{{j_2}{m_2}{m'_2}}}$$
 $$u^j_{mm'}, \mu_{m_1m_1'}^{j_1}, \mu_{m_2,m_2'}^{j_2}$$
 ---
 **3. Code Optimization**
+
+## Future work:
+Propose new Machine Learning framework:
+  - What type of Neural Networks would work?
+  - And why?
+Compute other descriptors for input training: 
+  - Atom-centered Symmetry Functions (ACSFs): descriptor of the local environment of each atom, these models can capture the complex relationships between the atomic positions and the electronic structure of the molecule, leading to accurate predictions of electronic properties.
+  - Coulomb matrix eigenvalues (CMEs) 
+  - Bag of bond 
+
