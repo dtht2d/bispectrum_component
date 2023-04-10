@@ -7,11 +7,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bd025cd4-a48e-4c77-ad8a-b238b1464541" name="Changes" comment="Bispectrum function">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bispectrum/methods/calc/WignerD.py" beforeDir="false" afterPath="$PROJECT_DIR$/bispectrum/methods/calc/WignerD.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bispectrum/methods/test_WignerD_calc.py" beforeDir="false" afterPath="$PROJECT_DIR$/bispectrum/methods/test_WignerD_calc.py" afterDir="false" />
-    </list>
+    <list default="true" id="bd025cd4-a48e-4c77-ad8a-b238b1464541" name="Changes" comment="Bispectrum function" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -231,7 +227,7 @@
       <workItem from="1679332474357" duration="621000" />
       <workItem from="1679440233281" duration="214000" />
       <workItem from="1680660539842" duration="11008000" />
-      <workItem from="1681150417059" duration="2946000" />
+      <workItem from="1681150417059" duration="3617000" />
     </task>
     <task id="LOCAL-00001" summary="Update B calculation">
       <created>1672102626687</created>
