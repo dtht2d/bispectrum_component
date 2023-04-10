@@ -58,9 +58,11 @@ class Wigner_D:
         return sum*term1
 
     def wigner_D(self):
-        term1 = np.exp(-1j * self.m * self.theta_0)
+        # term1 = np.exp(-1j * self.m * self.theta_0)
+        term1 = np.cos(self.m * self.theta_0) - 1j * (np.sin(self.m * self.theta_0))
         term2 = self.compute_dsmall()
-        term3 = np.exp(-1j * self.mp * self.phi)
+        # term3 = np.exp(-1j * self.mp * self.phi)
+        term3 = np.cos(self.mp * self.phi) - 1j * (np.sin(self.mp * self.phi))
         result = term1 * term2 * term3
         return result
 
