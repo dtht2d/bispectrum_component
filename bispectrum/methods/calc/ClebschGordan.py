@@ -104,4 +104,4 @@ def H_coeff(j1,j2,j,m1,m2,m,m1p,m2p,mp):
     CGp = Clebsch_Gordan(j1,j2,j,m1p,m2p,mp)
     cg_p = CGp.cg()
     H = (cg)*(cg_p)
-    return H, cg, cg_p
+    return H

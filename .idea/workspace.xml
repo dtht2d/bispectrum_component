@@ -7,23 +7,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bd025cd4-a48e-4c77-ad8a-b238b1464541" name="Changes" comment="Bispectrum function">
-      <change afterPath="$PROJECT_DIR$/bispectrum/methods/calc/m_value.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bispectrum/methods/calc/neighbor_pram.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bispectrum/methods/test_neighbor_pram.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/CPG-Poster-DuongHoang-Bispectrum.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/[14]s41524-020-0310-0.pdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/[15]KB22.pdf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bispectrum/example/Si_bispectrum_component.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/bispectrum/example/Si_bispectrum_component.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bispectrum/methods/calc/ClebschGordan.py" beforeDir="false" afterPath="$PROJECT_DIR$/bispectrum/methods/calc/ClebschGordan.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bispectrum/methods/calc/H.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bispectrum/methods/calc/SO4.py" beforeDir="false" afterPath="$PROJECT_DIR$/bispectrum/methods/calc/SO4.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bispectrum/methods/calc/WignerD.py" beforeDir="false" afterPath="$PROJECT_DIR$/bispectrum/methods/calc/WignerD.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bispectrum/methods/test_ClebschGordan_calc.py" beforeDir="false" afterPath="$PROJECT_DIR$/bispectrum/methods/test_ClebschGordan_calc.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bispectrum/methods/test_optimize_B_calculation.py" beforeDir="false" afterPath="$PROJECT_DIR$/bispectrum/methods/test_optimize_B_calculation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bispectrum/optimization/test_functions_calc.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/bispectrum/optimization/test_functions_calc.ipynb" afterDir="false" />
-    </list>
+    <list default="true" id="bd025cd4-a48e-4c77-ad8a-b238b1464541" name="Changes" comment="Bispectrum function" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -242,7 +226,7 @@
       <workItem from="1679273411837" duration="1177000" />
       <workItem from="1679332474357" duration="621000" />
       <workItem from="1679440233281" duration="214000" />
-      <workItem from="1680660539842" duration="10418000" />
+      <workItem from="1680660539842" duration="11008000" />
     </task>
     <task id="LOCAL-00001" summary="Update B calculation">
       <created>1672102626687</created>
