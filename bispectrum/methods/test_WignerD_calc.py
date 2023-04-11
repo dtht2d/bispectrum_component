@@ -12,7 +12,7 @@ j, m, mp, theta_0, theta,phi= 2, 2, 1, np.pi, np.pi/2, np.pi/3
 t0=timeit.default_timer()
 #Wigner_D function from calc.WignerD
 WD = Wigner_D(j, m, mp, theta_0, theta,phi)
-wd = WD.wigner_D()
+wd = WD.wigner_D
 print ("Wigner_D calculation from our function", wd)
 t1=timeit.default_timer()
 print("Execution time for Wigner_D function from calc.WignerD:", t0 - t1, "seconds")
