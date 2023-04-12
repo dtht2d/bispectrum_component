@@ -120,4 +120,11 @@ def neighbor_atoms (input_file, center_atom_id, rcut):
     df_ik['theta'] = df_ik['theta'].replace(np.nan, 0)
     df_ik['phi'] = phi_array_convert
     df_ik['phi'] = df_ik['phi'].replace(np.nan, 0)
-    return df_ik
+    # array for weight coefficient w.r.t to atom type
+    w_ik_arr = np.full((r_ik_array.shape), 1) # w_ik =1 for all atoms
+    # delta function delta=1 if i and k has the same element type, if not delta =0
+    delta = np.full((r_ik_array.shape), 0)
+    delta_arr = np.where(df_ik['atom_type'] == df_ik['atom_type'].iloc[0], 1, delta)
+
+
+

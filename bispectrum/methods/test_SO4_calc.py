@@ -1,13 +1,8 @@
 import numpy as np
 import pandas as pd
-import sympy as sp
-from sympy.physics.quantum.cg import CG
-from sympy.physics.wigner import wigner_d
-from sympy.physics.quantum.spin import Rotation
-from sympy import *
 from Bio.PDB.MMCIF2Dict import MMCIF2Dict
-from methods import *
-import itertools
+import json
+#DATA PREPARATION
 path = "/Users/duonghoang/Documents/GitHub/bispectrum_component/data/avgBL-Model.cif"
 dico = MMCIF2Dict(path)
 df_cif = pd.DataFrame.from_dict(dico, orient='index')
@@ -20,14 +15,12 @@ y_array = np.array(y[0],dtype=float)
 z_array = np.array(z[0],dtype=float)
 atom_type_array = np.array(atom_type[0], dtype=str)
 df = pd.DataFrame({"atom_type":atom_type_array,"X" : x_array, "Y":y_array, "Z": z_array})
-
 #Estimate list of potentially atoms in the center cell
 df_atoms = df[(df['X'].between(0.5,0.7,inclusive='both'))
                          & (df['Y'].between(0.5,0.7,inclusive='both'))
                          & (df['Z'].between(0.5,0.7, inclusive='both'))]
-#print (df_atoms)
 
-
+center_atom_id = 17
 # id
 x_i = df['X'].iloc[17]
 y_i = df['Y'].iloc[17]
@@ -42,19 +35,13 @@ Z_k_array = Z_array - z_i
 r_ik= np.sqrt(np.square(X_k_array)+np.square(Y_k_array)+np.square(Z_k_array))
 df['X_k'],df['Y_k'], df['Z_k'],df['r_ik']= X_k_array, Y_k_array, Z_k_array, r_ik
 
-#Check to see if chosen center atom coordinate sets to (0,0,0)
-print(df.iloc[17])
-
 #INPUT values
 atomic_radius = 1.46            #silicon atomic radius, unit: angstrom
 cell_length = df.iloc[4]        #index row start from 0 _cell_length_a at row 5 index [4]
 
 r_mu = 0.0779                   #scale atomic radius w.r.t cell length
 R_cut = 0.25                    #scaled value w.r.t cell length (for Si-Si case)
-df_ik = df[(df['r_ik'] + r_mu)<= (R_cut)].copy(deep=true)
-print(df_ik[['X_k', 'Y_k', 'Z_k', 'r_ik']])
-print (df_ik[['X', 'Y', 'Z']])
-
+df_ik = df[(df['r_ik'] + r_mu)<= (R_cut)].copy(deep=True)
 #ANGEL CONVERSION
 #theta_0
 r_ik_array = df_ik['r_ik'].to_numpy() #r_ik from selected neighbors
@@ -80,56 +67,50 @@ df_ik['theta'] = theta_array
 df_ik['theta'] = df_ik['theta'].replace(np.nan,0)
 df_ik['phi'] = phi_array_convert
 df_ik['phi'] = df_ik['phi'].replace(np.nan,0)
-
-#EXAMPLE
-j,m,mp = 3,2,3
 #array for weight coefficient w.r.t to atom type
 w_ik_arr = np.full((r_ik_array.shape),1)
 #delta function delta=1 if i and k has the same element type, if not delta =0
 delta = np.full((r_ik_array.shape),0)
 delta_arr = np.where(df_ik['atom_type']==df_ik['atom_type'].iloc[0],1,delta)
-u_jmmp= getDensityFunction_u(3,2,3,w_ik_arr,delta_arr,r_ik_array,0,R_cut,theta_0_array,theta_array,phi_array)
-print(u_jmmp)
+df_ik['w_ik']= w_ik_arr
+df_ik['delta']= delta_arr
+print (df_ik)
+# save the DataFrame as a JSON file
+neighbor_list_path = '/Users/duonghoang/Documents/GitHub/bispectrum_component/data/atom-'+ \
+                     str(center_atom_id)+'-neighbor-list.json'
+#store data in a lightweight format
+#df_ik.to_json(neighbor_list_path, orient='records')
+# read the .json data from a file
+with open(neighbor_list_path, 'r') as f:
+    json_data = json.load(f)
 
-#create input set [j1,j2,j,m1,m2,m,m1p,m2p,mp]
-j = 3
-j1 = 1
-j2 = 2
-m = np.linspace(-j, j, int(2 * j + 1)).tolist()
-mp = np.linspace(-j, j, int(2 * j + 1)).tolist()
-m1 = np.linspace(-j1, j1, int(2 * j1 + 1)).tolist()
-m1p = np.linspace(-j1, j1, int(2 * j1 + 1)).tolist()
-m2 = np.linspace(-j2, j2, int(2 * j2 + 1)).tolist()
-m2p = np.linspace(-j2, j2, int(2 * j2 + 1)).tolist()
-from itertools import product
-list = product(m1,m2,m,m1p,m2p,mp) #create all possible combination of m1,m2,m,m1p,m2p,mp
-keep_list=[]
-for i in list:
-  m1, m2, m, m1p, m2p, mp = i
-  j1,j2,j=3,1,2 #chosen example set to test B
-  H = getCoeffH(j1,j2,j,m1,m2,m,m1p,m2p,mp)
-  if H==0:
-    pass
-  else:
-    keep_list.append(i) #keep_list is the list of input set that has non-zero H value
-print(keep_list)
+# get the keys from the first item in the JSON data
+keys = list(json_data[0].keys())
 
-B_total=0
-for i in keep_list:
-  m1, m2, m, m1p, m2p, mp = i
-  j,j1,j2=3,1,2
-  H = getCoeffH(j1,j2,j,m1,m2,m,m1p,m2p,mp)
-  u_jmmp = getDensityFunction_u(j, m, mp, w_ik_arr, delta_arr, r_ik_array, 0,
-                                      R_cut, theta_0_array, theta_array,phi_array)
-  u1_j1m1m1p = getDensityFunction_u(j1, m1, m1p, w_ik_arr, delta_arr, r_ik_array, 0,
-                                          R_cut, theta_0_array,theta_array, phi_array)
-  u2_j2m2m2p = getDensityFunction_u(j2, m2, m2p, w_ik_arr, delta_arr, r_ik_array, 0,
-                                          R_cut, theta_0_array,theta_array, phi_array)
-  B_each= np.conj(u_jmmp) * (H * u1_j1m1m1p * u2_j2m2m2p)
-  B = N(B_each)
-  B_total +=B
-print (B_total)
+# create an empty NumPy array with the same number of columns as the JSON data
+num_columns = len(keys)
+data_array = np.empty((len(json_data), num_columns), dtype=object)
 
+# populate the NumPy array with data from the JSON data
+for i, row in enumerate(json_data):
+    for j, key in enumerate(keys):
+        value = row[key]
+        if isinstance(value, str) and not value.isdigit():
+            data_array[i][j] = value
+        else:
+            data_array[i][j] = float(value)
+print (data_array)
+#crete dictionary mapping column name
+column_names = ['atom_type', 'X', 'Y', 'Z', 'X_k', 'Y_k', 'Z_k', 'r_ik', 'theta_0', 'theta', 'phi', 'w_ik', 'delta']
+column_indices = {name: i for i, name in enumerate(column_names)}
+print (column_indices)
 
-
+#extract data from array
+atom_type_array = data_array[:, 1]
+r_ik_array = data_array[:, 7]
+theta_0_array = data_array[:,8]
+theta_array = data_array[:, 9]
+phi_array = data_array[:, 10]
+w_ik_array = data_array[:, 11]
+delta_array = data_array[:, 12]
 

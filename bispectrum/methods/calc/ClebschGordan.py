@@ -5,6 +5,8 @@ def fact(n):
     This function is used to calculate factorial of a number by using
     an iterative approach instead of recursive approach
     """
+    if not isinstance(n, int) or n < 0:
+        raise ValueError("n must be a positive integer")
     return np.prod(np.arange(1, n + 1))
 class Clebsch_Gordan:
     """
