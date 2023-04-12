@@ -8,9 +8,4 @@ input_file_path = path
 output_directory = '/Users/duonghoang/Documents/GitHub/bispectrum_component/data'
 #read data from file
 data = get_INPUT_value(center_atom_id, r_mu, R_cut, input_file_path, output_directory, file_type='cif')
-print (data)
-print (data.keys())
-#crete dictionary mapping column name
-dic_ID = {name: i for i, name in enumerate(data.keys())}
-print (dic_ID)
-print (type(data['phi']))
+B = Bispectrum(j=-2, j1=2, j2= 3, input_data= data)

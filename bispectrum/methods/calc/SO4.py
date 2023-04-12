@@ -2,10 +2,17 @@ import numpy as np
 import json
 import pandas as pd
 from Bio.PDB.MMCIF2Dict import MMCIF2Dict
+def fact(n):
+    """
+    This function is used to calculate factorial of a number by using
+    an iterative approach instead of recursive approach
+    """
+    if not isinstance(n, int) or n < 0:
+        raise ValueError("n must be a positive integer")
+    return np.prod(np.arange(1, n + 1))
 def get_INPUT_value(center_atom_id:int, r_mu, R_cut, input_file_path:str, output_directory:str, file_type:str):
     """
-    Parameters
-
+    This function is used to get input values from cif file
     """
     if file_type == "cif":
         # DATA PREPARATION
@@ -126,7 +133,65 @@ class Bispectrum:
         self.j1 = j1
         self.j2 = j2
         self.input_val = input_data
-    def
+        #Condition check
+        if not (abs(j1 - j2) <= j <= j1 + j2 and j1 + j2 - j % 1 != 0.5):
+            raise ValueError("Invalid input parameters: j1, j2, j must satisfy the triangle inequality.\ "
+                             "j1+j2-j must not be a half-integer")
+        J = (j1 + j2 + j)
+        if J < (int(j1 + j2 + j)) and J < 0:
+            raise ValueError("Invalid input parameters: j1, j2, j must not exceed a positive integer J")
+    def generate_m_val(self):
+        """
+        This function generates (m1, m2, m, m1p, m2p, mp) from input set (j1,j2,j)
+        and only keep set that satisfy the condition
+        """
+        # Generate m values
+        m = np.linspace(-self.j, self.j, int(2 * self.j + 1))
+        mp = m.copy()
+        m1 = np.linspace(-self.j1, self. j1, int(2 * self.j1 + 1))
+        m1p = m1.copy()
+        m2 = np.linspace(-self.j2, self.j2, int(2 * self.j2 + 1))
+        m2p = m2.copy()
+        s = product(m1, m2, m, m1p, m2p, mp)
+        keep_list = []
+        for i in s:
+            m1, m2, m, m1p, m2p, mp = i[0], i[1], i[2], i[3], i[4], i[5]
+            # Check input parameter conditions
+            # Condition 1 & 2 & 5
+            if not (abs(j1 - j2) <= j <= j1 + j2 and m1 + m2 == m
+                    and j1 + j2 - j % 1 != 0.5):
+                pass
+            if not (abs(j1 - j2) <= j <= j1 + j2 and m1p + m2p == mp
+                    and j1 + j2 - j % 1 != 0.5):
+                pass
+            # Condition 3 & 6
+            if not all(abs(x) <= y and (x % 0.5 == 0 or x % 1 == 0) for x, y in
+                       zip([m1, m2, m], [j1, j2, j])):
+                pass
+            if not all(abs(x) <= y and (x % 0.5 == 0 or x % 1 == 0) for x, y in
+                       zip([m1p, m2p, mp], [j1, j2, j])):
+                pass
+            # Condition 4
+            J = (j1 + j2 + j)
+            if J < (int(j1 + j2 + j)) and J < 0:
+                raise ValueError("Invalid input parameters: j1, j2, j \
+                                  must not exceed a positive integer J")
+            # Condition 7
+            if not all(isinstance(x, (int, float, np.integer, np.floating)) and x >= 0
+                       and (x % 0.5 == 0 or x % 1 == 0) for x in [j1, j2, j]):
+                raise ValueError("Invalid input parameters: j1, j2, j must be integer \
+                                 or half-integer non-negative numbers")
+            # Condition 8
+            if not all(isinstance(x, (int, float, np.integer, np.floating)) and x >= 0
+                       and x % 1 == 0 for x in [j1 + m1, j2 + m2, j + m, j1 + j2 + j]):
+                pass
+            if not all(isinstance(x, (int, float, np.integer, np.floating)) and x >= 0
+                       and x % 1 == 0 for x in [j1 + m1p, j2 + m2p, j + mp, j1 + j2 + j]):
+                pass
+            else:
+                keep_list.append(i)
+        return keep_list
+
 
 
 

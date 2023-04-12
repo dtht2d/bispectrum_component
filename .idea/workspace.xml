@@ -7,8 +7,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bd025cd4-a48e-4c77-ad8a-b238b1464541" name="Changes" comment=".json neighbor list">
-      <change afterPath="$PROJECT_DIR$/data-atom-17-neighbor-list.json" afterDir="false" />
+    <list default="true" id="bd025cd4-a48e-4c77-ad8a-b238b1464541" name="Changes" comment="S04 class function">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bispectrum/methods/calc/SO4.py" beforeDir="false" afterPath="$PROJECT_DIR$/bispectrum/methods/calc/SO4.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bispectrum/methods/test_SO4_calc.py" beforeDir="false" afterPath="$PROJECT_DIR$/bispectrum/methods/test_SO4_calc.py" afterDir="false" />
@@ -234,7 +233,7 @@
       <workItem from="1680660539842" duration="11008000" />
       <workItem from="1681150417059" duration="3628000" />
       <workItem from="1681251419894" duration="15641000" />
-      <workItem from="1681325531863" duration="6762000" />
+      <workItem from="1681325531863" duration="8010000" />
     </task>
     <task id="LOCAL-00001" summary="Update B calculation">
       <created>1672102626687</created>
@@ -362,7 +361,14 @@
       <option name="project" value="LOCAL" />
       <updated>1681326870032</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="S04 class function">
+      <created>1681332677066</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1681332677066</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -402,7 +408,8 @@
     <MESSAGE value="Wigner-D angels condition update" />
     <MESSAGE value="Wigner-D function update" />
     <MESSAGE value=".json neighbor list" />
-    <option name="LAST_COMMIT_MESSAGE" value=".json neighbor list" />
+    <MESSAGE value="S04 class function" />
+    <option name="LAST_COMMIT_MESSAGE" value="S04 class function" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -437,7 +444,7 @@
     <SUITE FILE_PATH="coverage/profile_py$test_optimize_B_calculation__1_.coverage" NAME="test_optimize_B_calculation (1) Coverage Results" MODIFIED="1676485776905" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/bispectrum_component$ClesbchGordan.coverage" NAME="ClesbchGordan Coverage Results" MODIFIED="1677702599529" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/bispectrum/methods/calc" />
     <SUITE FILE_PATH="coverage/bispectrum_component$test_WignerD_calc__1_.coverage" NAME="test_WignerD_calc (1) Coverage Results" MODIFIED="1677384471664" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/codes/methods/tests" />
-    <SUITE FILE_PATH="coverage/bispectrum_component$test_SO4_calc.coverage" NAME="test_SO4_calc Coverage Results" MODIFIED="1681332410280" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/bispectrum/methods" />
+    <SUITE FILE_PATH="coverage/bispectrum_component$test_SO4_calc.coverage" NAME="test_SO4_calc Coverage Results" MODIFIED="1681333301387" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/bispectrum/methods" />
     <SUITE FILE_PATH="coverage/bispectrum_component$SO4.coverage" NAME="SO4 Coverage Results" MODIFIED="1681331276122" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/bispectrum/methods/calc" />
     <SUITE FILE_PATH="coverage/bispectrump_component$compute_bispectrum_component.coverage" NAME="compute-bispectrum-component Coverage Results" MODIFIED="1672210327757" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/codes" />
   </component>
