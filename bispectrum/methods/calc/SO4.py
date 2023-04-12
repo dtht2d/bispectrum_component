@@ -1,38 +1,15 @@
-"""
-Inprogress
-"""
 import numpy as np
-import cmath
-from Bio.PDB.MMCIF2Dict import MMCIF2Dict
+import json
 import pandas as pd
-
-import numpy as np
-from itertools import product
-
-class Bispectrum:
+from Bio.PDB.MMCIF2Dict import MMCIF2Dict
+def get_INPUT_value(center_atom_id:int, r_mu, R_cut, input_file_path:str, output_directory:str, file_type:str):
     """
-    Calculate bispectrum components
-    """
-    def __init__(self,j, j1, j2, input_file):
-        self.j = j
-        self.j1 = j1
-        self.j2 = j2
-        self.input_vals = self.w_ik_arr, self.delta_arr, self.r_ik_array , self.rcut, self.theta_0_array, \
-            self.theta_array, self.phi_array
+    Parameters
 
-    def neighbor_atoms(input_file, center_atom_id, rcut):
-        '''
-        This function is to create a neighbor_list for a chosen center atoms
-        Parameters:
-            input_file (string) directory of the input file
-            ceter_atom_id (integer): center atom ID
-            rcut (float): cutoff radius depends on the size of the unit cell and atom type
-                    note:choosen rcut needs to divide by the true cell length
-                        since atom coordinate (x,y,z)are fraction with cell dimension (1,1,1)
-        Returns: neighbor atoms pandas frame with atom ID and x,y,z fractional distance from center atom
-        '''
-        path = "/Users/duonghoang/Documents/GitHub/bispectrum_component/data/avgBL-Model.cif"
-        dico = MMCIF2Dict(path)
+    """
+    if file_type == "cif":
+        # DATA PREPARATION
+        dico = MMCIF2Dict(input_file_path)
         df_cif = pd.DataFrame.from_dict(dico, orient='index')
         x = df_cif.iloc[-3]
         y = df_cif.iloc[-2]
@@ -43,11 +20,12 @@ class Bispectrum:
         z_array = np.array(z[0], dtype=float)
         atom_type_array = np.array(atom_type[0], dtype=str)
         df = pd.DataFrame({"atom_type": atom_type_array, "X": x_array, "Y": y_array, "Z": z_array})
-
+        # Estimate list of potentially atoms in the center cell
+        id = center_atom_id
         # id
-        x_i = df['X'].iloc[center_atom_id]
-        y_i = df['Y'].iloc[center_atom_id]
-        z_i = df['Z'].iloc[center_atom_id]
+        x_i = df['X'].iloc[id]
+        y_i = df['Y'].iloc[id]
+        z_i = df['Z'].iloc[id]
         # print(x_i,y_i,z_i)
         X_array = df['X'].to_numpy()
         Y_array = df['Y'].to_numpy()
@@ -59,12 +37,13 @@ class Bispectrum:
         df['X_k'], df['Y_k'], df['Z_k'], df['r_ik'] = X_k_array, Y_k_array, Z_k_array, r_ik
         # INPUT values
         cell_length = df.iloc[4]  # index row start from 0 _cell_length_a at row 5 index [4]
-        df_ik = df[(df['r_ik']) <= (rcut)].copy(deep=True)
-
+        #r_mu = 0.0779  # scale atomic radius w.r.t cell length
+        #R_cut = 0.25  # scaled value w.r.t cell length (for Si-Si case)
+        df_ik = df[(df['r_ik'] + r_mu) <= (R_cut)].copy(deep=True)
         # ANGEL CONVERSION
         # theta_0
         r_ik_array = df_ik['r_ik'].to_numpy()  # r_ik from selected neighbors
-        r_0_array = np.full((r_ik_array.shape), rcut)
+        r_0_array = np.full((r_ik_array.shape), R_cut)
         theta_0_array = np.pi * (np.divide(r_ik_array, r_0_array))
         # theta
         Z_k_abs_array = np.abs(df_ik['Z_k'].to_numpy())
@@ -79,13 +58,77 @@ class Bispectrum:
             if (angle >= 2 * np.pi) and (angle < 0):
                 raise ValueError('phi angle in between 0 and 2pi')
         # replace NaN with 0: (code will have error for invalid value center atom values 0/0)_
-
         df_ik['theta_0'] = theta_0_array
         df_ik['theta_0'] = df_ik['theta_0'].replace(np.nan, 0)
         df_ik['theta'] = theta_array
         df_ik['theta'] = df_ik['theta'].replace(np.nan, 0)
         df_ik['phi'] = phi_array_convert
         df_ik['phi'] = df_ik['phi'].replace(np.nan, 0)
-        return df_ik
+        # array for weight coefficient w.r.t to atom type
+        w_ik_arr = np.full((r_ik_array.shape), 1)
+        # delta function delta=1 if i and k has the same element type, if not delta =0
+        delta = np.full((r_ik_array.shape), 0)
+        delta_arr = np.where(df_ik['atom_type'] == df_ik['atom_type'].iloc[0], 1, delta)
+        df_ik['w_ik'] = w_ik_arr
+        df_ik['delta'] = delta_arr
+    # save the DataFrame as a JSON file
+        neighbor_list_path = output_directory + '-atom-' + str(center_atom_id) + '-neighbor-list.json'
+        df_ik.to_json(neighbor_list_path, orient='records')
+        """
+        This function is to read in the neighbor list file
+        """
+        with open(neighbor_list_path, 'r') as f:
+            json_data = json.load(f)
+
+            # create a list of dictionaries from the JSON data
+            data_list = [dict(row) for row in json_data]
+
+            # extract data from the list of dictionaries
+            r_ik_array = np.array([float(row['r_ik']) for row in data_list])
+            theta_0_array = np.array([float(row['theta_0']) for row in data_list])
+            theta_array = np.array([float(row['theta']) for row in data_list])
+            phi_array = np.array([float(row['phi']) for row in data_list])
+            w_ik_array = np.array([float(row['w_ik']) for row in data_list])
+            delta_array = np.array([float(row['delta']) for row in data_list])
+            r_cut_array = np.full((r_ik_array.shape), R_cut)
+            # return a dictionary with the extracted data
+    else:
+        raise ValueError(f"Unsupported file type: {file_type}")
+    return {
+            'r_ik': r_ik_array,
+            'theta_0': theta_0_array,
+            'theta': theta_array,
+            'phi': phi_array,
+            'w_ik': w_ik_array,
+            'delta': delta_array,
+            'r_cut': r_cut_array
+        }
+
+class Bispectrum:
+    """
+    Calculate bispectrum components
+    """
+    def __init__(self, j, j1, j2, input_data):
+        '''
+            j: j index
+            j1: j1 index
+            j2: j2 index
+            input_data: input data dictionary with extracted values:
+            r_ik (array): dictance from center atom to n neighbor atom, dim = [n,]
+            theta_0 (array): first angle of rotation [0, pi] , dim = [n,]
+            theta (array): second angle of rotation [0, pi], dim = [n,]
+            phi (array): third angle of rotation [0, 2pi], dim = [n,]
+            w_ik (array): weight coefficient, dim = [n,]
+            delta (array): delta function, dim = [n,]
+            r_cut (array): cutoff distance, dim = [n,]
+        '''
+        self.j = j
+        self.j1 = j1
+        self.j2 = j2
+        self.input_val = input_data
+    def
+
+
+
 
 
