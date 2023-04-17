@@ -34,7 +34,6 @@ class Wigner_D:
             # if theta_0 < 0 or theta_0 > 2*np.pi or theta < 0 or theta > np.pi or phi < 0 or phi > 2 * np.pi:
             raise ValueError(
                 "Invalid input parameters: theta_0, theta, and phi must be within [0, pi] and [0, 2pi], respectively.")
-
         self.j = j
         self.m = m
         self.mp = mp

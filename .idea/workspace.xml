@@ -8,9 +8,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bd025cd4-a48e-4c77-ad8a-b238b1464541" name="Changes" comment="S04 class function">
+      <change afterPath="$PROJECT_DIR$/data/avgBL-Model.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/CPG poster.pptx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/[16]s41524-019-0221-0.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/poster-PEARC.pptx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_4_5_23,_2_17_PM_[Changes]/CPG-Poster-DuongHoang-Bispectrum.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_4_5_23,_2_17_PM_[Changes]/[14]s41524-020-0310-0.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_4_5_23,_2_17_PM_[Changes]/[15]KB22.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_4_5_23,_2_17_PM_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_4_5_23__2_17_PM__Changes_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bispectrum/methods/calc/SO4.py" beforeDir="false" afterPath="$PROJECT_DIR$/bispectrum/methods/calc/SO4.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bispectrum/methods/test_SO4_calc.py" beforeDir="false" afterPath="$PROJECT_DIR$/bispectrum/methods/test_SO4_calc.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bispectrum/methods/calc/WignerD.py" beforeDir="false" afterPath="$PROJECT_DIR$/bispectrum/methods/calc/WignerD.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/CPG-Poster-DuongHoang-Bispectrum.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/poster.pptx" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -233,7 +244,8 @@
       <workItem from="1680660539842" duration="11008000" />
       <workItem from="1681150417059" duration="3628000" />
       <workItem from="1681251419894" duration="15641000" />
-      <workItem from="1681325531863" duration="8010000" />
+      <workItem from="1681325531863" duration="9296000" />
+      <workItem from="1681339018414" duration="2219000" />
     </task>
     <task id="LOCAL-00001" summary="Update B calculation">
       <created>1672102626687</created>
@@ -368,7 +380,14 @@
       <option name="project" value="LOCAL" />
       <updated>1681332677066</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="S04 class function">
+      <created>1681333918754</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1681333918754</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
