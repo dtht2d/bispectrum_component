@@ -1,16 +1,20 @@
 import numpy as np
 import cmath
 
-
+# create a lookup table for factorials
+factorials = [1]
+for i in range(1, 1001):
+    factorials.append(factorials[-1] * i)
 def fact(n):
     """
-    This function is used to calculate factorial of a number by using
-    an iterative approach instead of recursive approach
+    This function is used to calculate factorial of a number by using look the lookup table method
     """
-    if not isinstance(n, int) or n < 0:
-        raise ValueError("n must be a positive integer")
-    return np.prod(np.arange(1, n + 1))
-
+    if n < 0:
+        return None
+    elif n <= 1000:
+        return factorials[n]
+    else:
+        return float('inf')  # factorial too large for lookup table
 
 class Wigner_D:
     """

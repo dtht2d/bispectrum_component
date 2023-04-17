@@ -2,14 +2,20 @@ import numpy as np
 import json
 import pandas as pd
 from Bio.PDB.MMCIF2Dict import MMCIF2Dict
+# create a lookup table for factorials
+factorials = [1]
+for i in range(1, 1001):
+    factorials.append(factorials[-1] * i)
 def fact(n):
     """
-    This function is used to calculate factorial of a number by using
-    an iterative approach instead of recursive approach
+    This function is used to calculate factorial of a number by using look the lookup table method
     """
-    if not isinstance(n, int) or n < 0:
-        raise ValueError("n must be a positive integer")
-    return np.prod(np.arange(1, n + 1))
+    if n < 0:
+        return None
+    elif n <= 1000:
+        return factorials[n]
+    else:
+        return float('inf')  # factorial too large for lookup table
 def get_INPUT_value(center_atom_id:int, r_mu, R_cut, input_file_path:str, output_directory:str, file_type:str):
     """
     This function is used to get input values from cif file
