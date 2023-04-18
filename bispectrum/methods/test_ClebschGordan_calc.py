@@ -8,7 +8,12 @@ from bispectrum.methods.calc.ClebschGordan import Clebsch_Gordan, H_coeff
 import timeit
 from sympy.physics.quantum.cg import CG
 #Function using Sympy
-j1,m1,j2,m2,j,m=1,1,3/2,1/2,5/2,3/2
+j1 = 1.5
+m1 = 0.5
+j2 = 1
+m2 = -1
+j = 2
+m = -0.5
 t0=timeit.default_timer()
 cg = CG(j1,m1,j2,m2,j,m)
 cg = cg.doit()
