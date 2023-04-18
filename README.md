@@ -45,9 +45,22 @@ $$H^{jmm'}_{{{j_1}{m_1}{m'_1}} ,{{j_2}{m_2}{m'_2}}}$$
 
 3. Compute  density coefficient
 $$u^j_{mm'}, \mu_{m_1m_1'}^{j_1}, \mu_{m_2,m_2'}^{j_2}$$
+
 **3. Code Optimization**
 
 ---
 ## Future work:
+    - Code optimization: Bispectrum Class Function
 
+    - Visualize relationship between bispectum component and band limit (j,j1,j2) 
+
+    - Study expansion density function in hyper-spherical harmonic
+
+    - Compare bispectrum to other descriptors for input training
+
+        - Atom-centered Symmetry Functions (ACSFs): descriptor of the local environment of each atom, these models can capture the complex relationships between the atomic positions and the electronic structure of the molecule, leading to accurate predictions of electronic properties.​
+
+        - Coulomb matrix eigenvalues (CMEs) 
+
+        - Bag of bond 
 
