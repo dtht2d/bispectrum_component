@@ -1,10 +1,14 @@
-import numpy as np
-import pandas as pd
+"""
+This module is to get neighbor atoms and  generate all possible parameters for bispectrum calculation
+"""
 from Bio.PDB.MMCIF2Dict import MMCIF2Dict
+import pandas as pd
+import numpy as np
 import json
-def get_INPUT_value(center_atom_id:int, r_mu, R_cut, input_file:str, output_dir:str, file_type:str):
+
+def neighbor_params(center_atom_id:int, r_mu, R_cut, input_file:str, output_dir:str, file_type:str):
     """
-    This function is used to get input values from cif file
+    This function is used to get input value from cif file and define neighbor atoms parameters
     """
     if file_type == "cif":
         # DATA PREPARATION

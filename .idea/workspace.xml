@@ -7,16 +7,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bd025cd4-a48e-4c77-ad8a-b238b1464541" name="Changes" comment="create a lookup table for factorials">
-      <change afterPath="$PROJECT_DIR$/bispectrum/methods/calc/get_INPUT_val.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/bispectrum/methods/test_get_INPUT_val_calc.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_4_10_23,_1_14_PM_[Changes]/poster.pptx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_4_10_23,_1_14_PM_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_4_10_23__1_14_PM__Changes_.xml" beforeDir="false" />
+    <list default="true" id="bd025cd4-a48e-4c77-ad8a-b238b1464541" name="Changes" comment="get_INPUT_value">
+      <change afterPath="$PROJECT_DIR$/bispectrum/example/old_compute-bispectrum-Si.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bispectrum/methods/test_INPUT.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bispectrum/methods/calc/SO4.py" beforeDir="false" afterPath="$PROJECT_DIR$/bispectrum/methods/calc/SO4.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bispectrum/methods/test_ClebschGordan_calc.py" beforeDir="false" afterPath="$PROJECT_DIR$/bispectrum/methods/test_ClebschGordan_calc.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data-atom-17-neighbor-list.json" beforeDir="false" afterPath="$PROJECT_DIR$/data-atom-17-neighbor-list.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bispectrum/example/compute-bispectrum-Si.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bispectrum/methods/calc/Parameters.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bispectrum/methods/calc/get_INPUT_val.py" beforeDir="false" afterPath="$PROJECT_DIR$/bispectrum/methods/calc/INPUT.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bispectrum/methods/nb/WD.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bispectrum/methods/test_Parameters.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bispectrum/methods/test_get_INPUT_val_calc.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,7 +83,7 @@
       <recent name="$PROJECT_DIR$/codes/methods" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.test_get_INPUT_val_calc">
+  <component name="RunManager" selected="Python.test_INPUT_param">
     <configuration name="SO4" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="bispectrum_component" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -128,6 +128,28 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="test_INPUT_param" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="bispectrum_component" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/bispectrum/methods" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/bispectrum/methods/test_INPUT_param.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="test_SO4_calc" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="bispectrum_component" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -142,28 +164,6 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/bispectrum/methods/test_SO4_calc.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="test_WignerD_calc" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="bispectrum_component" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/bispectrum/methods" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/bispectrum/methods/test_WignerD_calc.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -196,11 +196,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.test_INPUT_param" />
         <item itemvalue="Python.test_get_INPUT_val_calc" />
         <item itemvalue="Python.SO4" />
         <item itemvalue="Python.test_ClebschGordan_calc" />
         <item itemvalue="Python.test_SO4_calc" />
-        <item itemvalue="Python.test_WignerD_calc" />
       </list>
     </recent_temporary>
   </component>
@@ -241,7 +241,7 @@
       <workItem from="1681251419894" duration="15641000" />
       <workItem from="1681325531863" duration="9296000" />
       <workItem from="1681339018414" duration="4656000" />
-      <workItem from="1681788291091" duration="2268000" />
+      <workItem from="1681788291091" duration="3016000" />
     </task>
     <task id="LOCAL-00001" summary="Update B calculation">
       <created>1672102626687</created>
@@ -390,7 +390,14 @@
       <option name="project" value="LOCAL" />
       <updated>1681767587759</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="get_INPUT_value">
+      <created>1681791992243</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1681791992243</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -432,7 +439,8 @@
     <MESSAGE value=".json neighbor list" />
     <MESSAGE value="S04 class function" />
     <MESSAGE value="create a lookup table for factorials" />
-    <option name="LAST_COMMIT_MESSAGE" value="create a lookup table for factorials" />
+    <MESSAGE value="get_INPUT_value" />
+    <option name="LAST_COMMIT_MESSAGE" value="get_INPUT_value" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
