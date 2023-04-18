@@ -50,8 +50,6 @@ $$u^j_{mm'}, \mu_{m_1m_1'}^{j_1}, \mu_{m_2,m_2'}^{j_2}$$
 
 ---
 ## Future work:
-    - Code optimization: Bispectrum Class Function
-
     - Visualize relationship between bispectum component and band limit (j,j1,j2) 
 
     - Study expansion density function in hyper-spherical harmonic
