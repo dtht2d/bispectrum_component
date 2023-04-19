@@ -3,11 +3,11 @@ Compare the Wigner D matrix calculation from class function, numba vs SymPy
 """
 
 import numpy as np
-from bispectrum.methods.calc.WignerD import Wigner_D
+from bispectrum.methods.calc.WignerD import Wigner_D, U_rot, u
 from sympy import *
 from sympy.physics.quantum.spin import Rotation
 import timeit
-j, m, mp, theta_0, theta,phi= 2, 2, 1, np.pi, np.pi/2, np.pi/3
+j, m, mp, theta_0, theta,phi= 1, 1, 0, np.pi, np.pi/2, 0
 
 t0=timeit.default_timer()
 #Wigner_D function from calc.WignerD
@@ -27,3 +27,7 @@ t3=timeit.default_timer()
 print("Execution time for Wigner_D function from Sympy:", t2 - t3, "seconds")
 print("Execution time for Wigner_D calculation using class method is", round((t2 - t3)/(t0-t1)),
       "times faster than Sympy function")
+
+#Calculate the Rotational matrix U
+U = U_rot(j, m, mp, theta_0, theta, phi)
+print(U)
