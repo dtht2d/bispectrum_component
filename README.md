@@ -1,13 +1,13 @@
 # **Compute Bispectrum Components**
 ---
-## Introduction
-In the field of materials science, machine learning and computational physics have revolutionized the process of discovering and developing new materials. Accurately predicting electronic structure is crucial in designing materials with desired properties. Although Density Functional Theory (DFT) is a popular computational model, it faces challenges when dealing with transition metals, rare earth elements, and strong correlation effects. Therefore, current research aims to improve DFT's accuracy and applicability by developing new functionals and techniques.
+## Abstract 
+The development of a Python script to calculate bispectrum components and integrate them into the Orthogonalized Linear Combination of Atomic Orbitals (OLCAO) package is the focus of my research. Bispectrum components have proven to be a valuable and promising tool in predicting material properties, as they can capture subtle variations in the local atomic environment that are difficult to predict using other methods like neural networks and graph neural networks. By incorporating bispectrum components into machine learning frameworks, my research aims to more accurately predict material properties and electronic structures influenced by nearby atoms.
 
-Objective: This research aims to develop a new machine learning framework and additional descriptors such as bispectrum components, Coulomb matrix eigenvalues (CMEs), and Atom-centered Symmetry Functions (ACSFs) to enhance the accuracy and applicability of predicting electronic structure. The focus of this repository is to optimize the code for computing bispectrum components using Python and use them as input features for a machine learning model.
+To evaluate the significance of this research, we have optimized the running time of the bispectrum calculation and developed new custom functions that don't rely on third-party libraries. The current work has calculated the bispectrum component, but the running time took a long time. Further work will involve code optimization of the bispectrum class function, visualizing the relationship between bispectrum components and the band limit ${(j, j_1, j_2)}$, and studying the expansion density function in hyper-spherical harmonic.
 
-Significance: Predicting electronic structure enhances our understanding of the correlation between atomic structure and local environment, which can facilitate the development of advanced materials and new technologies. Bispectrum components are a promising descriptor for capturing essential features of electronic structure that traditional spectral descriptors may miss.
+One challenge in this research is defining a suitable cut-off radius for the cut-off function to avoid neglecting the interaction between the center atom and its defined neighbor. Additionally, understanding the relationship between quantum numbers and the density coefficient function is crucial for accurately describing particle behavior in higher-dimensional space. This lack of understanding can limit the development of methods to predict the material's behavior based on the bispectrum, underscoring the urgent need for further research in this area to realize the full potential of the hyper-spherical harmonic expansion of density function.
 
-Measure of Success: The success of this project will be the development of Python scripts that can automatically generate bispectrum coefficients from crystal structure datasets. The accuracy of the calculations will be tested by comparing predicted electronic structure results to experimental or theoretical results. This research has the potential to contribute to the field of materials science by providing more accurate and efficient methods for predicting electronic structure and designing new materials. Additionally, I am interested in utilizing their research to develop new mediums and techniques for creative expression.
+In future work, we will compare bispectrum components to other descriptors for input training, including Atom-centered Symmetry Functions (ACSFs), Coulomb matrix eigenvalues (CMEs), and Bag of Bond. These models can capture complex relationships between the atomic positions and the electronic structure of the molecule, leading to accurate predictions of electronic properties. Overall, this research contributes to the ongoing effort to develop new and improved machine learning frameworks for predicting electronic structure materials with desirable properties and advancing the field of material science research.
 
 Objective
 ---
@@ -45,18 +45,20 @@ $$H^{jmm'}_{{{j_1}{m_1}{m'_1}} ,{{j_2}{m_2}{m'_2}}}$$
 
 3. Compute  density coefficient
 $$u^j_{mm'}, \mu_{m_1m_1'}^{j_1}, \mu_{m_2,m_2'}^{j_2}$$
+
 **3. Code Optimization**
 
 ---
 ## Future work:
-**Propose new Machine Learning framework:**
+    - Visualize relationship between bispectum component and band limit (j,j1,j2) 
 
-  - What type of Neural Networks would work?
-  - And why?
-  
-**Compute other descriptors for input training:**
+    - Study expansion density function in hyper-spherical harmonic
 
-  - Atom-centered Symmetry Functions (ACSFs): descriptor of the local environment of each atom, these models can capture the complex relationships between the atomic positions and the electronic structure of the molecule, leading to accurate predictions of electronic properties.
-  - Coulomb matrix eigenvalues (CMEs) 
-  - Bag of bond 
+    - Compare bispectrum to other descriptors for input training
+
+        - Atom-centered Symmetry Functions (ACSFs): descriptor of the local environment of each atom, these models can capture the complex relationships between the atomic positions and the electronic structure of the molecule, leading to accurate predictions of electronic properties.​
+
+        - Coulomb matrix eigenvalues (CMEs) 
+
+        - Bag of bond 
 
