@@ -1,20 +1,16 @@
 import numpy as np
 import cmath
 
-# create a lookup table for factorials
-factorials = [1]
-for i in range(1, 1001):
-    factorials.append(factorials[-1] * i)
+fact_cache = {}
+
 def fact(n):
-    """
-    This function is used to calculate factorial of a number by using look the lookup table method
-    """
-    if n < 0:
-        return None
-    elif n <= 1000:
-        return factorials[n]
-    else:
-        return float('inf')  # factorial too large for lookup table
+    if n < 0 or not np.isclose(n, int(n)):
+        raise ValueError("Invalid input parameter: n must be a non-negative integer.")
+    if n in fact_cache:
+        return fact_cache[n]
+    result = np.math.factorial(int(n))
+    fact_cache[n] = result
+    return result
 class Clebsch_Gordan:
     """
     Definition:
@@ -44,28 +40,32 @@ class Clebsch_Gordan:
         self.m2 = m2
         self.m = m
         self.J = j1 + j2 + j
-        #Condition 1 & 2 & 5
-        if not (abs(j1 - j2) <= j <= j1 + j2 and m1 + m2 == m and j1 + j2 - j % 1 != 0.5):
-            raise ValueError("Invalid input parameters: j1, j2, j, m1, m2, and m must satisfy the triangle inequality.\ "
-                             "j1+j2-j must not be a half-integer")
-        #Condition 3 & 6
-        if not all(abs(x) <= y and (x % 0.5 == 0 or x % 1 == 0) for x, y in zip([m1, m2, m], [j1, j2, j])):
-            raise ValueError("Invalid input parameters: |m1| <= j1, |m_2| <= j2, |m| <= j\ "
-                             "m1, m2, m must be integer or half-integer (positive or negative) numbers")
+        #Conditions
+        J = j1 + j2 + j
+        # Condition 1
+        if not ((abs(j1 - j2) <= j <= j1 + j2) or isinstance(J, int) or (J >= 0) or (j1 + j2) == j):
+            raise ValueError("|𝑗1−𝑗2| ≤𝑗≤𝑗1+𝑗2 and 𝑗1+𝑗2+𝑗 are non-negative integer and 𝑗1+𝑗2=𝑗")
+        # Condition 2
+        if not ((isinstance(val, int) or val >= 0 for val in [j + j1 - j2, j - j1 + j2, j1 + j2 - j])):
+            raise ValueError("(𝑗+𝑗1−𝑗2) and (𝑗−𝑗1+𝑗2) and (𝑗1+𝑗2−𝑗) and is non-negative integer")
+        # Condition 3
+        if j1 > J or j2 > J or j > J:
+            raise ValueError("𝑗1,𝑗2,𝑗 not exceed a positive integer 𝐽=𝑗1+𝑗2+𝑗")
         # Condition 4
-        J =(j1+j2+j)
-        if J < (int(j1+j2+j)) and J <0:
-            raise ValueError("Invalid input parameters: j1, j2, j must not exceed a positive integer J")
+        if not (isinstance(val, (int, float)) and val % 0.5 == 0 for val in [m1, m2, m]:
+            raise ValueError("𝑚1,𝑚2,𝑚 must be integer or half-integer (positive or negative) numbers")
+        # Condition 5
+        if not isinstance(vals, int) and vals >= 0 for vals in [j1 + m1, j1 - m1, j2 + m2, j2 - m2, j + m, j - m]:
+            raise ValueError("𝑗1+𝑚1,𝑗1−𝑚1, 𝑗2+𝑚2,𝑗2−𝑚2 𝑗+𝑚,𝑗−𝑚 are non-negative integer")
+        # Condition 6
+        if not (m1_val + m2_val == m_val and m1p_val + m2p_val == mp_val):
+            raise ValueError("𝑚1+𝑚2=𝑚 and 𝑚1′+𝑚2′=𝑚′")
         # Condition 7
-        if not all(
-                isinstance(x, (int, float, np.integer, np.floating)) and x >= 0 and (x % 0.5 == 0 or x % 1 == 0) for x
-                in [j1, j2, j]):
-            raise ValueError(
-                "Invalid input parameters: j1, j2, j must be integer or half-integer non-negative numbers")
+        if not (abs(val) <= limit for val, limit in [(m1, j1), (m2, j2), (m, j)]):
+            raise ValueError("|𝑚1|≤𝑗1, |𝑚2|≤𝑗2, |𝑚|≤𝑗")
         # Condition 8
-        if not all(isinstance(x, (int, float, np.integer, np.floating)) and x >= 0 and x % 1 == 0 for x in
-                   [j1 + m1, j2 + m2, j + m, j1 + j2 + j]):
-            raise ValueError("Invalid input parameters: j1+m1,j2+m2,j+m,j1+j2+j must be integer non-negative numbers")
+        if not (j2 + j + m1_val >= 0 and j1 - j2 - m_val >= 0 and isinstance(j2 + j + m1_val, int) and isinstance(j1 - j2 - m_val, int)):
+            raise ValueError("𝑗2+𝑗+𝑚1≥0 and 𝑗1−𝑗2−𝑚≥0 and 𝑗2+𝑗+𝑚1 and 𝑗1−𝑗2−𝑚 are non-negative integer")
     def cg(self):
         if self.m1 + self.m2 != self.m:
             return 0.0  # delta function fails

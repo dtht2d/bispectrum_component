@@ -28,6 +28,4 @@ print("Execution time for Wigner_D function from Sympy:", t2 - t3, "seconds")
 print("Execution time for Wigner_D calculation using class method is", round((t2 - t3)/(t0-t1)),
       "times faster than Sympy function")
 
-#Calculate the Rotational matrix U
-U = U_rot(j, m, mp, theta_0, theta, phi)
-print(U)
+
