@@ -10,9 +10,7 @@
     <list default="true" id="bd025cd4-a48e-4c77-ad8a-b238b1464541" name="Changes" comment="SO4 Bispectrum class function update">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bispectrum/methods/calc/SO4.py" beforeDir="false" afterPath="$PROJECT_DIR$/bispectrum/methods/calc/SO4.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bispectrum/methods/calc/WignerD.py" beforeDir="false" afterPath="$PROJECT_DIR$/bispectrum/methods/calc/WignerD.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bispectrum/methods/test_SO4_calc.py" beforeDir="false" afterPath="$PROJECT_DIR$/bispectrum/methods/test_SO4_calc.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bispectrum/methods/test_WignerD_calc.py" beforeDir="false" afterPath="$PROJECT_DIR$/bispectrum/methods/test_WignerD_calc.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -193,8 +191,8 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.test_SO4_calc" />
-        <item itemvalue="Python.test_WignerD_calc" />
         <item itemvalue="Python.SO4" />
+        <item itemvalue="Python.test_WignerD_calc" />
         <item itemvalue="Python.test_ClebschGordan_calc" />
         <item itemvalue="Python.test_INPUT_param" />
       </list>
@@ -239,7 +237,7 @@
       <workItem from="1681339018414" duration="4656000" />
       <workItem from="1681788291091" duration="7175000" />
       <workItem from="1681855283764" duration="9101000" />
-      <workItem from="1682535671339" duration="9543000" />
+      <workItem from="1682535671339" duration="13918000" />
     </task>
     <task id="LOCAL-00001" summary="Update B calculation">
       <created>1672102626687</created>
@@ -437,7 +435,14 @@
       <option name="project" value="LOCAL" />
       <updated>1683077858688</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="SO4 Bispectrum class function update">
+      <created>1683078935191</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1683078935191</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -522,8 +527,8 @@
     <SUITE FILE_PATH="coverage/bispectrum_component$ClesbchGordan.coverage" NAME="ClesbchGordan Coverage Results" MODIFIED="1677702599529" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/bispectrum/methods/calc" />
     <SUITE FILE_PATH="coverage/bispectrum_component$test_INPUT_param.coverage" NAME="test_INPUT_param Coverage Results" MODIFIED="1681869497640" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/bispectrum/methods" />
     <SUITE FILE_PATH="coverage/bispectrum_component$test_WignerD_calc__1_.coverage" NAME="test_WignerD_calc (1) Coverage Results" MODIFIED="1677384471664" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/codes/methods/tests" />
-    <SUITE FILE_PATH="coverage/bispectrum_component$test_SO4_calc.coverage" NAME="test_SO4_calc Coverage Results" MODIFIED="1683078846010" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/bispectrum/methods" />
-    <SUITE FILE_PATH="coverage/bispectrum_component$SO4.coverage" NAME="SO4 Coverage Results" MODIFIED="1683078042127" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/bispectrum/methods/calc" />
+    <SUITE FILE_PATH="coverage/bispectrum_component$test_SO4_calc.coverage" NAME="test_SO4_calc Coverage Results" MODIFIED="1683083484095" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/bispectrum/methods" />
+    <SUITE FILE_PATH="coverage/bispectrum_component$SO4.coverage" NAME="SO4 Coverage Results" MODIFIED="1683081516317" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/bispectrum/methods/calc" />
     <SUITE FILE_PATH="coverage/bispectrump_component$compute_bispectrum_component.coverage" NAME="compute-bispectrum-component Coverage Results" MODIFIED="1672210327757" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/codes" />
   </component>
 </project>

@@ -14,7 +14,7 @@ output_directory = '/Users/duonghoang/Documents/GitHub/bispectrum_component/data
 data = neighbor_params(center_atom_id, r_mu, R_cut, input_file_path, output_directory, file_type='cif')
 
 #possible list of m values
-B = Bispectrum(j=1,j1=2,j2=3, params=data)
+B = Bispectrum(j=2, j1=3/2, j2=1/2, params=data)
 keep_list, full_list = B.generate_m_values(3,1,2)
 print (keep_list)
 j1, j2, j, m1, m2, m, m1p, m2p, mp = 1/2, 1/2, 1, -1/2, -1/2, -1, -1/2, -1/2, 0
@@ -37,3 +37,9 @@ WD = B.wigner_D(j, m, mp, theta_0, theta,phi)
 U = B.U_rot(j, m, mp, theta_0, theta,phi)
 print (WD)
 print(U)
+#Test bispectrum
+u = B.u_small(j, m, mp, params=data)
+print(u)
+
+Bispectrum_SO4 = B.evaluate(j=2, j1=3/2, j2=1/2, params=data)
+print(Bispectrum_SO4)

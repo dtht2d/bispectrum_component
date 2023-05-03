@@ -17,7 +17,7 @@ class Bispectrum:
     """
     Calculate bispectrum- S(0)4 components
     """
-    def __init__(self, j: float, j1: float, j2: float, params: Dict[str, np.ndarray]):
+    def __init__(self, j, j1, j2 , params: Dict[str, np.ndarray]):
         '''
             j: j index
             j1: j1 index
@@ -180,13 +180,13 @@ class Bispectrum:
         return result
     @classmethod
     def U_rot(cls, j, m, mp, theta_0, theta, phi):
-        '''
+        """
         This method is used to calculate the rotation matrix U
         Returns: complex number, Rotational matrix U function
         ==========================Reference==================================
         [5] Chapter 4  D.A. Varshalovich, A.N. Moskalev, V.K Khersonskii,
                   Quantum Theory of Angular Momentum (1988)
-        '''
+        """
         mpp_vals = np.linspace(-j, j, int(2 * j + 1))
         U = 0
         for mpp in mpp_vals:
@@ -196,6 +196,58 @@ class Bispectrum:
             Um_mp = term1 * term2 * term3
             U += Um_mp
         return U
+    @classmethod
+    def u_small(cls, j, m, mp, params):
+        """
+        Args:
+            j (scalar): angular momentum
+            m (scalar): eigenvalue of angular momentum
+            mp (scalar): eigenvalue of j along rotated axis
+            params (dict): a dictionary containing the following keys, its values:
+                - w_ik (array): the coefficients that are dimensionless weights that are chosen to distinguish atoms
+                  of different types, while the central atom is arbitrarily assigned a unit weight, dimensin (1,k)
+                - delta (array): the Dirac delta function, indicates only neighbor atom of element the same as center atom
+                  contribute to partial density,  dimension (1,k)
+                - r_ik (array): distance from center atom to neighbor atom, dimension (1,k), k is number of neighbor atoms
+                  in cutoff radius, array exclude center atom as well
+                - r_cut (array): cutoff radius
+                - theta_0: array for theta_0 angel (fist angle of rotation [0,pi])
+                  of neighbor atoms in reference frame of center atom, dimension (k+1,)
+                - theta: array for theta angel ( second angle of rotation [0,pi])
+                  of neighbor atoms in reference frame of center atom, dimension (k+1,)
+                - phi: array for phi angel (third angle of rotation [0,2pi])
+                  of neighbor atoms in reference frame of center atom, dimension (k+1,)
+        Returns: expansion coefficients density function u_jm_mp
+        """
+        w_ik_array = params['w_ik']
+        delta_array = params['delta']
+        r_ik_array = params['r_ik']
+        r_cut_array = params['r_cut']
+        theta_0_array = params['theta_0']
+        theta_array = params['theta']
+        phi_array = params['phi']
+
+        # Calculate cutoff_function
+        f_cut_arr = (1 / 2) * (np.cos(np.pi * (np.divide(r_ik_array, r_cut_array))) + 1)
+        # Calculate rotational matrix U for all k=n neighbor atoms
+        U_ik_array = np.array([cls.U_rot(j, m, mp, theta_0, theta, phi) for theta_0, theta, phi in
+                               zip(theta_0_array, theta_array, phi_array)], dtype='complex')
+        # Compute u_jmmp
+        u_jmmp = np.dot((f_cut_arr * U_ik_array), (w_ik_array * delta_array))
+        return u_jmmp
+    @classmethod
+    def evaluate(cls, j, j1, j2, params):
+        m_list, full_list = cls.generate_m_values(j,j1,j2)
+        B_total = 0
+        for i in m_list:
+            m1, m2, m, m1p, m2p, mp = i[0], i[1], i[2], i[3], i[4], i[5]
+            H_coeff = cls.H(j1, j2, j, m1, m2, m, m1p, m2p, mp)
+            u_jmmp = cls.u_small(j, m, mp, params)
+            u1_j1m1m1p = cls.u_small(j1, m1, m1p, params)
+            u2_j2m2m2p = cls.u_small(j2, m2, m2p, params)
+            B = np.conj(u_jmmp) * (H_coeff * u1_j1m1m1p * u2_j2m2m2p)
+            B_total += B
+        return B_total
 
 
 
