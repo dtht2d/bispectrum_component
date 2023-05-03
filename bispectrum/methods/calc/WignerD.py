@@ -98,6 +98,7 @@ def U_rot(j, m, mp, theta_0, theta, phi):
         term3 = WD_2.wigner_D()
         Um_mp = term1 * term2 * term3
         U += Um_mp
+    return U
 def u(j, m, mp, params):
     '''
     Parameter:

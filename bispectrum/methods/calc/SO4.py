@@ -77,7 +77,9 @@ class Bispectrum:
         m1, m2, m, m1p, m2p, mp = np.meshgrid(m1_vals, m2_vals, m_vals, m1p_vals, m2p_vals, mp_vals)
         s = np.stack((m1.ravel(), m2.ravel(), m.ravel(), m1p.ravel(), m2p.ravel(), mp.ravel()), axis=1)
         keep_list = []
+        full_list = []
         for i in range(len(s)):
+            full_list.append(s[i])
             m1_val, m2_val, m_val, m1p_val, m2p_val, mp_val = s[i]
             # Condition 4-8: Clebsch-Gordan calc for set (𝑗1,𝑗2,𝑗,𝑚1,𝑚2,𝑚), (𝑗1,𝑗2,𝑗,𝑚1p,𝑚2p,𝑚p)
             c4 = [isinstance(val, (int, float)) and val % 0.5 == 0 for val in
@@ -100,7 +102,7 @@ class Bispectrum:
             keep_list.append(s[i])
         else:
             pass
-        return keep_list
+        return keep_list, full_list
     #Clebsch-Gordan Coefficient
     @staticmethod
     def clebsch_gordan(j1, j2, j, m1, m2, m):
@@ -176,6 +178,24 @@ class Bispectrum:
         term3 = np.cos(mp * phi) -1j*(np.sin(mp * phi))
         result = term1 * term2 * term3
         return result
+    @classmethod
+    def U_rot(cls, j, m, mp, theta_0, theta, phi):
+        '''
+        This method is used to calculate the rotation matrix U
+        Returns: complex number, Rotational matrix U function
+        ==========================Reference==================================
+        [5] Chapter 4  D.A. Varshalovich, A.N. Moskalev, V.K Khersonskii,
+                  Quantum Theory of Angular Momentum (1988)
+        '''
+        mpp_vals = np.linspace(-j, j, int(2 * j + 1))
+        U = 0
+        for mpp in mpp_vals:
+            term1 = cls.wigner_D(j, m, mpp, phi, theta, -phi)
+            term2 = np.cos(mpp * theta_0) - 1j * (np.sin(mpp * theta_0))
+            term3 = cls.wigner_D(j, mpp, mp, phi, -theta, -phi)
+            Um_mp = term1 * term2 * term3
+            U += Um_mp
+        return U
 
 
 

@@ -15,8 +15,8 @@ data = neighbor_params(center_atom_id, r_mu, R_cut, input_file_path, output_dire
 
 #possible list of m values
 B = Bispectrum(j=1,j1=2,j2=3, params=data)
-list_generate = B.generate_m_values(3,1,2)
-print (list_generate)
+keep_list, full_list = B.generate_m_values(3,1,2)
+print (keep_list)
 j1, j2, j, m1, m2, m, m1p, m2p, mp = 1/2, 1/2, 1, -1/2, -1/2, -1, -1/2, -1/2, 0
 
 #test Clebsch Gordan Coefficient calculation
@@ -31,6 +31,9 @@ H_coeff = B.H(j1, j2, j, m1, m2, m, m1p, m2p, mp)
 print(H_coeff)
 
 #Test Wigner D
-j, m, mp, theta_0, theta,phi= 1, 1, 0, np.pi, np.pi/2, 0
+j, m, mp, theta_0, theta,phi= 1, -1, 0, np.pi, np.pi/2, 0
 WD = B.wigner_D(j, m, mp, theta_0, theta,phi)
+#Test U_rot
+U = B.U_rot(j, m, mp, theta_0, theta,phi)
 print (WD)
+print(U)

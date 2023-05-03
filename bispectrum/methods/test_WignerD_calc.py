@@ -29,3 +29,5 @@ print("Execution time for Wigner_D calculation using class method is", round((t2
       "times faster than Sympy function")
 
 
+U = U_rot(j, m, mp, theta_0, theta,phi)
+print(U)
