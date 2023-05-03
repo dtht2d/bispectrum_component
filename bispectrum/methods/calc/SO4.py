@@ -103,7 +103,24 @@ class Bispectrum:
         return keep_list
     #Clebsch-Gordan Coefficient
     @staticmethod
-    def cg (j1, j2, j, m1, m2, m):
+    def clebsch_gordan(j1, j2, j, m1, m2, m):
+        """
+        Definition:
+            A Clebsch-Gordan coefficients are vector addition coefficients. They play an important role in decomposition of
+            reducible representations of rotation. Let j1 and j2 with projections on m1 and m2 on the quantization axis.
+            The coefficients represent the probability amplitude that j1 and j2 are coupled into a resultant angular momentum
+            j with projection m.
+        Args:
+            j, j1, j2 (scalar): angular momentum
+            m, m1, m2 (scalar): eigenvalue of angular momentum j, j1, j2 respectively
+            mp, mp1, mp2 (scalar): eigenvalue of j, j1, j2 along rotated axis respectively
+        Returns: Clebsch-Gordan coefficients, real number
+        ==========================Reference==================================
+        [5] Chapter 8 D.A. Varshalovich, A.N. Moskalev, V.K Khersonskii,
+                Quantum Theory of Angular Momentum (1988)
+        [12] Chapter 3 Biedenharn, L., & Louck, J.D. ,
+                Encyclopedia of Mathematics and its Applications (1981)
+        """
         if m1 + m2 != m:
             return 0.0  # delta function fails
         prefactor = np.sqrt((2 * j + 1) * fact(j + j1 - j2) * fact(j - j1 + j2) * fact(j1 + j2 - j) / fact(j + j1 + j2 + 1))
@@ -117,6 +134,49 @@ class Bispectrum:
             sum += num / den
         cg = prefactor * coefficient * sum
         return cg
+    #Coupling Coefficient
+    @classmethod
+    def H(cls, j1, j2, j, m1, m2, m, m1p, m2p, mp):
+        CG = cls.clebsch_gordan(j1, j2, j, m1, m2, m)
+        CGp = cls.clebsch_gordan(j1, j2, j, m1p, m2p, mp)
+        H_coeff = CG * CGp
+        return H_coeff
+    @staticmethod
+    def compute_dsmall(j, m, mp, theta):
+        """
+        This method is used to calculate the Wigner d small- real function involving trigonometric functions
+        Returns: Wigner d - real function
+        ==========================Reference==================================
+        [5] Chapter 4.3.1-(p.76,eq.4)  D.A. Varshalovich, A.N. Moskalev, V.K Khersonskii,
+        """
+        kmax = max(0,m - mp)
+        kmin = min(j + m, j - mp)
+        term1 = np.sqrt(fact(j + m) * fact(j - m) * fact(j + mp) * fact(j - mp))
+        sum = 0
+        for k in range(int(kmax), int(kmin) + 1):
+            numerator = (-1) ** k * (np.cos(theta / 2)) ** (2 * j - 2 * k + m - mp) * \
+                        (np.sin(theta / 2)) ** (2 * k - m + mp)
+            denominator = fact(k) * fact(j + m - k) * fact(j - mp - k) * fact(mp - m + k)
+            sum += numerator / denominator
+        return sum*term1
+    @classmethod
+    def wigner_D(cls, j, m, mp, theta_0, theta, phi):
+        """
+        This method is used to calculate the Wigner D matrix
+        Args:
+            theta_0 (scalar): first angle of rotation [0, pi]
+            theta (scalar): second angle of rotation [0, pi]
+            phi (scalar): third angle of rotation [0, 2*pi]
+        Returns: complex number, Wigner D function
+        ==========================Reference==================================
+        [5] Chapter 4.3-(p.76,eq.1)  D.A. Varshalovich, A.N. Moskalev, V.K Khersonskii,
+        """
+        term1 = np.cos(m *theta_0) - 1j*(np.sin(m * theta_0))
+        term2 = cls.compute_dsmall(j, m, mp, theta)
+        term3 = np.cos(mp * phi) -1j*(np.sin(mp * phi))
+        result = term1 * term2 * term3
+        return result
+
 
 
 

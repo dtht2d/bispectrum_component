@@ -25,7 +25,7 @@ class Clebsch_Gordan:
         m1 (scalar): eigenvalue of angular momentum
         m2 (scalar): eigenvalue of angular momentum
         m (scalar): eigenvalue of angular momentum
-    Returns: complex number, Clebsh Gordan function
+    Returns: numbers
     ==========================Reference==================================
     [5] Chapter 8 D.A. Varshalovich, A.N. Moskalev, V.K Khersonskii,
         Quantum Theory of Angular Momentum (1988)
