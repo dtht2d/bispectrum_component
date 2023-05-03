@@ -237,6 +237,13 @@ class Bispectrum:
         return u_jmmp
     @classmethod
     def evaluate(cls, j, j1, j2, params):
+        w_ik_array = params['w_ik']
+        delta_array = params['delta']
+        r_ik_array = params['r_ik']
+        r_cut_array = params['r_cut']
+        theta_0_array = params['theta_0']
+        theta_array = params['theta']
+        phi_array = params['phi']
         m_list, full_list = cls.generate_m_values(j,j1,j2)
         B_total = 0
         for i in m_list:
