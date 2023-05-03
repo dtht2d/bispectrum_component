@@ -52,19 +52,19 @@ class Clebsch_Gordan:
         if j1 > J or j2 > J or j > J:
             raise ValueError("𝑗1,𝑗2,𝑗 not exceed a positive integer 𝐽=𝑗1+𝑗2+𝑗")
         # Condition 4
-        if not (isinstance(val, (int, float)) and val % 0.5 == 0 for val in [m1, m2, m]:
+        if not (isinstance(val, (int, float)) and val % 0.5 == 0 for val in [m1, m2, m]):
             raise ValueError("𝑚1,𝑚2,𝑚 must be integer or half-integer (positive or negative) numbers")
         # Condition 5
-        if not isinstance(vals, int) and vals >= 0 for vals in [j1 + m1, j1 - m1, j2 + m2, j2 - m2, j + m, j - m]:
+        if not (isinstance(vals, int) and vals >= 0 for vals in [j1 + m1, j1 - m1, j2 + m2, j2 - m2, j + m, j - m]):
             raise ValueError("𝑗1+𝑚1,𝑗1−𝑚1, 𝑗2+𝑚2,𝑗2−𝑚2 𝑗+𝑚,𝑗−𝑚 are non-negative integer")
         # Condition 6
-        if not (m1_val + m2_val == m_val and m1p_val + m2p_val == mp_val):
+        if not m1 + m2 == m:
             raise ValueError("𝑚1+𝑚2=𝑚 and 𝑚1′+𝑚2′=𝑚′")
         # Condition 7
         if not (abs(val) <= limit for val, limit in [(m1, j1), (m2, j2), (m, j)]):
             raise ValueError("|𝑚1|≤𝑗1, |𝑚2|≤𝑗2, |𝑚|≤𝑗")
         # Condition 8
-        if not (j2 + j + m1_val >= 0 and j1 - j2 - m_val >= 0 and isinstance(j2 + j + m1_val, int) and isinstance(j1 - j2 - m_val, int)):
+        if not (j2 + j + m1 >= 0 and j1 - j2 - m >= 0 and isinstance(j2 + j + m1, int) and isinstance(j1 - j2 - m, int)):
             raise ValueError("𝑗2+𝑗+𝑚1≥0 and 𝑗1−𝑗2−𝑚≥0 and 𝑗2+𝑗+𝑚1 and 𝑗1−𝑗2−𝑚 are non-negative integer")
     def cg(self):
         if self.m1 + self.m2 != self.m:
