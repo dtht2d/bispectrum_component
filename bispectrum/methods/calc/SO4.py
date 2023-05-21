@@ -1,7 +1,6 @@
 import numpy as np
 import json
 import pandas as pd
-from Bio.PDB.MMCIF2Dict import MMCIF2Dict
 from typing import Dict
 
 fact_cache = {}
