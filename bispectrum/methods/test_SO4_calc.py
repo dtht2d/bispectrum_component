@@ -41,7 +41,6 @@ print(U)
 u = B.u_small(j, m, mp, params=data)
 print(u)
 
-
 #Test bispectrum
 B = Bispectrum(j=2, j1=3/2, j2=1/2, params=data)
 Bispectrum_SO4 = B.evaluate(j=2, j1=3/2, j2=1/2, params=data)

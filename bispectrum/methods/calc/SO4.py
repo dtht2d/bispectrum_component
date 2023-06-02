@@ -209,7 +209,7 @@ class Bispectrum:
                 - delta (array): the Dirac delta function, indicates only neighbor atom of element the same as center atom
                   contribute to partial density,  dimension (1,k)
                 - r_ik (array): distance from center atom to neighbor atom, dimension (1,k), k is number of neighbor atoms
-                  in cutoff radius, array exclude center atom as well
+                  in cutoff radius, array exclude center atom as well (r_ik <= r_cut)
                 - r_cut (array): cutoff radius
                 - theta_0: array for theta_0 angel (fist angle of rotation [0,pi])
                   of neighbor atoms in reference frame of center atom, dimension (k+1,)
@@ -226,7 +226,6 @@ class Bispectrum:
         theta_0_array = params['theta_0']
         theta_array = params['theta']
         phi_array = params['phi']
-
         # Calculate cutoff_function
         f_cut_arr = (1 / 2) * (np.cos(np.pi * (np.divide(r_ik_array, r_cut_array))) + 1)
         # Calculate rotational matrix U for all k=n neighbor atoms
