@@ -7,12 +7,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bd025cd4-a48e-4c77-ad8a-b238b1464541" name="Changes" comment="INPUT_Params test">
-      <change afterPath="$PROJECT_DIR$/bispectrum/methods/study_example_SO4_calc.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bispectrum/example/test_S04_calc.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/bispectrum/example/test_S04_calc.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bispectrum/methods/calc/SO4.py" beforeDir="false" afterPath="$PROJECT_DIR$/bispectrum/methods/calc/SO4.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bispectrum/methods/test_SO4_calc.py" beforeDir="false" afterPath="$PROJECT_DIR$/bispectrum/methods/test_SO4_calc.py" afterDir="false" />
+    <list default="true" id="bd025cd4-a48e-4c77-ad8a-b238b1464541" name="Changes" comment="test_S04">
+      <change beforePath="$PROJECT_DIR$/bispectrum/methods/study_example_SO4_calc.py" beforeDir="false" afterPath="$PROJECT_DIR$/bispectrum/methods/study_example_SO4_calc.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,7 +75,7 @@
       <recent name="$PROJECT_DIR$/codes/methods" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.test_SO4_calc">
+  <component name="RunManager" selected="Python.study_example_SO4_calc">
     <configuration name="SO4" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="bispectrum_component" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -102,6 +98,28 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="study_example_SO4_calc" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="bispectrum_component" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/bispectrum/methods" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/bispectrum/methods/study_example_SO4_calc.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="test_ClebschGordan_calc" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="bispectrum_component" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -116,28 +134,6 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/bispectrum/methods/test_ClebschGordan_calc.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="test_INPUT_param" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="bispectrum_component" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/bispectrum/methods" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/bispectrum/methods/test_INPUT_param.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -192,11 +188,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.study_example_SO4_calc" />
         <item itemvalue="Python.test_SO4_calc" />
         <item itemvalue="Python.SO4" />
         <item itemvalue="Python.test_WignerD_calc" />
         <item itemvalue="Python.test_ClebschGordan_calc" />
-        <item itemvalue="Python.test_INPUT_param" />
       </list>
     </recent_temporary>
   </component>
@@ -240,7 +236,7 @@
       <workItem from="1681788291091" duration="7175000" />
       <workItem from="1681855283764" duration="9101000" />
       <workItem from="1682535671339" duration="18427000" />
-      <workItem from="1685646283102" duration="4059000" />
+      <workItem from="1685646283102" duration="4369000" />
     </task>
     <task id="LOCAL-00001" summary="Update B calculation">
       <created>1672102626687</created>
@@ -473,7 +469,14 @@
       <option name="project" value="LOCAL" />
       <updated>1683229402799</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="test_S04">
+      <created>1685744738776</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1685744738776</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -522,7 +525,8 @@
     <MESSAGE value="SO4 class function update" />
     <MESSAGE value="SO4 Bispectrum class function update" />
     <MESSAGE value="INPUT_Params test" />
-    <option name="LAST_COMMIT_MESSAGE" value="INPUT_Params test" />
+    <MESSAGE value="test_S04" />
+    <option name="LAST_COMMIT_MESSAGE" value="test_S04" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
