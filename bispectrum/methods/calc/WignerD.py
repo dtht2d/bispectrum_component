@@ -28,15 +28,17 @@ class Wigner_D:
         Quantum Theory of Angular Momentum (1988)
     """
     def __init__(self, j, m, mp, theta_0, theta, phi):
-        if not ((j >= 0) and ((j % 1 == 0.0) or (j % 1 == 0.5))):
+        #Conditions for j, m, mp, theta_0, theta, phi
+        #𝑗+𝑚, 𝑗−𝑚, 𝑗+𝑚′, 𝑗−𝑚′ are non-negative integers
+        if not (isinstance(vals, int) and vals >= 0 for vals in [j + m, j - m, j + mp, j - mp]):
+            raise ValueError("Invalid input parameters: j+m, j-m, j+m', and j-m' must be non-negative integers")
+        #|𝑚|≤𝑗, |𝑚′|≤𝑗
+        if not ([abs(val) <= limit for val, limit in [(m, j), (mp, j)]]):
+          raise ValueError("Invalid input parameters: |m| and |mp| must be less than or equal to j")
+        if not ((j >= 0) or ((j % 1 == 0.0) or (j % 1 == 0.5))):
           raise ValueError("Invalid input parameters: j must be a non-negative integer or half-integer")
-        if not ((-j <= m <= j) and (-j <= mp <= j)):
-          raise ValueError("Invalid input parameters: m and mp must be between -j and j")
         if theta_0 < 0 or theta_0 > 2*np.pi or abs(theta) > np.pi or abs(phi) > 2 * np.pi:
           raise ValueError("Invalid input parameters: theta_0, theta, and phi must be within [0, pi] and [0, 2pi], respectively.")
-        if not ((j+m >= 0) and (j-m >= 0) and (j+mp >= 0) and (j-mp >= 0) and abs(mp-m)) >= 0:
-          raise ValueError("Invalid input parameters: j+m, j-m ,j+m',j-m' are non-negative integer")
-
         self.j = j
         self.m = m
         self.mp = mp
