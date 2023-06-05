@@ -7,12 +7,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bd025cd4-a48e-4c77-ad8a-b238b1464541" name="Changes" comment="WignerD-Condition updates">
-      <change afterPath="$PROJECT_DIR$/docs/consider_reading/2005.04332.pdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/consider_reading/2304.13144.pdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/consider_reading/Representing_local_atomic_environment_using_descriptors_based_on_local_correlations.pdf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="bd025cd4-a48e-4c77-ad8a-b238b1464541" name="Changes" comment="WignerD-Condition updates" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -239,7 +234,7 @@
       <workItem from="1681788291091" duration="7175000" />
       <workItem from="1681855283764" duration="9101000" />
       <workItem from="1682535671339" duration="18427000" />
-      <workItem from="1685646283102" duration="8481000" />
+      <workItem from="1685646283102" duration="8656000" />
     </task>
     <task id="LOCAL-00001" summary="Update B calculation">
       <created>1672102626687</created>
@@ -507,7 +502,14 @@
       <option name="project" value="LOCAL" />
       <updated>1685940584985</updated>
     </task>
-    <option name="localTasksCounter" value="39" />
+    <task id="LOCAL-00039" summary="WignerD-Condition updates">
+      <created>1685943431050</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1685943431050</updated>
+    </task>
+    <option name="localTasksCounter" value="40" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
