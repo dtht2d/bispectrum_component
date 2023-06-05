@@ -15,7 +15,7 @@ WD = Wigner_D(j, m, mp, theta_0, theta,phi)
 wd = WD.wigner_D()
 print ("Wigner_D calculation from our function", wd)
 t1=timeit.default_timer()
-print("Execution time for Wigner_D function from calc.WignerD:", t0 - t1, "seconds")
+print("Execution time for Wigner_D function from calc.WignerD:", t1 - t0, "seconds")
 
 t2=timeit.default_timer()
 #Calculate the Wigner D matrix with Sympy
@@ -24,10 +24,6 @@ wignerD_sympy = rot1.doit()
 print("Wigner_D calculation from our SymPy", N(wignerD_sympy))
 t3=timeit.default_timer()
 
-print("Execution time for Wigner_D function from Sympy:", t2 - t3, "seconds")
-print("Execution time for Wigner_D calculation using class method is", round((t2 - t3)/(t0-t1)),
+print("Execution time for Wigner_D function from Sympy:", t3 - t2, "seconds")
+print("Execution time for Wigner_D calculation using class method is", round((t3 - t2)/(t1-t0)),
       "times faster than Sympy function")
-
-
-U = U_rot(j, m, mp, theta_0, theta,phi)
-print(U)
