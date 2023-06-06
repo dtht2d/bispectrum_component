@@ -37,7 +37,7 @@ WD = B.wigner_D(j, m, mp, theta_0, theta,phi)
 U = B.U_rot(j, m, mp, theta_0, theta,phi)
 print (WD)
 print(U)
-#Test bispectrum
+#Test u
 u = B.u_small(j, m, mp, params=data)
 print(u)
 
