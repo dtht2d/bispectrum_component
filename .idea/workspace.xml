@@ -7,7 +7,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bd025cd4-a48e-4c77-ad8a-b238b1464541" name="Changes" comment="WignerD-Condition updates" />
+    <list default="true" id="bd025cd4-a48e-4c77-ad8a-b238b1464541" name="Changes" comment="sync overleaf doc">
+      <change afterPath="$PROJECT_DIR$/docs/consider_reading/529172.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/consider_reading/529173.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/posters/~$CPG poster.pptx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/posters/~$poster-PEARC-revision.pptx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/posters/~$poster-PEARC.pptx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/overleaf_doc/CurrentDraft_UMKC_Thesis_Dissertation_Master_Duong_Hoang.zip" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -234,7 +242,7 @@
       <workItem from="1681788291091" duration="7175000" />
       <workItem from="1681855283764" duration="9101000" />
       <workItem from="1682535671339" duration="18427000" />
-      <workItem from="1685646283102" duration="8656000" />
+      <workItem from="1685646283102" duration="9457000" />
     </task>
     <task id="LOCAL-00001" summary="Update B calculation">
       <created>1672102626687</created>
@@ -509,7 +517,28 @@
       <option name="project" value="LOCAL" />
       <updated>1685943431050</updated>
     </task>
-    <option name="localTasksCounter" value="40" />
+    <task id="LOCAL-00040" summary="references  update">
+      <created>1685943510874</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1685943510874</updated>
+    </task>
+    <task id="LOCAL-00041" summary="references  update">
+      <created>1685943664169</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1685943664169</updated>
+    </task>
+    <task id="LOCAL-00042" summary="sync overleaf doc">
+      <created>1686032465162</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1686032465162</updated>
+    </task>
+    <option name="localTasksCounter" value="43" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -562,7 +591,9 @@
     <MESSAGE value="study-example-SO4-calculation" />
     <MESSAGE value="poster-draft" />
     <MESSAGE value="WignerD-Condition updates" />
-    <option name="LAST_COMMIT_MESSAGE" value="WignerD-Condition updates" />
+    <MESSAGE value="references  update" />
+    <MESSAGE value="sync overleaf doc" />
+    <option name="LAST_COMMIT_MESSAGE" value="sync overleaf doc" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
