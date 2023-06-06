@@ -7,8 +7,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bd025cd4-a48e-4c77-ad8a-b238b1464541" name="Changes" comment="references update">
-      <change beforePath="$PROJECT_DIR$/bispectrum/methods/test_SO4_calc.py" beforeDir="false" afterPath="$PROJECT_DIR$/bispectrum/methods/test_SO4_calc.py" afterDir="false" />
+    <list default="true" id="bd025cd4-a48e-4c77-ad8a-b238b1464541" name="Changes" comment="overleaf doc update">
+      <change afterPath="$PROJECT_DIR$/docs/[17]1507.02911.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -236,7 +237,7 @@
       <workItem from="1681788291091" duration="7175000" />
       <workItem from="1681855283764" duration="9101000" />
       <workItem from="1682535671339" duration="18427000" />
-      <workItem from="1685646283102" duration="10159000" />
+      <workItem from="1685646283102" duration="10854000" />
     </task>
     <task id="LOCAL-00001" summary="Update B calculation">
       <created>1672102626687</created>
@@ -553,7 +554,14 @@
       <option name="project" value="LOCAL" />
       <updated>1686033296739</updated>
     </task>
-    <option name="localTasksCounter" value="46" />
+    <task id="LOCAL-00046" summary="overleaf doc update">
+      <created>1686033452144</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1686033452144</updated>
+    </task>
+    <option name="localTasksCounter" value="47" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -584,7 +592,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="parameters description" />
     <MESSAGE value="Clebsch_Gordan function" />
     <MESSAGE value="References added" />
     <MESSAGE value="H function" />
@@ -609,7 +616,8 @@
     <MESSAGE value="sync overleaf doc" />
     <MESSAGE value="poster review" />
     <MESSAGE value="references update" />
-    <option name="LAST_COMMIT_MESSAGE" value="references update" />
+    <MESSAGE value="overleaf doc update" />
+    <option name="LAST_COMMIT_MESSAGE" value="overleaf doc update" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
