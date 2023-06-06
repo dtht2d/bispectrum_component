@@ -105,6 +105,8 @@ def H_coeff(j1,j2,j,m1,m2,m,m1p,m2p,mp):
     ======================Reference=========================
     [1] Thompson, Swiler, Trott, Foiles, Tucker,
         Spectral neighbor analysis method for automated generation of quantum-accurate interatomic potentials (2015)
+    [4] Meremianin,
+        Multipole expansions in four-dimensional hyperspherical harmonics (2006
     [5] Chapter 8  D.A. Varshalovich, A.N. Moskalev, V.K Khersonskii,
         Quantum Theory of Angular Momentum (1988)
     '''

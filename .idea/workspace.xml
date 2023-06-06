@@ -7,9 +7,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bd025cd4-a48e-4c77-ad8a-b238b1464541" name="Changes" comment="overleaf doc update">
-      <change afterPath="$PROJECT_DIR$/docs/[17]1507.02911.pdf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="bd025cd4-a48e-4c77-ad8a-b238b1464541" name="Changes" comment="references update">
+      <change beforePath="$PROJECT_DIR$/bispectrum/methods/calc/ClebschGordan.py" beforeDir="false" afterPath="$PROJECT_DIR$/bispectrum/methods/calc/ClebschGordan.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -237,7 +236,7 @@
       <workItem from="1681788291091" duration="7175000" />
       <workItem from="1681855283764" duration="9101000" />
       <workItem from="1682535671339" duration="18427000" />
-      <workItem from="1685646283102" duration="10854000" />
+      <workItem from="1685646283102" duration="11474000" />
     </task>
     <task id="LOCAL-00001" summary="Update B calculation">
       <created>1672102626687</created>
@@ -561,7 +560,14 @@
       <option name="project" value="LOCAL" />
       <updated>1686033452144</updated>
     </task>
-    <option name="localTasksCounter" value="47" />
+    <task id="LOCAL-00047" summary="references update">
+      <created>1686091333155</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1686091333155</updated>
+    </task>
+    <option name="localTasksCounter" value="48" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -615,9 +621,9 @@
     <MESSAGE value="references  update" />
     <MESSAGE value="sync overleaf doc" />
     <MESSAGE value="poster review" />
-    <MESSAGE value="references update" />
     <MESSAGE value="overleaf doc update" />
-    <option name="LAST_COMMIT_MESSAGE" value="overleaf doc update" />
+    <MESSAGE value="references update" />
+    <option name="LAST_COMMIT_MESSAGE" value="references update" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
