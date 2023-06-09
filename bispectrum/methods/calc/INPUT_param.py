@@ -115,7 +115,7 @@ def generate_m_values(j, j1, j2):
     """
     J=j1 + j2 + j
     #Condition 1
-    if not ((abs(j1 - j2) <= j <= j1 + j2) or isinstance(J,int) or (J >=0) or (j1 + j2) == j):
+    if not ((abs(j1 - j2) <= j <= j1 + j2) or isinstance(J,int) or (J >=0)):
         raise ValueError("Condition (1) is not satisfied.")
     #Condition 2
     if not ((isinstance(val,int) or val >=0 for val in [j + j1 - j2,j - j1 + j2,j1 + j2 - j])):
