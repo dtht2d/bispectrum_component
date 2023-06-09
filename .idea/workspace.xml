@@ -7,13 +7,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bd025cd4-a48e-4c77-ad8a-b238b1464541" name="Changes" comment="references update">
-      <change afterPath="$PROJECT_DIR$/docs/zotero_references/[1]1409.3880.pdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/zotero_references/[3]0910.1019.pdf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/[1] Thompson et al. - A Machine-Learning Method for Automated Generation.pdf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/[3] PhysRevLett.104.136403.pdf" beforeDir="false" />
-    </list>
+    <list default="true" id="bd025cd4-a48e-4c77-ad8a-b238b1464541" name="Changes" comment="update j1,j2,j conditions" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -240,21 +234,7 @@
       <workItem from="1681788291091" duration="7175000" />
       <workItem from="1681855283764" duration="9101000" />
       <workItem from="1682535671339" duration="18427000" />
-      <workItem from="1685646283102" duration="12852000" />
-    </task>
-    <task id="LOCAL-00001" summary="Update B calculation">
-      <created>1672102626687</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1672102626687</updated>
-    </task>
-    <task id="LOCAL-00002" summary="Update B calculation">
-      <created>1672208827103</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1672208827103</updated>
+      <workItem from="1685646283102" duration="12970000" />
     </task>
     <task id="LOCAL-00003" summary="Update B calculation">
       <created>1672208886269</created>
@@ -585,7 +565,21 @@
       <option name="project" value="LOCAL" />
       <updated>1686094740240</updated>
     </task>
-    <option name="localTasksCounter" value="50" />
+    <task id="LOCAL-00050" summary="references update">
+      <created>1686281727762</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1686281727762</updated>
+    </task>
+    <task id="LOCAL-00051" summary="update j1,j2,j conditions">
+      <created>1686281837672</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1686281837672</updated>
+    </task>
+    <option name="localTasksCounter" value="52" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -616,7 +610,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="References added" />
     <MESSAGE value="H function" />
     <MESSAGE value="Bispectrum function" />
     <MESSAGE value="Wigner-D angels condition update" />
@@ -641,7 +634,8 @@
     <MESSAGE value="overleaf doc update" />
     <MESSAGE value="H function references update" />
     <MESSAGE value="references update" />
-    <option name="LAST_COMMIT_MESSAGE" value="references update" />
+    <MESSAGE value="update j1,j2,j conditions" />
+    <option name="LAST_COMMIT_MESSAGE" value="update j1,j2,j conditions" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
