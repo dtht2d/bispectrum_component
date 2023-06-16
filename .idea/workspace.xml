@@ -7,9 +7,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bd025cd4-a48e-4c77-ad8a-b238b1464541" name="Changes" comment="referneces.bib file">
+    <list default="true" id="bd025cd4-a48e-4c77-ad8a-b238b1464541" name="Changes" comment="overleaf_draft">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/overleaf_doc/CurrentDraft_UMKC_Thesis_Dissertation_Master_Duong_Hoang.zip" beforeDir="false" afterPath="$PROJECT_DIR$/overleaf_doc/CurrentDraft_UMKC_Thesis_Dissertation_Master_Duong_Hoang.zip" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/posters/~$CPG poster.pptx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/posters/~$poster-PEARC-revision.pptx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/posters/~$poster-PEARC.pptx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/~$CPG poster.pptx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/~$poster-PEARC.pptx" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -239,13 +243,8 @@
       <workItem from="1682535671339" duration="18427000" />
       <workItem from="1685646283102" duration="13603000" />
       <workItem from="1686284486174" duration="624000" />
-    </task>
-    <task id="LOCAL-00004" summary="parameters description">
-      <created>1672209872312</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1672209872312</updated>
+      <workItem from="1686452862838" duration="634000" />
+      <workItem from="1686763596219" duration="598000" />
     </task>
     <task id="LOCAL-00005" summary="parameters description">
       <created>1672330283941</created>
@@ -583,7 +582,14 @@
       <option name="project" value="LOCAL" />
       <updated>1686284428475</updated>
     </task>
-    <option name="localTasksCounter" value="53" />
+    <task id="LOCAL-00053" summary="overleaf_draft">
+      <created>1686452887675</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1686452887675</updated>
+    </task>
+    <option name="localTasksCounter" value="54" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -614,7 +620,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Bispectrum function" />
     <MESSAGE value="Wigner-D angels condition update" />
     <MESSAGE value="Wigner-D function update" />
     <MESSAGE value=".json neighbor list" />
@@ -639,7 +644,8 @@
     <MESSAGE value="references update" />
     <MESSAGE value="update j1,j2,j conditions" />
     <MESSAGE value="referneces.bib file" />
-    <option name="LAST_COMMIT_MESSAGE" value="referneces.bib file" />
+    <MESSAGE value="overleaf_draft" />
+    <option name="LAST_COMMIT_MESSAGE" value="overleaf_draft" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
