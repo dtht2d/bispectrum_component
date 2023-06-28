@@ -8,13 +8,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="bd025cd4-a48e-4c77-ad8a-b238b1464541" name="Changes" comment="docs">
-      <change afterPath="$PROJECT_DIR$/bispectrum/visual_plots/cell_cube.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/data-atom-17-neighbor-list.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/posters/~$CPG poster.pptx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/figures/IMG_1991.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/figures/IMG_2046.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/figures/IMG_2047.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/study_example_SO4_calc.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/study_example_SO4_calc.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bispectrum/visual_plots/cell_cube.py" beforeDir="false" afterPath="$PROJECT_DIR$/bispectrum/methods/data_frame.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data-atom-17-neighbor-list.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/[15]KB22.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/docs/[15]KB22.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/[4]Meremianin_2006_J._Phys._A__Math._Gen._39_3099.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/docs/[4]Meremianin_2006_J._Phys._A__Math._Gen._39_3099.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/[6] Cusentino et al. - 2020 - Explicit Multielement Extension of the Spectral Ne.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/docs/[6] Cusentino et al. - 2020 - Explicit Multielement Extension of the Spectral Ne.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/zotero_references/references.bib" beforeDir="false" afterPath="$PROJECT_DIR$/docs/zotero_references/references.bib" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/study_example_SO4_calc.ipynb" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -247,6 +247,7 @@
       <workItem from="1686452862838" duration="634000" />
       <workItem from="1686763596219" duration="598000" />
       <workItem from="1686892207276" duration="949000" />
+      <workItem from="1687832372998" duration="1557000" />
     </task>
     <task id="LOCAL-00006" summary="Clebsch_Gordan function">
       <created>1677703748633</created>
