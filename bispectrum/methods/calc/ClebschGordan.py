@@ -58,18 +58,18 @@ class Clebsch_Gordan:
         if not (isinstance(vals, int) and vals >= 0 for vals in [j1 + m1, j1 - m1, j2 + m2, j2 - m2, j + m, j - m]):
             raise ValueError("𝑗1+𝑚1,𝑗1−𝑚1, 𝑗2+𝑚2,𝑗2−𝑚2 𝑗+𝑚,𝑗−𝑚 are non-negative integer")
         # Condition 6
-        if not m1 + m2 == m:
-            raise ValueError("𝑚1+𝑚2=𝑚 and 𝑚1′+𝑚2′=𝑚′")
+        #if not m1 + m2 == m:
+            #raise ValueError("𝑚1+𝑚2=𝑚 and 𝑚1′+𝑚2′=𝑚′")
         # Condition 7
         if not (abs(val) <= limit for val, limit in [(m1, j1), (m2, j2), (m, j)]):
             raise ValueError("|𝑚1|≤𝑗1, |𝑚2|≤𝑗2, |𝑚|≤𝑗")
         # Condition 8
-        if not (j2 + j + m1 >= 0 and j1 - j2 - m >= 0 and isinstance(j2 + j + m1, int) and isinstance(j1 - j2 - m, int)):
-            raise ValueError("𝑗2+𝑗+𝑚1≥0 and 𝑗1−𝑗2−𝑚≥0 and 𝑗2+𝑗+𝑚1 and 𝑗1−𝑗2−𝑚 are non-negative integer")
+        #if not (j2 + j + m1 > 0 and j1 - j2 - m > 0 and isinstance(j2 + j + m1, int) and isinstance(j1 - j2 - m, int)):
+            #raise ValueError("𝑗2+𝑗+𝑚1≥0 and 𝑗1−𝑗2−𝑚≥0 and 𝑗2+𝑗+𝑚1 and 𝑗1−𝑗2−𝑚 are non-negative integer")
     def cg(self):
         if self.m1 + self.m2 != self.m:
             return 0.0  # delta function fails
-        prefactor = cmath.sqrt((2 * self.j + 1) * fact(self.j + self.j1 - self.j2) * fact(self.j-self.j1 + self.j2) \
+        prefactor = cmath.sqrt((2 * self.j + 1) * fact(self.j + self.j1 - self.j2) * fact(self.j - self.j1+self.j2) \
                                * fact(self.j1 + self.j2 - self.j) / fact(self.j + self.j1 + self.j2 + 1))
         coefficient = cmath.sqrt(fact(self.j + self.m) * fact(self.j - self.m) / (fact(self.j1 + self.m1) \
                                * fact(self.j1 - self.m1) * fact(self.j2 + self.m2) * fact(self.j2 - self.m2)))
