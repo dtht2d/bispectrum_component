@@ -17,11 +17,22 @@ data = neighbor_params(center_atom_id, r_mu, R_cut, input_file_path, output_dire
 B = Bispectrum(j=2, j1=3/2, j2=1/2, params=data)
 keep_list, full_list = B.generate_m_values(3,1,2)
 print (keep_list)
-j1, j2, j, m1, m2, m, m1p, m2p, mp = 1/2, 1/2, 1, -1/2, -1/2, -1, -1/2, -1/2, 0
+j1 = 1
+m1 = 1
+j2 = 1/2
+m2 = 1/2
+j = 3/2
+m = 3/2
+m1p =-1
+m2p = 1/2
+mp = 1/2
 
 #test Clebsch Gordan Coefficient calculation
 CG_coeff = B.clebsch_gordan(j1, j2, j, m1, m2, m)
 print(CG_coeff)
+
+CG_coeff_p = B.clebsch_gordan(j1, j2, j, m1p, m2p, mp)
+print(CG_coeff_p)
 #Compare sympy
 cg = CG(j1,m1,j2,m2,j,m)
 cg = cg.doit()
