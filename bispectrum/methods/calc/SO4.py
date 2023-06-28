@@ -91,14 +91,14 @@ class Bispectrum:
             c6 = [m1_val + m2_val == m_val and m1p_val + m2p_val == mp_val]
             c7 = [abs(val) <= limit for val, limit in
                   [(m1_val, j1), (m2_val, j2), (m_val, j), (m1p_val, j1), (m2p_val, j2), (mp_val, j)]]
-            c8 = [j2 + j + m1_val >= 0 and j1 - j2 - m_val >= 0 and isinstance(j2 + j + m1_val, int) and isinstance(
-                j1 - j2 - m_val, int)]
-            c8_p = [
-                j2 + j + m1p_val >= 0 and j1 - j2 - mp_val >= 0 and isinstance(j2 + j + m1p_val, int) and isinstance(
-                    j1 - j2 - mp_val, int)]
+            #c8 = [j2 + j + m1_val >= 0 and j1 - j2 - m_val >= 0 and isinstance(j2 + j + m1_val, int) and isinstance(
+                #j1 - j2 - m_val, int)]
+            #c8_p = [
+                #j2 + j + m1p_val >= 0 and j1 - j2 - mp_val >= 0 and isinstance(j2 + j + m1p_val, int) and isinstance(
+                    #j1 - j2 - mp_val, int)]
             # Condition 9: Wigner-D calc
             c9 = [isinstance(vals, int) and vals >= 0 for vals in [mp_val - m_val, m1p_val - m1_val, m2p_val - m2_val]]
-        if (c4) and (c5 and c5_p) and (c6) and (c7) and (c8 and c8_p) and (c9):
+        if (c4) and (c5 and c5_p) and (c6) and (c7) and (c9):
             keep_list.append(s[i])
         else:
             pass
