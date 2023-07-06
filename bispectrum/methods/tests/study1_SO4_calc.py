@@ -40,7 +40,7 @@ print(B_data_2)
 case_2_plot=save_path = "/Users/duonghoang/Documents/GitHub/bispectrum_component/plots/plot_case_2.png"
 plot_atoms(center_atom, neighbor_atoms_2, R_cut, cell_length, B= B_data_2, save_path=case_2_plot)
 
-#Case 3-[Same cell at (1)] with 1 neighbor atoms at (0.6, 0.5, 0.5) and (0.5, 0.4, 0.5)
+#Case 3-[Same cell at (1)] with 1 neighbor atoms at (0.5, 0.4, 0.5)
 neighbor_atoms_3 = [(0.5,0.4,0.5)]
 data_3 = test_neighbor(center_atom, neighbor_atoms_3, R_cut)
 B_3= Bispectrum(j=5/2, j1=3/2, j2=2/2, params=data_3)
@@ -113,3 +113,5 @@ B_data_345 = B_345.evaluate(j=5/2, j1=3/2, j2=2/2, params=data_345)
 print(B_data_345)
 case_345_plot= "/Users/duonghoang/Documents/GitHub/bispectrum_component/plots/plot_case_345.png"
 plot_atoms(center_atom, neighbor_atoms_345, R_cut, cell_length, B= B_data_345, save_path=case_345_plot)
+
+
