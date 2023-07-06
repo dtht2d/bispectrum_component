@@ -4,7 +4,7 @@ from sympy import *
 import timeit
 from sympy.physics.quantum.cg import CG
 import numpy as np
-path = '/Users/duonghoang/Documents/GitHub/bispectrum_component/data/avgBL-Model.cif'
+path = '/Users/duonghoang/Documents/GitHub/bispectrum_component//data/avgBL-Model.cif'
 center_atom_id = 17
 r_mu = 0.0779
 R_cut = 0.25
