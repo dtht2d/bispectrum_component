@@ -7,8 +7,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bd025cd4-a48e-4c77-ad8a-b238b1464541" name="Changes" comment="files change">
+    <list default="true" id="bd025cd4-a48e-4c77-ad8a-b238b1464541" name="Changes" comment="path edit">
+      <change afterPath="$PROJECT_DIR$/bispectrum/methods/tests/study1_SO4_calc.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plots/plot_case_1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plots/plot_case_2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plots/plot_case_23.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plots/plot_case_234.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plots/plot_case_235.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plots/plot_case_3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plots/plot_case_345.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plots/plot_case_4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plots/plot_case_45.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plots/plot_case_5.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bispectrum/methods/tests/study_example_SO4_calc.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -247,21 +259,7 @@
       <workItem from="1687837688832" duration="5028000" />
       <workItem from="1688162918385" duration="3000" />
       <workItem from="1688162934157" duration="2986000" />
-      <workItem from="1688571700180" duration="6350000" />
-    </task>
-    <task id="LOCAL-00032" summary="SO4 Bispectrum class function update">
-      <created>1683229234496</created>
-      <option name="number" value="00032" />
-      <option name="presentableId" value="LOCAL-00032" />
-      <option name="project" value="LOCAL" />
-      <updated>1683229234496</updated>
-    </task>
-    <task id="LOCAL-00033" summary="INPUT_Params test">
-      <created>1683229402799</created>
-      <option name="number" value="00033" />
-      <option name="presentableId" value="LOCAL-00033" />
-      <option name="project" value="LOCAL" />
-      <updated>1683229402799</updated>
+      <workItem from="1688571700180" duration="10229000" />
     </task>
     <task id="LOCAL-00034" summary="test_S04">
       <created>1685744738776</created>
@@ -592,7 +590,21 @@
       <option name="project" value="LOCAL" />
       <updated>1688606202981</updated>
     </task>
-    <option name="localTasksCounter" value="81" />
+    <task id="LOCAL-00081" summary="files change">
+      <created>1688606962297</created>
+      <option name="number" value="00081" />
+      <option name="presentableId" value="LOCAL-00081" />
+      <option name="project" value="LOCAL" />
+      <updated>1688606962297</updated>
+    </task>
+    <task id="LOCAL-00082" summary="path edit">
+      <created>1688607753356</created>
+      <option name="number" value="00082" />
+      <option name="presentableId" value="LOCAL-00082" />
+      <option name="project" value="LOCAL" />
+      <updated>1688607753356</updated>
+    </task>
+    <option name="localTasksCounter" value="83" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -623,7 +635,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="update j1,j2,j conditions" />
     <MESSAGE value="referneces.bib file" />
     <MESSAGE value="overleaf_draft" />
     <MESSAGE value="conditions update" />
@@ -648,7 +659,8 @@
     <MESSAGE value="poster" />
     <MESSAGE value="changes" />
     <MESSAGE value="files change" />
-    <option name="LAST_COMMIT_MESSAGE" value="files change" />
+    <MESSAGE value="path edit" />
+    <option name="LAST_COMMIT_MESSAGE" value="path edit" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -676,7 +688,7 @@
     <SUITE FILE_PATH="coverage/bispectrum_component$test_neighbor_list.coverage" NAME="test_neighbor_list Coverage Results" MODIFIED="1680670722203" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/bispectrum/methods" />
     <SUITE FILE_PATH="coverage/bispectrum_component$ClebschGordan.coverage" NAME="ClebschGordan Coverage Results" MODIFIED="1680722154418" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/bispectrum/methods/calc" />
     <SUITE FILE_PATH="coverage/bispectrum_component$4D.coverage" NAME="4D Coverage Results" MODIFIED="1687921821342" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/bispectrum/visual_plots" />
-    <SUITE FILE_PATH="coverage/bispectrum_component$study_example_SO4_calc.coverage" NAME="study_example_SO4_calc Coverage Results" MODIFIED="1688605715071" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/bispectrum/methods" />
+    <SUITE FILE_PATH="coverage/bispectrum_component$study_example_SO4_calc.coverage" NAME="study_example_SO4_calc Coverage Results" MODIFIED="1688610224858" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/bispectrum/methods" />
     <SUITE FILE_PATH="coverage/bispectrum_component$SO4.coverage" NAME="SO4 Coverage Results" MODIFIED="1683081516317" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/bispectrum/methods/calc" />
     <SUITE FILE_PATH="coverage/bispectrump_component$compute_bispectrum_component.coverage" NAME="compute-bispectrum-component Coverage Results" MODIFIED="1672210327757" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/codes" />
     <SUITE FILE_PATH="coverage/bispectrum_component$Wigner_D.coverage" NAME="Wigner_D Coverage Results" MODIFIED="1677220781727" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/codes/methods" />
