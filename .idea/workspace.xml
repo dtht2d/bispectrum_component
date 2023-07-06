@@ -7,20 +7,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bd025cd4-a48e-4c77-ad8a-b238b1464541" name="Changes" comment="path edit">
-      <change afterPath="$PROJECT_DIR$/bispectrum/methods/tests/study1_SO4_calc.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/plots/plot_case_1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/plots/plot_case_2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/plots/plot_case_23.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/plots/plot_case_234.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/plots/plot_case_235.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/plots/plot_case_3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/plots/plot_case_345.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/plots/plot_case_4.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/plots/plot_case_45.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/plots/plot_case_5.png" afterDir="false" />
+    <list default="true" id="bd025cd4-a48e-4c77-ad8a-b238b1464541" name="Changes" comment="cutoff_function condition">
+      <change afterPath="$PROJECT_DIR$/bispectrum/methods/tests/plot_study1_SO4_calc.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bispectrum/methods/tests/study_example_SO4_calc.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -89,29 +78,7 @@
       <recent name="$PROJECT_DIR$/codes/methods" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.study_example_SO4_calc">
-    <configuration name="4D" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="bispectrum_component" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/bispectrum/visual_plots" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/bispectrum/visual_plots/4D.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
+  <component name="RunManager" selected="Python.study1_SO4_calc">
     <configuration name="neighbor-atoms" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="bispectrum_component" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -126,6 +93,50 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/bispectrum/methods/plot/neighbor-atoms.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="plot_study1_SO4_calc" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="bispectrum_component" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/bispectrum/methods/tests" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/bispectrum/methods/tests/plot_study1_SO4_calc.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="study1_SO4_calc" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="bispectrum_component" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/bispectrum/methods/tests" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/bispectrum/methods/tests/study1_SO4_calc.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -178,35 +189,13 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="test_SO4_calc" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="bispectrum_component" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/bispectrum/methods" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/bispectrum/methods/tests/test_SO4_calc.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.study1_SO4_calc" />
+        <item itemvalue="Python.plot_study1_SO4_calc" />
         <item itemvalue="Python.study_example_SO4_calc" />
         <item itemvalue="Python.neighbor-atoms" />
         <item itemvalue="Python.test_ClebschGordan_calc" />
-        <item itemvalue="Python.test_SO4_calc" />
-        <item itemvalue="Python.4D" />
       </list>
     </recent_temporary>
   </component>
@@ -259,42 +248,7 @@
       <workItem from="1687837688832" duration="5028000" />
       <workItem from="1688162918385" duration="3000" />
       <workItem from="1688162934157" duration="2986000" />
-      <workItem from="1688571700180" duration="10229000" />
-    </task>
-    <task id="LOCAL-00034" summary="test_S04">
-      <created>1685744738776</created>
-      <option name="number" value="00034" />
-      <option name="presentableId" value="LOCAL-00034" />
-      <option name="project" value="LOCAL" />
-      <updated>1685744738776</updated>
-    </task>
-    <task id="LOCAL-00035" summary="study-example-SO4-calculation">
-      <created>1685744915516</created>
-      <option name="number" value="00035" />
-      <option name="presentableId" value="LOCAL-00035" />
-      <option name="project" value="LOCAL" />
-      <updated>1685744915516</updated>
-    </task>
-    <task id="LOCAL-00036" summary="poster-draft">
-      <created>1685937298856</created>
-      <option name="number" value="00036" />
-      <option name="presentableId" value="LOCAL-00036" />
-      <option name="project" value="LOCAL" />
-      <updated>1685937298856</updated>
-    </task>
-    <task id="LOCAL-00037" summary="WignerD-Condition updates">
-      <created>1685938173178</created>
-      <option name="number" value="00037" />
-      <option name="presentableId" value="LOCAL-00037" />
-      <option name="project" value="LOCAL" />
-      <updated>1685938173178</updated>
-    </task>
-    <task id="LOCAL-00038" summary="WignerD-Condition updates">
-      <created>1685940584985</created>
-      <option name="number" value="00038" />
-      <option name="presentableId" value="LOCAL-00038" />
-      <option name="project" value="LOCAL" />
-      <updated>1685940584985</updated>
+      <workItem from="1688571700180" duration="13756000" />
     </task>
     <task id="LOCAL-00039" summary="WignerD-Condition updates">
       <created>1685943431050</created>
@@ -604,7 +558,42 @@
       <option name="project" value="LOCAL" />
       <updated>1688607753356</updated>
     </task>
-    <option name="localTasksCounter" value="83" />
+    <task id="LOCAL-00083" summary="plots">
+      <created>1688611821167</created>
+      <option name="number" value="00083" />
+      <option name="presentableId" value="LOCAL-00083" />
+      <option name="project" value="LOCAL" />
+      <updated>1688611821167</updated>
+    </task>
+    <task id="LOCAL-00084" summary="plots">
+      <created>1688611828648</created>
+      <option name="number" value="00084" />
+      <option name="presentableId" value="LOCAL-00084" />
+      <option name="project" value="LOCAL" />
+      <updated>1688611828648</updated>
+    </task>
+    <task id="LOCAL-00085" summary="study cases">
+      <created>1688611848046</created>
+      <option name="number" value="00085" />
+      <option name="presentableId" value="LOCAL-00085" />
+      <option name="project" value="LOCAL" />
+      <updated>1688611848046</updated>
+    </task>
+    <task id="LOCAL-00086" summary="cutoff_function condition">
+      <created>1688623566319</created>
+      <option name="number" value="00086" />
+      <option name="presentableId" value="LOCAL-00086" />
+      <option name="project" value="LOCAL" />
+      <updated>1688623566319</updated>
+    </task>
+    <task id="LOCAL-00087" summary="cutoff_function condition">
+      <created>1688623577937</created>
+      <option name="number" value="00087" />
+      <option name="presentableId" value="LOCAL-00087" />
+      <option name="project" value="LOCAL" />
+      <updated>1688623577937</updated>
+    </task>
+    <option name="localTasksCounter" value="88" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -635,9 +624,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="referneces.bib file" />
-    <MESSAGE value="overleaf_draft" />
-    <MESSAGE value="conditions update" />
     <MESSAGE value="plot" />
     <MESSAGE value="data" />
     <MESSAGE value="colab notes" />
@@ -660,7 +646,10 @@
     <MESSAGE value="changes" />
     <MESSAGE value="files change" />
     <MESSAGE value="path edit" />
-    <option name="LAST_COMMIT_MESSAGE" value="path edit" />
+    <MESSAGE value="plots" />
+    <MESSAGE value="study cases" />
+    <MESSAGE value="cutoff_function condition" />
+    <option name="LAST_COMMIT_MESSAGE" value="cutoff_function condition" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -684,6 +673,7 @@
     <SUITE FILE_PATH="coverage/bispectrum_component$WignerD.coverage" NAME="WignerD Coverage Results" MODIFIED="1681795507686" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/bispectrum/methods/calc" />
     <SUITE FILE_PATH="coverage/bispectrum_component$Paramters.coverage" NAME="Paramters Coverage Results" MODIFIED="1681152150735" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/bispectrum/methods/calc" />
     <SUITE FILE_PATH="coverage/bispectrum_component$test_get_INPUT_val_calc.coverage" NAME="test_get_INPUT_val_calc Coverage Results" MODIFIED="1681792904427" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/bispectrum/methods" />
+    <SUITE FILE_PATH="coverage/bispectrum_component$study1_SO4_calc.coverage" NAME="study1_SO4_calc Coverage Results" MODIFIED="1688616178881" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/bispectrum/methods/tests" />
     <SUITE FILE_PATH="coverage/bispectrum_component$test_ClebschGordan_calc.coverage" NAME="test_ClebschGordan_calc Coverage Results" MODIFIED="1688605553501" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/bispectrum/methods" />
     <SUITE FILE_PATH="coverage/bispectrum_component$test_neighbor_list.coverage" NAME="test_neighbor_list Coverage Results" MODIFIED="1680670722203" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/bispectrum/methods" />
     <SUITE FILE_PATH="coverage/bispectrum_component$ClebschGordan.coverage" NAME="ClebschGordan Coverage Results" MODIFIED="1680722154418" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/bispectrum/methods/calc" />
@@ -691,6 +681,7 @@
     <SUITE FILE_PATH="coverage/bispectrum_component$study_example_SO4_calc.coverage" NAME="study_example_SO4_calc Coverage Results" MODIFIED="1688610224858" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/bispectrum/methods" />
     <SUITE FILE_PATH="coverage/bispectrum_component$SO4.coverage" NAME="SO4 Coverage Results" MODIFIED="1683081516317" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/bispectrum/methods/calc" />
     <SUITE FILE_PATH="coverage/bispectrump_component$compute_bispectrum_component.coverage" NAME="compute-bispectrum-component Coverage Results" MODIFIED="1672210327757" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/codes" />
+    <SUITE FILE_PATH="coverage/bispectrum_component$plot_study1_SO4_calc.coverage" NAME="plot_study1_SO4_calc Coverage Results" MODIFIED="1688616100725" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/bispectrum/methods/tests" />
     <SUITE FILE_PATH="coverage/bispectrum_component$Wigner_D.coverage" NAME="Wigner_D Coverage Results" MODIFIED="1677220781727" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/codes/methods" />
     <SUITE FILE_PATH="coverage/bispectrum_component$test_WignerD_calc__3_.coverage" NAME="test_WignerD_calc (3) Coverage Results" MODIFIED="1680662560036" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/bispectrum/methods" />
     <SUITE FILE_PATH="coverage/bispectrum_component$test_WignerD_calc.coverage" NAME="test_WignerD_calc Coverage Results" MODIFIED="1688605944302" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/bispectrum/methods/tests" />
