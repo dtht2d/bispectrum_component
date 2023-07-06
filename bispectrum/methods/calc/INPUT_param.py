@@ -151,3 +151,46 @@ def generate_m_values(j, j1, j2):
     else:
       pass
     return keep_list, full_list
+
+
+def test_neighbor(center_atom, neighbor_atoms, R_cut):
+    """
+    This function tests the parameters calculation for the neighbor atoms are within the cutoff radius of
+    the center atom.
+    """
+    if neighbor_atoms is None:
+        neighbor_atoms = [center_atom]
+
+    if len(neighbor_atoms) == 1:
+        x_k = np.array([neighbor_atoms[0][0] - center_atom[0]])
+        y_k = np.array([neighbor_atoms[0][1] - center_atom[1]])
+        z_k = np.array([neighbor_atoms[0][2] - center_atom[2]])
+    else:
+        x_k = np.array([neighbor[0] - center_atom[0] for neighbor in neighbor_atoms])
+        y_k = np.array([neighbor[1] - center_atom[1] for neighbor in neighbor_atoms])
+        z_k = np.array([neighbor[2] - center_atom[2] for neighbor in neighbor_atoms])
+    # Calculate r_ik
+    r_ik_array = np.sqrt(x_k ** 2 + y_k ** 2 + z_k ** 2)
+    r_0_array = np.full(r_ik_array.shape, R_cut)
+    # Calculate angles
+    theta_0_array = np.pi * (r_ik_array / r_0_array)
+    z_k_abs_array = np.abs(z_k)
+    theta_array = np.arccos(z_k_abs_array / r_ik_array)
+    phi_array = np.arctan2(y_k, x_k)
+    phi_array_convert = np.mod(phi_array, 2 * np.pi)
+    # Convert NaN values to zero
+    theta_0_array = np.nan_to_num(theta_0_array, nan=0.0)
+    theta_array = np.nan_to_num(theta_array, nan=0.0)
+    phi_array = np.nan_to_num(phi_array, nan=0.0)
+    phi_array_convert = np.nan_to_num(phi_array_convert, nan=0.0)
+    # Create dictionary data
+    params = {
+        'w_ik': np.full(r_ik_array.shape, 1),
+        'delta': np.full(r_ik_array.shape, 1),
+        'r_ik': r_ik_array,
+        'r_cut': np.full(r_ik_array.shape, R_cut),
+        'theta_0': theta_0_array,
+        'theta': theta_array,
+        'phi': phi_array_convert
+    }
+    return params
