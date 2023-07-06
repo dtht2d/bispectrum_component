@@ -9,4 +9,12 @@
     <option name="format" value="PLAIN" />
     <option name="myDocStringFormat" value="Plain" />
   </component>
+  <component name="PyNamespacePackagesService">
+    <option name="namespacePackageFolders">
+      <list>
+        <option value="$MODULE_DIR$/bispectrum/methods/plot" />
+        <option value="$MODULE_DIR$/bispectrum/methods/calc" />
+      </list>
+    </option>
+  </component>
 </module>
