@@ -3,7 +3,7 @@ Same-cell: Plot the neighbor atoms of a center atom in 1D.
 """
 import matplotlib.pyplot as plt
 
-def plot_atoms(center_atom, neighbor_atoms, R_cut, cell_length, B):
+def plot_atoms(center_atom, neighbor_atoms, R_cut, cell_length, B, save_path=None):
     # Plot
     fig, ax = plt.subplots()
     ax.set_xlim([0, cell_length])
@@ -22,4 +22,6 @@ def plot_atoms(center_atom, neighbor_atoms, R_cut, cell_length, B):
     ax.annotate(r'$R_{\mathrm{cut}}$', xy=(center_atom[0] + R_cut, center_atom[1]), xytext=(center_atom[0] + R_cut, center_atom[1] + 0.1),
                  arrowprops=dict(facecolor='blue', arrowstyle='->'))
     ax.set_title("{0} = {1}".format(r'$B_{\mathrm{j_1,j_2,j}}$', "{:.2e}".format(B.real)))
+    if save_path is not None:
+        plt.savefig(save_path, dpi=300, bbox_inches='tight')
     plt.show()

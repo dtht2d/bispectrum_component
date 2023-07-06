@@ -7,7 +7,7 @@ from sympy.physics.quantum.spin import Rotation
 from sympy import *
 from Bio.PDB.MMCIF2Dict import MMCIF2Dict
 import itertools
-path = "/data/avgBL-Model.cif"
+path = "/Users/duonghoang/Documents/GitHub/bispectrum_component/data/avgBL-Model.cif"
 dico = MMCIF2Dict(path)
 df_cif = pd.DataFrame.from_dict(dico, orient='index')
 x = df_cif.iloc[-3]
