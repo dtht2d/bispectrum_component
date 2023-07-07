@@ -130,9 +130,10 @@ def u(j, m, mp, params):
     theta_0_array = params['theta_0']
     theta_array = params['theta']
     phi_array = params['phi']
-
     # Calculate cutoff_function
-    f_cut_arr = (1 / 2) * (np.cos(np.pi * (np.divide(r_ik_array, r_cut_array))) + 1)
+    mask = r_ik_array >= r_cut_array
+    # Set elements of f_cut_arr to 0 where the mask is True
+    f_cut_arr = np.where(mask, 0, (1 / 2) * (np.cos(np.pi * (np.divide(r_ik_array, r_cut_array))) + 1))
     # Calculate rotational matrix U for all k=n neighbor atoms
     U_ik_array = np.array([U_rot(j, m, mp, theta_0, theta, phi) for theta_0, theta, phi in zip(theta_0_array, theta_array, phi_array)], dtype='complex')
     # Compute u_jmmp
