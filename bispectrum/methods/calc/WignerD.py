@@ -87,13 +87,13 @@ def U_rot(j, m, mp, theta_0, theta, phi):
           about an axis n(theta,phi)
       Returns: Rotational matrix U
       ==========================Reference==================================
-      [5] Chapter 4  D.A. Varshalovich, A.N. Moskalev, V.K Khersonskii,
+      [5] Chapter 4.5.2 (a) Eq. (3)  D.A. Varshalovich, A.N. Moskalev, V.K Khersonskii,
               Quantum Theory of Angular Momentum (1988)
     '''
     mpp_vals = np.linspace(-j, j, int(2*j+1))
     U = 0
     for mpp in mpp_vals:
-        WD_1 = Wigner_D(j, m, mpp, phi, theta, -phi)
+        WD_1 = Wigner_D(j, m, mpp, phi, theta,-phi)
         term1 = WD_1.wigner_D()
         term2 = np.cos(mpp * theta_0) - 1j*(np.sin(mpp * theta_0))
         WD_2 = Wigner_D(j, mpp, mp, phi, -theta, -phi)
