@@ -1,5 +1,5 @@
 """
-Compare the Wigner D matrix calculation from class function, numba vs SymPy
+Compare the Wigner D matrix calculation from class function
 """
 
 import numpy as np
