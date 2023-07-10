@@ -7,7 +7,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bd025cd4-a48e-4c77-ad8a-b238b1464541" name="Changes" comment="test Wigner d_small">
+    <list default="true" id="bd025cd4-a48e-4c77-ad8a-b238b1464541" name="Changes" comment="thesis_draft">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -248,14 +248,7 @@
       <workItem from="1688162918385" duration="3000" />
       <workItem from="1688162934157" duration="2986000" />
       <workItem from="1688571700180" duration="14388000" />
-      <workItem from="1688705931415" duration="17702000" />
-    </task>
-    <task id="LOCAL-00046" summary="overleaf doc update">
-      <created>1686033452144</created>
-      <option name="number" value="00046" />
-      <option name="presentableId" value="LOCAL-00046" />
-      <option name="project" value="LOCAL" />
-      <updated>1686033452144</updated>
+      <workItem from="1688705931415" duration="18621000" />
     </task>
     <task id="LOCAL-00047" summary="references update">
       <created>1686091333155</created>
@@ -593,7 +586,14 @@
       <option name="project" value="LOCAL" />
       <updated>1688957491744</updated>
     </task>
-    <option name="localTasksCounter" value="95" />
+    <task id="LOCAL-00095" summary="thesis_draft">
+      <created>1688959266232</created>
+      <option name="number" value="00095" />
+      <option name="presentableId" value="LOCAL-00095" />
+      <option name="project" value="LOCAL" />
+      <updated>1688959266232</updated>
+    </task>
+    <option name="localTasksCounter" value="96" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -624,7 +624,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="figures update" />
     <MESSAGE value="test CB" />
     <MESSAGE value="references" />
     <MESSAGE value="docs" />
@@ -649,7 +648,8 @@
     <MESSAGE value="U_rot, d_dmall testing" />
     <MESSAGE value="test SO4" />
     <MESSAGE value="test Wigner d_small" />
-    <option name="LAST_COMMIT_MESSAGE" value="test Wigner d_small" />
+    <MESSAGE value="thesis_draft" />
+    <option name="LAST_COMMIT_MESSAGE" value="thesis_draft" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
