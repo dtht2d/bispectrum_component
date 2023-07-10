@@ -182,6 +182,8 @@ class Bispectrum:
     def U_rot(cls, j, m, mp, theta_0, theta, phi):
         """
         This method is used to calculate the rotation matrix U
+        Note: set (phi,-theta,-phi), (phi, theta, -phi) need to convert to positive angel set to satisfy the Wigner D function angle range
+              D(alpha,beta,gamma), 0<=alpha<=2pi, 0<=beta<=pi, 0<=gamma<=2pi
         Returns: complex number, Rotational matrix U function
         ==========================Reference==================================
         [5] Chapter 4  D.A. Varshalovich, A.N. Moskalev, V.K Khersonskii,
