@@ -1,0 +1,27 @@
+data_test
+_symmetry_cell_setting triclinic
+_symmetry_space_group_name_H-M 'P 1'
+loop_
+   _symmetry_equiv_pos_as_xyz
+              X,Y,Z
+_cell_length_a 18.7337
+_cell_length_b 18.7337
+_cell_length_c 18.7337
+_cell_angle_alpha 90
+_cell_angle_beta 90
+_cell_angle_gamma 90
+loop_
+   _atom_site_label
+   _atom_site_type_symbol
+   _atom_site_fract_x
+   _atom_site_fract_y
+   _atom_site_fract_z
+   si1_1   si     0.544332     0.665575     0.559883
+   si1_1   si     0.441084     0.660438     0.436951
+   si1_1   si     0.558642     0.709125     0.445791
+   si1_1   si     0.471574     0.752309     0.605879
+   si1_1   si     0.493548     0.556860     0.598977
+   si1_1   si     0.652860     0.654536     0.608059
+
+ 
+   
