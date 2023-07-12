@@ -14,9 +14,9 @@ def plot_atoms(center_atom, neighbor_atoms, R_cut, cell_length, B, save_path=Non
 
     if neighbor_atoms is not None:
         for neighbor_atom in neighbor_atoms:
-            ax.scatter(neighbor_atom[0], neighbor_atom[1], color='green', label='Neighbor Atom')
+            ax.scatter(neighbor_atom[0], neighbor_atom[1], color='blue', label='Neighbor Atom')
 
-    circle = plt.Circle((center_atom[0], center_atom[1]), R_cut, fill=False, color='blue')
+    circle = plt.Circle((center_atom[0], center_atom[1]), R_cut, fill=False, color='green')
     ax.add_artist(circle)
 
     ax.annotate(r'$R_{\mathrm{cut}}$', xy=(center_atom[0] + R_cut, center_atom[1]), xytext=(center_atom[0] + R_cut, center_atom[1] + 0.1),
