@@ -114,4 +114,3 @@ print(B_data_345)
 case_345_plot= "/Users/duonghoang/Documents/GitHub/bispectrum_component/plots/plot_case_345.png"
 plot_atoms(center_atom, neighbor_atoms_345, R_cut, cell_length, B= B_data_345, save_path=case_345_plot)
 
-
