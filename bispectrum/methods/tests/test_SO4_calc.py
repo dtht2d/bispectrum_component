@@ -31,7 +31,8 @@ t2=timeit.default_timer()
 #test generate set+Clebsch-Gordan coefficients
 keep_set, full_set = B.generate_m_values(j,j1,j2)
 keep_set_arr = np.array(keep_set)
-print ("test generate set", keep_set_arr.shape)
+print ("Test generate set", keep_set_arr.shape)
+print (pd.DataFrame(keep_set))
 df = pd.DataFrame(keep_set, columns=["m1", "m2", "m", "m1p", "m2p", "mp"])
 unique_combinations = df[["m1", "m2", "m"]].drop_duplicates()
 CG_unique =[]
@@ -43,7 +44,7 @@ unique_combinations['CG'] = CG_unique
 print(unique_combinations)
 t3=timeit.default_timer()
 print("Execution time for CB calculation")
-print("for unique sets:", round(t2-t3,2), "seconds")
+print("for unique sets:", round(t3-t2,2), "seconds")
 
 
 
