@@ -56,5 +56,6 @@ R_cut = 0.25                    #scaled value w.r.t cell length (for Si-Si case)
 df_ik = df[(df['r_ik'] + r_mu)<= (R_cut)].copy(deep=true)
 print(df_ik[['X_k', 'Y_k', 'Z_k', 'r_ik']])
 print (df_ik[['X', 'Y', 'Z']])
+print(df_ik)
 
 
