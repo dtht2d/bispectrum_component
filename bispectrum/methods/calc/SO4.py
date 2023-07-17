@@ -97,8 +97,8 @@ class Bispectrum:
                 #j2 + j + m1p_val >= 0 and j1 - j2 - mp_val >= 0 and isinstance(j2 + j + m1p_val, int) and isinstance(
                     #j1 - j2 - mp_val, int)]
             # Condition 9: Wigner-D calc
-            c9 = [isinstance(vals, (int, float)) and vals >= 0 for vals in [mp_val - m_val, m1p_val - m1_val, m2p_val - m2_val]]
-            if all(c4) and all(c5) and all(c5_p) and all(c6) and all(c7) and all(c9):
+            #c9 = [isinstance(vals, (int, float)) and vals >= 0 for vals in [mp_val - m_val, m1p_val - m1_val, m2p_val - m2_val]]
+            if all(c4) and all(c5) and all(c5_p) and all(c6) and all(c7):
                 keep_list.append(s[i])
             else:
                 pass
