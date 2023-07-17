@@ -84,9 +84,9 @@ class Bispectrum:
             # Condition 4-8: Clebsch-Gordan calc for set (𝑗1,𝑗2,𝑗,𝑚1,𝑚2,𝑚), (𝑗1,𝑗2,𝑗,𝑚1p,𝑚2p,𝑚p)
             c4 = [isinstance(val, (int, float)) and val % 0.5 == 0 for val in
                   [m1_val, m2_val, m_val, m1p_val, m2p_val, mp_val]]
-            c5 = [isinstance(vals, int) and vals >= 0 for vals in
+            c5 = [isinstance(vals, (int, float)) and vals >= 0 for vals in
                   [j1 + m1_val, j1 - m1_val, j2 + m2_val, j2 - m2_val, j + m_val, j - m_val]]
-            c5_p = [isinstance(vals, int) and vals >= 0 for vals in
+            c5_p = [isinstance(vals, (int, float)) and vals >= 0 for vals in
                     [j1 + m1p_val, j1 - m1p_val, j2 + m2p_val, j2 - m2p_val, j + mp_val, j - mp_val]]
             c6 = [m1_val + m2_val == m_val and m1p_val + m2p_val == mp_val]
             c7 = [abs(val) <= limit for val, limit in
@@ -97,11 +97,11 @@ class Bispectrum:
                 #j2 + j + m1p_val >= 0 and j1 - j2 - mp_val >= 0 and isinstance(j2 + j + m1p_val, int) and isinstance(
                     #j1 - j2 - mp_val, int)]
             # Condition 9: Wigner-D calc
-            c9 = [isinstance(vals, int) and vals >= 0 for vals in [mp_val - m_val, m1p_val - m1_val, m2p_val - m2_val]]
-        if (c4) and (c5 and c5_p) and (c6) and (c7) and (c9):
-            keep_list.append(s[i])
-        else:
-            pass
+            c9 = [isinstance(vals, (int, float)) and vals >= 0 for vals in [mp_val - m_val, m1p_val - m1_val, m2p_val - m2_val]]
+            if all(c4) and all(c5) and all(c5_p) and all(c6) and all(c7) and all(c9):
+                keep_list.append(s[i])
+            else:
+                pass
         return keep_list, full_list
     #Clebsch-Gordan Coefficient
     @staticmethod
