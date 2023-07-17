@@ -55,7 +55,7 @@ class Clebsch_Gordan:
         if not (isinstance(val, (int, float)) and val % 0.5 == 0 for val in [m1, m2, m]):
             raise ValueError("𝑚1,𝑚2,𝑚 must be integer or half-integer (positive or negative) numbers")
         # Condition 5
-        if not (isinstance(vals, int) and vals >= 0 for vals in [j1 + m1, j1 - m1, j2 + m2, j2 - m2, j + m, j - m]):
+        if not (isinstance(vals,(int, float)) and vals >= 0 for vals in [j1 + m1, j1 - m1, j2 + m2, j2 - m2, j + m, j - m]):
             raise ValueError("𝑗1+𝑚1,𝑗1−𝑚1, 𝑗2+𝑚2,𝑗2−𝑚2 𝑗+𝑚,𝑗−𝑚 are non-negative integer")
         # Condition 6
         #if not m1 + m2 == m:
