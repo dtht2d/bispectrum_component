@@ -16,8 +16,6 @@ input_file_path = path
 output_directory = '/Users/duonghoang/Documents/GitHub/bispectrum_component/data'
 #read data from file
 data = neighbor_params(center_atom_id, r_mu, R_cut, input_file_path, output_directory, file_type='cif')
-df= pd.DataFrame(data)
-print(df)
 #Test bispectrum
 j,j1,j2= 5/2,2,1/2
 B = Bispectrum(j, j1, j2,data)
@@ -34,6 +32,7 @@ keep_set_arr = np.array(keep_set)
 print ("Test generate set", keep_set_arr.shape)
 print (pd.DataFrame(keep_set))
 df = pd.DataFrame(keep_set, columns=["m1", "m2", "m", "m1p", "m2p", "mp"])
+print(df)
 unique_combinations = df[["m1", "m2", "m"]].drop_duplicates()
 CG_unique =[]
 for _, row in unique_combinations.iterrows():
@@ -47,5 +46,26 @@ print("Execution time for CB calculation")
 print("for unique sets:", round(t3-t2,2), "seconds")
 
 
+#Interchange j,j1,j2
+j,j1,j2= 5/2,2,1/2
+B1 = Bispectrum(j, j1, j2,data)
+B_1 = B1.evaluate(j, j1, j2,data)
+print("B1", np.round(B_1,2))
+print(np.divide(B_1,2*j+1))
+
+B2 = Bispectrum(j1, j2, j,data)
+B_2 = B2.evaluate(j1, j2, j,data)
+print("B2", np.round(B_2,2))
+print(np.divide(B_2,2*j1+1))
+
+B3 = Bispectrum(j2, j, j1,data)
+B_3 = B3.evaluate(j2, j, j1,data)
+print("B3", np.round(B_3,2))
+print(np.divide(B_3,2*j2+1))
+
+B4 = Bispectrum(j2, j1, j,data)
+B_4 = B4.evaluate(j2, j1, j,data)
+print("B4", np.round(B_4,2))
+print(np.divide(B_4,2*j2+1))
 
 
