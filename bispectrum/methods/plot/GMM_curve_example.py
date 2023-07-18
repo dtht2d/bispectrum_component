@@ -1,3 +1,6 @@
+'''
+This script plots the Gaussian curves used in the GMM method.
+'''
 import numpy as np
 import matplotlib.pyplot as plt
 

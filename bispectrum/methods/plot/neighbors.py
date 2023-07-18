@@ -1,5 +1,5 @@
 """
-Same-cell: Plot the neighbor atoms of a center atom in 1D.
+This file is used to plot the atoms in the cell and the neighbor atoms in study_1_S04_calc.py
 """
 import matplotlib.pyplot as plt
 import numpy as np
