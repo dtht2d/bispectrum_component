@@ -1,5 +1,5 @@
 biopython @ file:///Users/runner/miniforge3/conda-bld/biopython_1676639327377/work
-certifi==2022.12.7
+certifi==2023.7.22
 llvmlite==0.39.1
 mkl-fft==1.3.1
 mkl-random @ file:///opt/concourse/worker/volumes/live/a9eca864-069c-4240-73c8-4e51b036a10d/volume/mkl_random_1639994047876/work
