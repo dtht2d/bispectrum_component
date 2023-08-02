@@ -1,0 +1,119 @@
+\documentclass[sigconf]{acmart}
+\usepackage{natbib}
+\AtBeginDocument{%
+  \providecommand\BibTeX{{%
+    \normalfont B\kern-0.5em{\scshape i\kern-0.25em b}\kern-0.8em\TeX}}}
+
+%% Rights management information.  This information is sent to you
+%% when you complete the rights form.  These commands have SAMPLE
+%% values in them; it is your responsibility as an author to replace
+%% the commands and values with those provided to you when you
+%% complete the rights form.
+% ACM License Text
+\setcopyright{acmcopyright}
+
+% DOI
+\acmDOI{10.1145/3569951.3597581}
+
+%Conference Details
+\acmConference[PEARC'23]{Computing for the Common Good}{July 2023}{Portland, Oregon USA}
+% Year
+\acmYear{2023}
+% Copyright Year
+\copyrightyear{2023}
+
+%%
+%% Submission ID.
+%% Use this when submitting an article to a sponsored event. You'll
+%% receive a unique submission ID from the organizers
+%% of the event, and this ID should be used as the parameter to this command.
+%%\acmSubmissionID{123-A56-BU3}
+
+%%
+%% For managing citations, it is recommended to use bibliography
+%% files in BibTeX format.
+%%
+%% You can then either use BibTeX with the ACM-Reference-Format style,
+%% or BibLaTeX with the acmnumeric or acmauthoryear sytles, that include
+%% support for advanced citation of software artefact from the
+%% biblatex-software package, also separately available on CTAN.
+%%
+%% Look at the sample-*-biblatex.tex files for templates showcasing
+%% the biblatex styles.
+%%
+
+%%
+%% The majority of ACM publications use numbered citations and
+%% references.  The command \citestyle{authoryear} switches to the
+%% "author year" style.
+%%
+%% If you are preparing content for an event
+%% sponsored by ACM SIGGRAPH, you must use the "author year" style of
+%% citations and references.
+%% Uncommenting
+%% the next command will enable that style.
+%%\citestyle{acmauthoryear}
+
+%%
+%% end of the preamble, start of the body of the document source.
+\begin{document}
+
+%%
+%% The "title" command has an optional parameter,
+%% allowing the author to define a "short title" to be used in page headers.
+\title{Machine Learning Potential Function Generation for \textit{ab initio} Electronic Structure Calculations}
+
+%%
+%% The "author" command and its associated commands are used to define
+%% the authors and their affiliations.
+%% Of note is the shared affiliation of the first two authors, and the
+%% "authornote" and "authornotemark" commands
+%% used to denote shared contribution to the research.
+\author{Duong Hoang}
+\authornotemark[1]
+\email{dtht2d@umsystem.edu}
+\orcid{0000-0001-5094-3611}
+\author{Paul Rulis}
+\email{rulisp@umkc.edu}
+\affiliation{%
+  \institution{University of Missouri - Kansas City}
+  \city{Kansas City}
+  \state{Missouri}
+  \country{USA}
+}
+\begin{abstract}
+    \par First-principles electronic structure calculations based on density functional theory (DFT) are well-known to have a high computational cost that scales algorithmically as $O(N^3)$, where $N$ is the number of electrons. Reducing that cost is a key goal of the computational materials physics community and machine learning (ML) is viewed as an essential tool for that task. However, ML model training requires an appropriate match between the input descriptors and the target property as well as copious quantities of training data.
+    \par Therefore, we present a computer program that is designed to automate the generation of local atomic environment descriptors for single element systems that may be used for training neural networks to predict electronic potential function coefficients, $\{A_i\}$, which are used within the DFT based orthogonalized linear combination of atomic orbitals (OLCAO) method \cite{Ching2012}.
+    \par In our approach, the total electronic potential function of a periodic crystal, $V_{cry}(\vec{r})$, is expressed as a sum of localized atom-centered Gaussian functions.
+    \begin{equation}
+    \begin{align*}
+        V_{cry}(\vec{r}) = \displaystyle\sum_{B}V_{B}(\vec{r}-\vec{t_{B}}), \ \ V_{B}(\vec{r})=\displaystyle\sum^{N_A}_{i=1} A_{i}e^{-\alpha_i {r^2}}
+    \end{align*}
+    \end{equation}
+    \par Each Gaussian function, $i$, in the set of all Gaussian functions has a fixed $\alpha_i$ coefficient. The set of $\{A_i\}$ coefficients are updated in each cycle of the self-consistent field (SCF) iterations in accordance with the charge density $\rho(\vec{r})$ that was computed in the previous SCF step. However, if the choice of coefficients $\{A_i\}$ can be accurately predicted for a given system, then the SCF process can be skipped entirely, satisfying an important requirement of our goal to reduce the computational cost. The prediction method uses suitable neural networks (NNs) where the input values are a set of local atomic environment descriptors and the output values are the $\{A_i\}$ coefficients for a targeted system. The descriptors we opted to use are the bispectrum components but other additional descriptors may be incorporated. Bispectrum components are geometric calculations that smoothly capture subtle variations in the local atomic environment and that are invariant under translation, rotation, and permutation of neighborhood atoms. The bispectrum components can also easily incorporate different types and numbers of elements, and they have been used by others for a similar purpose \cite{Thompson2015, Fiedler2022}. Those requirements are difficult to achieve using other methods such as a list of bond angles and bond lengths toward nearest neighbor atoms while maintaining a fixed number of NN input features. 
+    \begin{equation}
+    \begin{align*}
+    \centering
+        B(j_1,j_2,j) &= \displaystyle\sum_{{m_1,m'_1 =-j_1}}^{j_1} \displaystyle\sum_{{m_2,m'_2 = -j_2}}^{j_2} \displaystyle\sum_{{m,m'= -j}}^j \left(u^{\smash{j}}_{mm'}\right)^* \\
+        & H^{jmm'}_{{{j_1}{m_1}{m'_1}} ,{{j_2}{m_2}{m'_2}}}  u^{j_1}_{{m_1}{m'_1}} u^{j_2}_{{m_2}{m'_2}}
+    \end{align*}
+    \end{equation}
+    where $u^{\smash{j}}_{mm'}, \ u^{j_1}_{{m_1}{m_1'}}, \ u^{j_2}_{m_2m'_2}$ are expansion coefficients,
+    $$H^{jmm'}_{{{j_1}{m_1}{m'_1}} ,{{j_2}{m_2}{m'_2}}} \equiv C^{jm}_{{j_1}{m_1}{j_2}{m_2}} C^{jm'}_{{j_1}{m'_1}{j_2}{m'_2}}$$ is the coupling coefficient for four-dimensional spherical harmonics, analogous to the Clebsch-Gordan coefficients for rotations in three dimensional space. 
+    \par One challenge in this research is defining a suitable cut-off radius for evaluation of the bispectrum component to avoid neglecting the interaction between a targeted atom and its neighbors. The cut-off radius is weighted as a function of the elements involved to accommodate different types of bonding (e.g., ionic, covalent, metallic). Additionally, for properly defining and training a neural network (see below), it is vital that we provide a clear correlation between the physical (geometric) features of the bispectrum components and the electronic features that may simultaneously be present to avoid too much redundancy in the input data. This lack of understanding can limit the development of methods to predict the electronic structure properties based on the bispectrum components, underscoring the need for further research in this area. 
+    \par A supervised training framework for a proposed neural network is demonstrated using a data set of pure Si models that includes amorphous Si, crystalline Si, Si with a passive defect, and Si with self-interstitials. Other models will be implemented to compare efficiency. For each model, the input/target output training pairs consist of local environment descriptors - bispectrum components (input) that encode the structure of neighboring atoms relative to the central atom $i$ at a specific point in real space, along with the converged potential functions obtained by the SCF process (target output). The data set must be partitioned into training, test, and validation sets for use in subsequent iterations of training and validation to evaluate and optimize the model's performance during the training process.
+    \par In OLCAO, the total electronic potential function of a crystal is expressed as a sum of atom-centered potential functions. Each atom-centered potential function is represented as a sum of Gaussian functions. However, it is vital to recognize that although the potential function is an assembly of site-centered functions it cannot be said that the potential function from a given site is the potential function "of" the atom at that site. Rather, the potential function at a given site is determined by the influence of all nearby atoms. Therefore, it is intuitive to seek a ML model that follows a similar structure. In this case, it is important to find a way for the input data structure to incorporate that feature of the potential function, which consists of a mixture of influences derived from the neighboring atoms. Each component of this mixture represents a cluster or subpopulation within the local region. To capture this structure, we propose a neural network framework based on Mixture Density Network (MDN) \cite{Bishop1994} for the training process. This approach involves encoding the local, medium-range, and long-range (global) influences for each atom. In many cases, electron interactions are considered 'short-sighted,' meaning that they are mainly affected by nearby atoms only. However, our proposed method overcomes this limitation and effectively addresses novel long-range electronic structure properties such as those found in metallic or certain magnetic materials.
+    \par Results regarding the optimization of the run time for calculating the bispectrum component is discussed, including a comparison with key function program code that uses third-party libraries such as SymPy. A computer program is developed to automatically generate bispectrum components for a single-element system in a periodic unit cell. We investigated the symmetric properties of the bispectrum components, which align with the proof established in \cite{Thompson2015}. However, further development and testing of the program are necessary before it can be applied to multiple-element systems. 
+    \par Overall, this research contributes to the ongoing effort to develop new and improved neural network frameworks for predicting the electronic structure properties of materials with desirable features. When combined with other unique aspects of the OLCAO method it is expected that this approach will enable us to overcome the $O(N^3)$ algorithmic complexity scaling problem and thereby address multi-scale physics problems that require both direct access to the electronic wave function and a large number of atoms to realistically model. 
+    
+ 
+\end{abstract}
+%% The next two lines define the bibliography style to be used, and
+%% the bibliography file.
+\maketitle
+
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{references}
+%%
+\end{document}
+
