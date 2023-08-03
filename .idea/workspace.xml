@@ -7,9 +7,77 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bd025cd4-a48e-4c77-ad8a-b238b1464541" name="Changes" comment="file updates">
+    <list default="true" id="bd025cd4-a48e-4c77-ad8a-b238b1464541" name="Changes" comment="figure">
+      <change afterPath="$PROJECT_DIR$/data/si-models/cif_files/I4-si.cif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/si-models/cif_files/a-si-long.cif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/si-models/cif_files/a-si-med.cif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/si-models/cif_files/a-si-short.cif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/si-models/cif_files/cubic-si.cif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/si-models/cif_files/passive_defect-si.cif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/si-models/origin_files/I4_loen.opju" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/si-models/origin_files/I4_scfV.opju" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/si-models/origin_files/a-si_loen-long.opju" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/si-models/origin_files/a-si_loen-med.opju" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/si-models/origin_files/a-si_loen-short.opju" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/si-models/origin_files/a-si_scfV-long.opju" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/si-models/origin_files/a-si_scfV-med.opju" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/si-models/origin_files/a-si_scfV-short.opju" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/si-models/origin_files/cubic-si_loen.opju" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/si-models/origin_files/cubic-si_scfV.opju" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/si-models/origin_files/passive_defect_scfV.opju" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/pearc23-56/Sources/references.bib" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/pearc23-56/ValidationSuccess.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/posters/Final_Duong_poster-PEARC-revision.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/posters/Final_Duong_poster-PEARC-revision.pptx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/figures/coordinate_transform.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/figures/neighbors_coordinate.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/overleaf_doc/DuongHoang_MSThesis.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/overleaf_doc/UMKC_MS_thesis_Duong_Hoang.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/overleaf_doc/pearc23-abstract/pearc23-56-pdf.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/overleaf_doc/pearc23-abstract/references.bib" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plots/bi-plot.zip" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plots/si-models/Origin-file/I4_loen.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plots/si-models/Origin-file/I4_scfV1-8.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plots/si-models/Origin-file/I4_scfV9-16.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plots/si-models/Origin-file/a-si_loen-long.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plots/si-models/Origin-file/a-si_loen-med.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plots/si-models/Origin-file/a-si_loen-short.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plots/si-models/Origin-file/a-si_scfV-long1-8.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plots/si-models/Origin-file/a-si_scfV-long9-16.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plots/si-models/Origin-file/a-si_scfV-med1-8.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plots/si-models/Origin-file/a-si_scfV-med9-16.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plots/si-models/Origin-file/a-si_scfV-short1-8.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plots/si-models/Origin-file/a-si_scfV-short9-16.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plots/si-models/Origin-file/cubic-si_loen.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plots/si-models/Origin-file/cubic-si_scfV1-8.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plots/si-models/Origin-file/cubic-si_scfV9-16.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plots/si-models/Origin-file/passive_defect_loen.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plots/si-models/Origin-file/passive_defect_scfV1-8.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plots/si-models/Origin-file/passive_defect_scfV9-16.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/plots/si-models/cif-files/a-si-short.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_7_16_23,_11_07_PM_[Changes]/CurrentDraft_UMKC_Thesis_Dissertation_Master_Duong_Hoang.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_7_16_23,_11_07_PM_[Changes]/GMM_example.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_7_16_23,_11_07_PM_[Changes]/PCA-SIFT_a_more_distinctive_representation_for_local_image_descriptors.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_7_16_23,_11_07_PM_[Changes]/applied_Rcut_visual.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_7_16_23,_11_07_PM_[Changes]/avgBL-Model-all.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_7_16_23,_11_07_PM_[Changes]/avgBL-Model-atom17-neighbors.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_7_16_23,_11_07_PM_[Changes]/avgBL-Model.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_7_16_23,_11_07_PM_[Changes]/bispec-calc-framework.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_7_16_23,_11_07_PM_[Changes]/rot1_avgBL-Model-atom17-neighbors.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_7_16_23,_11_07_PM_[Changes]/rot2_avgBL-Model-atom17-neighbors.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_7_16_23,_11_07_PM_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_7_16_23,_11_07_PM_[Changes]/test_SO4_atom17.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_7_16_23__11_07_PM__Changes_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_7_5_23__8_13_PM__Changes_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bispectrum/colab-notes/study_cases_example_SO4_calc.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/bispectrum/colab-notes/study_cases_example_SO4_calc.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bispectrum/methods/plot/GMM_curve_example.py" beforeDir="false" afterPath="$PROJECT_DIR$/bispectrum/methods/plot/GMM_curve_example.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/posters/CPG poster.pptx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/posters/Duong2nd_poster-PEARC-revision.pptx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/posters/poster-PEARC.pptx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/posters/~$poster-PEARC-revision.pptx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/figures/sfc_cycle.png" beforeDir="false" afterPath="$PROJECT_DIR$/figures/sfc_cycle.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/overleaf_doc/Working_Draft_UMKC_Thesis_Dissertation_Master_Duong_Hoang (Rulis Copy).zip" beforeDir="false" afterPath="$PROJECT_DIR$/overleaf_doc/Working_Draft_UMKC_Thesis_Dissertation_Master_Duong_Hoang (Rulis Copy).zip" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/overleaf_doc/Working_Draft_UMKC_Thesis_Dissertation_Master_Duong_Hoang.zip" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -263,41 +331,8 @@
       <workItem from="1688162934157" duration="2986000" />
       <workItem from="1688571700180" duration="14388000" />
       <workItem from="1688705931415" duration="27254000" />
-    </task>
-    <task id="LOCAL-00052" summary="referneces.bib file">
-      <created>1686284428475</created>
-      <option name="number" value="00052" />
-      <option name="presentableId" value="LOCAL-00052" />
-      <option name="project" value="LOCAL" />
-      <updated>1686284428475</updated>
-    </task>
-    <task id="LOCAL-00053" summary="overleaf_draft">
-      <created>1686452887675</created>
-      <option name="number" value="00053" />
-      <option name="presentableId" value="LOCAL-00053" />
-      <option name="project" value="LOCAL" />
-      <updated>1686452887675</updated>
-    </task>
-    <task id="LOCAL-00054" summary="docs">
-      <created>1686892220274</created>
-      <option name="number" value="00054" />
-      <option name="presentableId" value="LOCAL-00054" />
-      <option name="project" value="LOCAL" />
-      <updated>1686892220274</updated>
-    </task>
-    <task id="LOCAL-00055" summary="references update">
-      <created>1687925265843</created>
-      <option name="number" value="00055" />
-      <option name="presentableId" value="LOCAL-00055" />
-      <option name="project" value="LOCAL" />
-      <updated>1687925265844</updated>
-    </task>
-    <task id="LOCAL-00056" summary="conditions update">
-      <created>1687925287633</created>
-      <option name="number" value="00056" />
-      <option name="presentableId" value="LOCAL-00056" />
-      <option name="project" value="LOCAL" />
-      <updated>1687925287633</updated>
+      <workItem from="1690952049023" duration="1447000" />
+      <workItem from="1691033019791" duration="764000" />
     </task>
     <task id="LOCAL-00057" summary="plot">
       <created>1687925302477</created>
@@ -607,7 +642,42 @@
       <option name="project" value="LOCAL" />
       <updated>1689567207136</updated>
     </task>
-    <option name="localTasksCounter" value="101" />
+    <task id="LOCAL-00101" summary="overleaf file">
+      <created>1690952068254</created>
+      <option name="number" value="00101" />
+      <option name="presentableId" value="LOCAL-00101" />
+      <option name="project" value="LOCAL" />
+      <updated>1690952068254</updated>
+    </task>
+    <task id="LOCAL-00102" summary="references update">
+      <created>1690952113180</created>
+      <option name="number" value="00102" />
+      <option name="presentableId" value="LOCAL-00102" />
+      <option name="project" value="LOCAL" />
+      <updated>1690952113180</updated>
+    </task>
+    <task id="LOCAL-00103" summary="plot">
+      <created>1690952156218</created>
+      <option name="number" value="00103" />
+      <option name="presentableId" value="LOCAL-00103" />
+      <option name="project" value="LOCAL" />
+      <updated>1690952156219</updated>
+    </task>
+    <task id="LOCAL-00104" summary="pearc-abtract-proceeding">
+      <created>1690952225875</created>
+      <option name="number" value="00104" />
+      <option name="presentableId" value="LOCAL-00104" />
+      <option name="project" value="LOCAL" />
+      <updated>1690952225875</updated>
+    </task>
+    <task id="LOCAL-00105" summary="figure">
+      <created>1690952276667</created>
+      <option name="number" value="00105" />
+      <option name="presentableId" value="LOCAL-00105" />
+      <option name="project" value="LOCAL" />
+      <updated>1690952276667</updated>
+    </task>
+    <option name="localTasksCounter" value="106" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -638,10 +708,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="neighbor-plot function" />
-    <MESSAGE value="case-example" />
-    <MESSAGE value="workflows" />
-    <MESSAGE value="changes" />
     <MESSAGE value="files change" />
     <MESSAGE value="path edit" />
     <MESSAGE value="plots" />
@@ -656,14 +722,18 @@
     <MESSAGE value="thesis_draft" />
     <MESSAGE value="test Wigner_D" />
     <MESSAGE value="plot edit" />
-    <MESSAGE value="plot" />
     <MESSAGE value="cif file" />
     <MESSAGE value="data frame" />
     <MESSAGE value="neighbor_test function" />
     <MESSAGE value="condition update" />
     <MESSAGE value="poster" />
     <MESSAGE value="file updates" />
-    <option name="LAST_COMMIT_MESSAGE" value="file updates" />
+    <MESSAGE value="overleaf file" />
+    <MESSAGE value="references update" />
+    <MESSAGE value="plot" />
+    <MESSAGE value="pearc-abtract-proceeding" />
+    <MESSAGE value="figure" />
+    <option name="LAST_COMMIT_MESSAGE" value="figure" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

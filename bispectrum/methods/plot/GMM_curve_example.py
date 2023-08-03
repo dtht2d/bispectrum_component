@@ -1,5 +1,5 @@
 '''
-This script plots the Gaussian curves used in the GMM method.
+This script is used to plot the Gaussian distribution curves
 '''
 import numpy as np
 import matplotlib.pyplot as plt
