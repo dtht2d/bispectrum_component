@@ -7,7 +7,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bd025cd4-a48e-4c77-ad8a-b238b1464541" name="Changes" comment="thesis" />
+    <list default="true" id="bd025cd4-a48e-4c77-ad8a-b238b1464541" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/overleaf_doc/DuongHoang_MSThesis.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/overleaf_doc/DuongHoang_MSThesis.pdf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/overleaf_doc/Duong_Hoang_MSThesis.pdf" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -261,14 +265,7 @@
       <workItem from="1688571700180" duration="14388000" />
       <workItem from="1688705931415" duration="27254000" />
       <workItem from="1690952049023" duration="1447000" />
-      <workItem from="1691033019791" duration="889000" />
-    </task>
-    <task id="LOCAL-00061" summary="CB condition update">
-      <created>1687925358428</created>
-      <option name="number" value="00061" />
-      <option name="presentableId" value="LOCAL-00061" />
-      <option name="project" value="LOCAL" />
-      <updated>1687925358428</updated>
+      <workItem from="1691033019791" duration="2003000" />
     </task>
     <task id="LOCAL-00062" summary="update">
       <created>1687925370818</created>
@@ -606,7 +603,14 @@
       <option name="project" value="LOCAL" />
       <updated>1691048473935</updated>
     </task>
-    <option name="localTasksCounter" value="110" />
+    <task id="LOCAL-00110" summary="plots">
+      <created>1691048975207</created>
+      <option name="number" value="00110" />
+      <option name="presentableId" value="LOCAL-00110" />
+      <option name="project" value="LOCAL" />
+      <updated>1691048975207</updated>
+    </task>
+    <option name="localTasksCounter" value="111" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -659,10 +663,10 @@
     <MESSAGE value="plot" />
     <MESSAGE value="pearc-abtract-proceeding" />
     <MESSAGE value="figure" />
-    <MESSAGE value="plots" />
     <MESSAGE value="pearc-abstract" />
     <MESSAGE value="thesis" />
-    <option name="LAST_COMMIT_MESSAGE" value="thesis" />
+    <MESSAGE value="plots" />
+    <option name="LAST_COMMIT_MESSAGE" value="plots" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
