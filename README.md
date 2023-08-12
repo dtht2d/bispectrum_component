@@ -6,4 +6,5 @@ First-principles electronic structure calculations based on density functional t
 ![Example](https://github.com/dtht2d/bispectrum_component/blob/main/plots/various-si-models-testing/cif-files/I4-si.png)
 
 ![plot](https://github.com/dtht2d/bispectrum_component/blob/main/figures/I4-si-origin.png)
+
 I4 Interstitial Si model - Bispectrum components calculation (left) and SFC calculation of the potential in OLCAO (middle and right).
